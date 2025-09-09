@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AFOuJRWqh20=",
+  "dgSpecHash": "ivwaON4qTJY=",
   "success": true,
-  "projectFilePath": "C:\\xampp\\htdocs\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
+  "projectFilePath": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vsmx4\\.nuget\\packages\\automapper\\15.0.1\\automapper.15.0.1.nupkg.sha512",
     "C:\\Users\\vsmx4\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

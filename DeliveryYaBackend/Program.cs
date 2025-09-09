@@ -1,11 +1,34 @@
+using DeliveryYaBackend.Data;
+using DeliveryYaBackend.Data.Repositories;
+using DeliveryYaBackend.Data.Repositories.Interfaces;
+using DeliveryYaBackend.Services;
+using DeliveryYaBackend.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Configurar DbContext con MySQL
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        new MySqlServerVersion(new Version(8, 0, 43)) // Versión de tu MySQL
+    ));
+
+// Registrar el Generic Repository
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+
+builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
+builder.Services.AddScoped<IComercioService, ComercioService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<IStockService, StockService>();
+builder.Services.AddScoped<ITarifaRepartidorService, TarifaRepartidorService>();
+builder.Services.AddScoped<IHorarioService, HorarioService>();
+builder.Services.AddScoped<IItemPedidoService, ItemPedidoService>();
 
 var app = builder.Build();
 

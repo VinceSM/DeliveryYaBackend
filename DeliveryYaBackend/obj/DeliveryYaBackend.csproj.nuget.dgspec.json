@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\xampp\\htdocs\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj": {}
+    "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj": {}
   },
   "projects": {
-    "C:\\xampp\\htdocs\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj": {
+    "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\xampp\\htdocs\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
+        "projectUniqueName": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
         "projectName": "DeliveryYaBackend",
-        "projectPath": "C:\\xampp\\htdocs\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
+        "projectPath": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
         "packagesPath": "C:\\Users\\vsmx4\\.nuget\\packages\\",
-        "outputPath": "C:\\xampp\\htdocs\\DeliveryYaBackend\\DeliveryYaBackend\\obj\\",
+        "outputPath": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

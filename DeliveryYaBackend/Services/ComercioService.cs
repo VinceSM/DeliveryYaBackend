@@ -1,0 +1,337 @@
+﻿using DeliveryYaBackend.Data.Repositories.Interfaces;
+using DeliveryYaBackend.Models;
+using DeliveryYaBackend.Services.Interfaces;
+
+namespace DeliveryYaBackend.Services
+{
+    public class ComercioService : IComercioService
+    {
+        private readonly IRepository<Comercio> _comercioRepository;
+        private readonly IRepository<Categoria> _categoriaRepository;
+        private readonly IRepository<Horarios> _horariosRepository;
+        private readonly IRepository<Producto> _productoRepository;
+        private readonly IRepository<ComercioCategoria> _comercioCategoriaRepository;
+        private readonly IRepository<ComercioHorario> _comercioHorarioRepository;
+        private readonly IRepository<ItemPedido> _itemPedidoRepository;
+        private readonly IRepository<Pedido> _pedidoRepository;
+
+        public ComercioService(
+            IRepository<Comercio> comercioRepository,
+            IRepository<Categoria> categoriaRepository,
+            IRepository<Horarios> horariosRepository,
+            IRepository<Producto> productoRepository,
+            IRepository<ComercioCategoria> comercioCategoriaRepository,
+            IRepository<ComercioHorario> comercioHorarioRepository,
+            IRepository<ItemPedido> itemPedidoRepository,
+            IRepository<Pedido> pedidoRepository)
+        {
+            _comercioRepository = comercioRepository;
+            _categoriaRepository = categoriaRepository;
+            _horariosRepository = horariosRepository;
+            _productoRepository = productoRepository;
+            _comercioCategoriaRepository = comercioCategoriaRepository;
+            _comercioHorarioRepository = comercioHorarioRepository;
+            _itemPedidoRepository = itemPedidoRepository;
+            _pedidoRepository = pedidoRepository;
+        }
+
+        // OPERACIONES BÁSICAS
+        public async Task<Comercio> CreateComercioAsync(Comercio comercio)
+        {
+            await _comercioRepository.AddAsync(comercio);
+            await _comercioRepository.SaveChangesAsync();
+            return comercio;
+        }
+
+        public async Task<Comercio> GetComercioByIdAsync(int id)
+        {
+            return await _comercioRepository.GetByIdAsync(id);
+        }
+
+        public async Task<Comercio> GetComercioWithDetailsAsync(int id)
+        {
+            var comercio = await _comercioRepository.GetByIdAsync(id);
+            if (comercio == null) return null;
+
+            // Cargar categorías
+            comercio.ComercioCategorias = await GetCategoriasByComercioAsync(id);
+
+            // Cargar horarios
+            comercio.ComercioHorarios = await GetHorariosByComercioAsync(id);
+
+            return comercio;
+        }
+
+        public async Task<IEnumerable<Comercio>> GetAllComerciosAsync()
+        {
+            return await _comercioRepository.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<Comercio>> GetComerciosByNombreAsync(string nombre)
+        {
+            return await _comercioRepository.FindAsync(c => c.nombreComercio.Contains(nombre));
+        }
+
+        public async Task<IEnumerable<Comercio>> GetComerciosByCiudadAsync(string ciudad)
+        {
+            return await _comercioRepository.FindAsync(c => c.ciudad.Equals(ciudad, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public async Task<bool> UpdateComercioAsync(Comercio comercio)
+        {
+            var existingComercio = await _comercioRepository.GetByIdAsync(comercio.idcomercio);
+            if (existingComercio == null) return false;
+
+            _comercioRepository.Update(comercio);
+            return await _comercioRepository.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteComercioAsync(int id)
+        {
+            var comercio = await _comercioRepository.GetByIdAsync(id);
+            if (comercio == null) return false;
+
+            // Verificar si el comercio tiene productos o pedidos
+            var productos = await GetProductosByComercioAsync(id);
+            if (productos.Any())
+            {
+                throw new Exception("No se puede eliminar el comercio porque tiene productos asociados");
+            }
+
+            _comercioRepository.Remove(comercio);
+            return await _comercioRepository.SaveChangesAsync();
+        }
+
+        // GESTIÓN DE DESTACADOS Y ESTADO
+        public async Task<bool> UpdateComercioDestacadoAsync(int comercioId, bool destacado)
+        {
+            var comercio = await _comercioRepository.GetByIdAsync(comercioId);
+            if (comercio == null) return false;
+
+            comercio.destacado = destacado;
+            _comercioRepository.Update(comercio);
+            return await _comercioRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Comercio>> GetComerciosDestacadosAsync()
+        {
+            return await _comercioRepository.FindAsync(c => c.destacado == true);
+        }
+
+        public async Task<bool> UpdateComercioEstadoAsync(int comercioId, bool activo)
+        {
+            var comercio = await _comercioRepository.GetByIdAsync(comercioId);
+            if (comercio == null) return false;
+
+            // Lógica para activar/desactivar comercio
+            // Puedes usar deletedAt para soft delete
+            if (activo)
+            {
+                comercio.deletedAt = null;
+            }
+            else
+            {
+                comercio.deletedAt = DateTime.UtcNow;
+            }
+
+            _comercioRepository.Update(comercio);
+            return await _comercioRepository.SaveChangesAsync();
+        }
+
+        // CATEGORÍAS DE COMERCIOS
+        public async Task<bool> AddCategoriaToComercioAsync(int comercioId, int categoriaId)
+        {
+            // Verificar si ya existe la relación
+            var existingRelation = await _comercioCategoriaRepository.FindAsync(cc =>
+                cc.ComercioIdComercio == comercioId && cc.CategoriaIdCategoria == categoriaId);
+
+            if (existingRelation.Any()) return true;
+
+            var comercioCategoria = new ComercioCategoria
+            {
+                ComercioIdComercio = comercioId,
+                CategoriaIdCategoria = categoriaId
+            };
+
+            await _comercioCategoriaRepository.AddAsync(comercioCategoria);
+            return await _comercioCategoriaRepository.SaveChangesAsync();
+        }
+
+        public async Task<bool> RemoveCategoriaFromComercioAsync(int comercioId, int categoriaId)
+        {
+            var relaciones = await _comercioCategoriaRepository.FindAsync(cc =>
+                cc.ComercioIdComercio == comercioId && cc.CategoriaIdCategoria == categoriaId);
+
+            var relacion = relaciones.FirstOrDefault();
+            if (relacion == null) return false;
+
+            _comercioCategoriaRepository.Remove(relacion);
+            return await _comercioCategoriaRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Categoria>> GetCategoriasByComercioAsync(int comercioId)
+        {
+            var relaciones = await _comercioCategoriaRepository.FindAsync(cc => cc.ComercioIdComercio == comercioId);
+            var categorias = new List<Categoria>();
+
+            foreach (var relacion in relaciones)
+            {
+                var categoria = await _categoriaRepository.GetByIdAsync(relacion.CategoriaIdCategoria);
+                if (categoria != null)
+                {
+                    categorias.Add(categoria);
+                }
+            }
+
+            return categorias;
+        }
+
+        public async Task<IEnumerable<Comercio>> GetComerciosByCategoriaAsync(int categoriaId)
+        {
+            var relaciones = await _comercioCategoriaRepository.FindAsync(cc => cc.CategoriaIdCategoria == categoriaId);
+            var comercios = new List<Comercio>();
+
+            foreach (var relacion in relaciones)
+            {
+                var comercio = await _comercioRepository.GetByIdAsync(relacion.ComercioIdComercio);
+                if (comercio != null)
+                {
+                    comercios.Add(comercio);
+                }
+            }
+
+            return comercios;
+        }
+
+        // HORARIOS DE COMERCIOS
+        public async Task<bool> AddHorarioToComercioAsync(int comercioId, int horarioId)
+        {
+            var existingRelation = await _comercioHorarioRepository.FindAsync(ch =>
+                ch.ComercioIdComercio == comercioId && ch.HorariosIdHorarios == horarioId);
+
+            if (existingRelation.Any()) return true;
+
+            var comercioHorario = new ComercioHorario
+            {
+                ComercioIdComercio = comercioId,
+                HorariosIdHorarios = horarioId
+            };
+
+            await _comercioHorarioRepository.AddAsync(comercioHorario);
+            return await _comercioHorarioRepository.SaveChangesAsync();
+        }
+
+        public async Task<bool> RemoveHorarioFromComercioAsync(int comercioId, int horarioId)
+        {
+            var relaciones = await _comercioHorarioRepository.FindAsync(ch =>
+                ch.ComercioIdComercio == comercioId && ch.HorariosIdHorarios == horarioId);
+
+            var relacion = relaciones.FirstOrDefault();
+            if (relacion == null) return false;
+
+            _comercioHorarioRepository.Remove(relacion);
+            return await _comercioHorarioRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Horarios>> GetHorariosByComercioAsync(int comercioId)
+        {
+            var relaciones = await _comercioHorarioRepository.FindAsync(ch => ch.ComercioIdComercio == comercioId);
+            var horarios = new List<Horarios>();
+
+            foreach (var relacion in relaciones)
+            {
+                var horario = await _horariosRepository.GetByIdAsync(relacion.HorariosIdHorarios);
+                if (horario != null)
+                {
+                    horarios.Add(horario);
+                }
+            }
+
+            return horarios;
+        }
+
+        public async Task<bool> CheckComercioAbiertoAsync(int comercioId)
+        {
+            var horarios = await GetHorariosByComercioAsync(comercioId);
+            var ahora = DateTime.Now.TimeOfDay;
+            var diaActual = DateTime.Now.DayOfWeek.ToString();
+
+            foreach (var horario in horarios)
+            {
+                if (horario.dias != null && horario.dias.Contains(diaActual) &&
+                    horario.apertura.HasValue && horario.cierre.HasValue &&
+                    ahora >= horario.apertura.Value && ahora <= horario.cierre.Value &&
+                    horario.abierto)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // PRODUCTOS DE COMERCIOS
+        public async Task<IEnumerable<Producto>> GetProductosByComercioAsync(int comercioId)
+        {
+            // Esta implementación depende de cómo relates productos con comercios
+            // Puede ser through categorías compartidas o through items de pedido
+            var itemsPedido = await _itemPedidoRepository.FindAsync(ip => ip.ComercioIdComercio == comercioId);
+            var productoIds = itemsPedido.Select(ip => ip.ProductoIdProducto).Distinct();
+
+            var productos = new List<Producto>();
+            foreach (var productoId in productoIds)
+            {
+                var producto = await _productoRepository.GetByIdAsync(productoId);
+                if (producto != null)
+                {
+                    productos.Add(producto);
+                }
+            }
+
+            return productos;
+        }
+
+        public async Task<int> GetCantidadProductosByComercioAsync(int comercioId)
+        {
+            var productos = await GetProductosByComercioAsync(comercioId);
+            return productos.Count();
+        }
+
+        // ESTADÍSTICAS Y REPORTES
+        public async Task<decimal> GetVentasTotalesByComercioAsync(int comercioId, DateTime? startDate, DateTime? endDate)
+        {
+            var itemsQuery = _itemPedidoRepository.FindAsync(ip => ip.ComercioIdComercio == comercioId);
+            var items = await itemsQuery;
+
+            if (startDate.HasValue)
+            {
+                items = items.Where(ip => ip.Pedido.fecha >= startDate.Value).ToList();
+            }
+
+            if (endDate.HasValue)
+            {
+                items = items.Where(ip => ip.Pedido.fecha <= endDate.Value).ToList();
+            }
+
+            return items.Sum(ip => ip.precioFinal * ip.cantProducto);
+        }
+
+        public async Task<int> GetPedidosComercioAsync(int comercioId, DateTime? startDate, DateTime? endDate)
+        {
+            var itemsQuery = _itemPedidoRepository.FindAsync(ip => ip.ComercioIdComercio == comercioId);
+            var items = await itemsQuery;
+
+            if (startDate.HasValue)
+            {
+                items = items.Where(ip => ip.Pedido.fecha >= startDate.Value).ToList();
+            }
+
+            if (endDate.HasValue)
+            {
+                items = items.Where(ip => ip.Pedido.fecha <= endDate.Value).ToList();
+            }
+
+            return items.Select(ip => ip.PedidoIdPedido).Distinct().Count();
+        }
+    }
+}

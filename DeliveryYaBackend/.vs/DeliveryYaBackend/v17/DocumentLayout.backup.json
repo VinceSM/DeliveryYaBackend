@@ -1,10 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\xampp\\htdocs\\DeliveryYaBackend\\DeliveryYaBackend\\",
+  "WorkspaceRootPath": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\xampp\\htdocs\\deliveryyabackend\\deliveryyabackend\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vsmx4\\onedrive\\documentos\\deliveryyabackend\\deliveryyabackend\\services\\itempedidoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:services\\itempedidoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vsmx4\\onedrive\\documentos\\deliveryyabackend\\deliveryyabackend\\models\\itempedido.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:models\\itempedido.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vsmx4\\onedrive\\documentos\\deliveryyabackend\\deliveryyabackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\DeliveryYaBackend\\DeliveryYaBackend\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\DeliveryYaBackend\\DeliveryYaBackend\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAANgAAAAAAAAAAAAYwMkAAAAoAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "ItemPedido.cs",
+              "DocumentMoniker": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\Models\\ItemPedido.cs",
+              "RelativeDocumentMoniker": "Models\\ItemPedido.cs",
+              "ToolTip": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\Models\\ItemPedido.cs",
+              "RelativeToolTip": "Models\\ItemPedido.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAYwBMAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-09T06:06:07.992Z",
+              "WhenOpened": "2025-09-09T20:14:07.108Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ItemPedidoService.cs",
+              "DocumentMoniker": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\Services\\ItemPedidoService.cs",
+              "RelativeDocumentMoniker": "Services\\ItemPedidoService.cs",
+              "ToolTip": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\Services\\ItemPedidoService.cs",
+              "RelativeToolTip": "Services\\ItemPedidoService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-09T20:12:12.81Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAIwB4AAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-09T19:13:46.176Z",
               "EditorCaption": ""
             }
           ]
