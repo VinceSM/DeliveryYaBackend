@@ -1,21 +1,52 @@
-﻿namespace DeliveryYaBackend.Models
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DeliveryYaBackend.Models
 {
+    [Table("pedido")]
     public class Pedido
     {
-        int idpedido { get; set; }
-        DateOnly fecha { get; set; }
-        TimeOnly hora { get; set; }
-        string? codigo { get; set; }
-        Boolean pagado { get; set; }
-        Boolean comercioRepartidor { get; set; }
-        decimal subtotalPedido { get; set; }
-        Cliente? cliente { get; set; }
-        Repartidor? repartidor { get; set; }
-        EstadoPedido? estadoPedido { get; set; }
-        MetodoPagoPedido? metodoPagoPedido { get; set; }
+        public int idpedido { get; set; }
+        public DateTime fecha { get; set; }
+        public TimeSpan hora { get; set; }
+        public string? codigo { get; set; }
+        public bool pagado { get; set; }
+        public bool comercioRepartidor { get; set; }
+        public decimal subtotalPedido { get; set; }
 
-        DateTime createdAt { get; set; }
-        DateTime updatedAt { get; set; }
-        DateTime? deletedAt { get; set; }
+        [Required]
+        [Column("cliente_idcliente")]
+        public int ClienteIdCliente { get; set; }
+
+        [Required]
+        [Column("repartidor_idrepartidor")]
+        public int RepartidorIdRepartidor { get; set; }
+
+        [Required]
+        [Column("estadopedido_idestado")]
+        public int EstadoPedidoIdEstado { get; set; }
+
+        [Required]
+        [Column("metodoPagoPedido_idmetodo")]
+        public int MetodoPagoPedidoIdMetodo { get; set; }
+        public DateTime? createdAt { get; set; }
+        public DateTime? deletedAt { get; set; }
+        public DateTime? updatedAt { get; set; }
+
+        // Navigation properties
+        [ForeignKey("ClienteIdCliente")]
+        public virtual Cliente? Cliente { get; set; }
+
+        [ForeignKey("RepartidorIdRepartidor")]
+        public virtual Repartidor? Repartidor { get; set; }
+
+        [ForeignKey("EstadoPedidoIdEstado")]
+        public virtual EstadoPedido? EstadoPedido { get; set; }
+
+        [ForeignKey("MetodoPagoPedidoIdMetodo")]
+        public virtual MetodoPagoPedido? MetodoPagoPedido { get; set; }
+
+        public virtual ICollection<ItemPedido>? ItemsPedido { get; set; }
     }
 }

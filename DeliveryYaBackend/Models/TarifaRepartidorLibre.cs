@@ -1,14 +1,26 @@
-﻿namespace DeliveryYaBackend.Models
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DeliveryYaBackend.Models
 {
+    [Table("tarifaRepartidorLibre")]
     public class TarifaRepartidorLibre
     {
-        int idtarifa { get; set; }
-        int cantPedidos { get; set; }
-        decimal tarifaBase { get; set; }
-        decimal kmrecorridos { get; set; }
-        Repartidor? repartidor { get; set; }
-        DateTime createdAt { get; set; }
-        DateTime updatedAt { get; set; }
-        DateTime? deletedAt { get; set; }
+        public int idtarifa { get; set; }
+        public int cantPedidos { get; set; }
+        public decimal tarifaBase { get; set; }
+        public decimal kmRecorridos { get; set; }
+
+        [Required]
+        [Column("repartidor_idrepartidor")]
+        public int RepartidorIdRepartidor { get; set; }
+        public DateTime? createdAt { get; set; }
+        public DateTime? deletedAt { get; set; }
+        public DateTime? updatedAt { get; set; }
+
+        // Navigation properties
+        [ForeignKey("RepartidorIdRepartidor")]
+        public virtual Repartidor? Repartidor { get; set; }
     }
 }
