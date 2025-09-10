@@ -181,6 +181,8 @@ namespace DeliveryYaBackend.Data
             modelBuilder.Entity<Comercio>(entity =>
             {
                 entity.HasKey(e => e.idcomercio);
+                entity.Property(e => e.email).IsRequired().HasMaxLength(45);
+                entity.Property(e => e.password).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.nombreComercio).IsRequired().HasMaxLength(45);
                 entity.Property(e => e.fotoPortada).IsRequired().HasMaxLength(45);
                 entity.Property(e => e.celular).IsRequired().HasMaxLength(25);

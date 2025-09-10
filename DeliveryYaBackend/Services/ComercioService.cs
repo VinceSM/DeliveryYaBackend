@@ -1,6 +1,7 @@
 ﻿using DeliveryYaBackend.Data.Repositories.Interfaces;
 using DeliveryYaBackend.Models;
 using DeliveryYaBackend.Services.Interfaces;
+using Org.BouncyCastle.Crypto.Generators;
 
 namespace DeliveryYaBackend.Services
 {
@@ -38,10 +39,30 @@ namespace DeliveryYaBackend.Services
         // OPERACIONES BÁSICAS
         public async Task<Comercio> CreateComercioAsync(Comercio comercio)
         {
+            // Validar que el email no exista
+            var comercioExistente = await _comercioRepository.FindAsync(c =>
+                c.email == comercio.email);
+
+            if (comercioExistente.Any())
+            {
+                throw new Exception("Ya existe un comercio con ese email");
+            }
+
+            // Hashear la password antes de guardar (recomendado)
+            // comercio.password = HashPassword(comercio.password);
+
+            // Puedes agregar lógica de validación adicional aquí
+            if (string.IsNullOrEmpty(comercio.password) || comercio.password.Length < 6)
+            {
+                throw new Exception("La contraseña debe tener al menos 6 caracteres");
+            }
+
             await _comercioRepository.AddAsync(comercio);
             await _comercioRepository.SaveChangesAsync();
+
             return comercio;
         }
+
 
         public async Task<Comercio> GetComercioByIdAsync(int id)
         {
@@ -54,10 +75,10 @@ namespace DeliveryYaBackend.Services
             if (comercio == null) return null;
 
             // Cargar categorías
-            comercio.ComercioCategorias = await GetCategoriasByComercioAsync(id);
+            comercio.ComercioCategorias = (await _comercioCategoriaRepository.FindAsync(cc => cc.ComercioIdComercio == id)).ToList();
 
             // Cargar horarios
-            comercio.ComercioHorarios = await GetHorariosByComercioAsync(id);
+            comercio.ComercioHorarios = (await _comercioHorarioRepository.FindAsync(ch => ch.ComercioIdComercio == id)).ToList();
 
             return comercio;
         }

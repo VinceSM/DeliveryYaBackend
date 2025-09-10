@@ -8,6 +8,8 @@ namespace DeliveryYaBackend.Models
     public class Comercio
     {
         public int idcomercio { get; set; }
+        public string? email { get; set; }
+        public string? password { get; set; }
         public string? nombreComercio { get; set; }
         public string? fotoPortada { get; set; }
         public string? celular { get; set; }
