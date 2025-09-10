@@ -27,7 +27,11 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="DTOs\" />
+    <Folder Include="DTOs\Responses\Auth\" />
+    <Folder Include="DTOs\Responses\Comercios\" />
+    <Folder Include="DTOs\Responses\Usuarios\" />
+    <Folder Include="DTOs\Responses\Pedidos\" />
+    <Folder Include="DTOs\Responses\Productos\" />
   </ItemGroup>
 
 </Project>
