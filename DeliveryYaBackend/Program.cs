@@ -3,6 +3,7 @@ using DeliveryYaBackend.Data.Repositories;
 using DeliveryYaBackend.Data.Repositories.Interfaces;
 using DeliveryYaBackend.Services;
 using DeliveryYaBackend.Services.Interfaces;
+using DeliveryYaBackend.Services.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Registrar el Generic Repository
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
+builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
@@ -29,6 +31,17 @@ builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<ITarifaRepartidorService, TarifaRepartidorService>();
 builder.Services.AddScoped<IHorarioService, HorarioService>();
 builder.Services.AddScoped<IItemPedidoService, ItemPedidoService>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+var origenesPermitidos = builder.Configuration.GetSection("origenesPermitidos").Get<string[]>()!;
+
+builder.Services.AddCors(opciones =>
+{
+    opciones.AddDefaultPolicy(opcionesCORS =>
+    {
+        opcionesCORS.WithOrigins(origenesPermitidos).AllowAnyMethod().AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -40,6 +53,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 

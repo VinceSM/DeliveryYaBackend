@@ -1,122 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vsmx4\\onedrive\\documentos\\deliveryyabackend\\deliveryyabackend\\dtos\\requests\\auth\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:dtos\\requests\\auth\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vsmx4\\onedrive\\documentos\\deliveryyabackend\\deliveryyabackend\\dtos\\requests\\categorias\\updatecategoriarequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:dtos\\requests\\categorias\\updatecategoriarequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vsmx4\\onedrive\\documentos\\deliveryyabackend\\deliveryyabackend\\dtos\\requests\\categorias\\createcategoriarequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:dtos\\requests\\categorias\\createcategoriarequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vsmx4\\onedrive\\documentos\\deliveryyabackend\\deliveryyabackend\\dtos\\requests\\usuarios\\createclienterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:dtos\\requests\\usuarios\\createclienterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vsmx4\\onedrive\\documentos\\deliveryyabackend\\deliveryyabackend\\dtos\\requests\\usuarios\\createrepartidorrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:dtos\\requests\\usuarios\\createrepartidorrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vsmx4\\onedrive\\documentos\\deliveryyabackend\\deliveryyabackend\\dtos\\requests\\pedidos\\itempedidorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:dtos\\requests\\pedidos\\itempedidorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LoginRequest.cs",
-              "DocumentMoniker": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Auth\\LoginRequest.cs",
-              "RelativeDocumentMoniker": "DTOs\\Requests\\Auth\\LoginRequest.cs",
-              "ToolTip": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Auth\\LoginRequest.cs",
-              "RelativeToolTip": "DTOs\\Requests\\Auth\\LoginRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-10T21:11:00.128Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UpdateCategoriaRequest.cs",
-              "DocumentMoniker": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Categorias\\UpdateCategoriaRequest.cs",
-              "RelativeDocumentMoniker": "DTOs\\Requests\\Categorias\\UpdateCategoriaRequest.cs",
-              "ToolTip": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Categorias\\UpdateCategoriaRequest.cs",
-              "RelativeToolTip": "DTOs\\Requests\\Categorias\\UpdateCategoriaRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-10T20:57:03.299Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CreateCategoriaRequest.cs",
-              "DocumentMoniker": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Categorias\\CreateCategoriaRequest.cs",
-              "RelativeDocumentMoniker": "DTOs\\Requests\\Categorias\\CreateCategoriaRequest.cs",
-              "ToolTip": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Categorias\\CreateCategoriaRequest.cs",
-              "RelativeToolTip": "DTOs\\Requests\\Categorias\\CreateCategoriaRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-10T20:56:52.164Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CreateClienteRequest.cs",
-              "DocumentMoniker": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Usuarios\\CreateClienteRequest.cs",
-              "RelativeDocumentMoniker": "DTOs\\Requests\\Usuarios\\CreateClienteRequest.cs",
-              "ToolTip": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Usuarios\\CreateClienteRequest.cs",
-              "RelativeToolTip": "DTOs\\Requests\\Usuarios\\CreateClienteRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-10T20:56:21.987Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CreateRepartidorRequest.cs",
-              "DocumentMoniker": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Usuarios\\CreateRepartidorRequest.cs",
-              "RelativeDocumentMoniker": "DTOs\\Requests\\Usuarios\\CreateRepartidorRequest.cs",
-              "ToolTip": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Usuarios\\CreateRepartidorRequest.cs",
-              "RelativeToolTip": "DTOs\\Requests\\Usuarios\\CreateRepartidorRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-10T20:56:19.037Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ItemPedidoRequest.cs",
-              "DocumentMoniker": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Pedidos\\ItemPedidoRequest.cs",
-              "RelativeDocumentMoniker": "DTOs\\Requests\\Pedidos\\ItemPedidoRequest.cs",
-              "ToolTip": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Pedidos\\ItemPedidoRequest.cs",
-              "RelativeToolTip": "DTOs\\Requests\\Pedidos\\ItemPedidoRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-10T20:55:43.936Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

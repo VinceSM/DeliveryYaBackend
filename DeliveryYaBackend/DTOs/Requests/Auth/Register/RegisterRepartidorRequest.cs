@@ -1,10 +1,10 @@
-﻿// DTOs/Requests/Auth/RegisterRequest.cs
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DeliveryYaBackend.DTOs.Requests.Auth
+namespace DeliveryYaBackend.DTOs.Requests.Auth.Register
 {
-    public class RegisterRequest
+    public class RegisterRepartidorRequest
     {
+        // Datos de IUserType
         [Required]
         [MaxLength(45)]
         public string? NombreCompleto { get; set; }
@@ -14,7 +14,7 @@ namespace DeliveryYaBackend.DTOs.Requests.Auth
         public string? Dni { get; set; }
 
         [Required]
-        public DateTime Nacimiento { get; set; }
+        public DateOnly Nacimiento { get; set; }
 
         [Required]
         [MaxLength(25)]
@@ -41,13 +41,31 @@ namespace DeliveryYaBackend.DTOs.Requests.Auth
         [MaxLength(255)]
         public string? Password { get; set; }
 
-        // Solo para repartidores
-        public string? TipoVehiculo { get; set; }
-        public string? Patente { get; set; }
-        public string? Modelo { get; set; }
-        public string? Marca { get; set; }
-        public bool Seguro { get; set; }
-        public string? CompaniaSeguros { get; set; }
+        // Datos específicos de Repartidor
+        [Required]
+        [MaxLength(25)]
         public string? Cvu { get; set; }
+
+        // Datos del Vehículo
+        [Required]
+        [MaxLength(45)]
+        public string? TipoVehiculo { get; set; }
+
+        [MaxLength(45)]
+        public string? Patente { get; set; }
+
+        [Required]
+        [MaxLength(45)]
+        public string? Modelo { get; set; }
+
+        [Required]
+        [MaxLength(45)]
+        public string? Marca { get; set; }
+
+        [Required]
+        public bool Seguro { get; set; }
+
+        [MaxLength(45)]
+        public string? CompaniaSeguros { get; set; }
     }
 }

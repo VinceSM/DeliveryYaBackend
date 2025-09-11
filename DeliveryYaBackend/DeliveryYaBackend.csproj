@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="15.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,11 +28,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="DTOs\Responses\Auth\" />
-    <Folder Include="DTOs\Responses\Comercios\" />
-    <Folder Include="DTOs\Responses\Usuarios\" />
-    <Folder Include="DTOs\Responses\Pedidos\" />
-    <Folder Include="DTOs\Responses\Productos\" />
   </ItemGroup>
 
 </Project>

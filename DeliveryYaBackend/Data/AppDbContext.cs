@@ -11,6 +11,8 @@ namespace DeliveryYaBackend.Data
         { }
 
         // Tablas principales
+        // En AppDbContext.cs
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<IUserType> IUserTypes { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Vehiculo> Vehiculos { get; set; }
@@ -34,6 +36,13 @@ namespace DeliveryYaBackend.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Admin>(entity =>
+            {
+                entity.HasKey(e => e.idadmin);
+                entity.Property(e => e.usuario).IsRequired().HasMaxLength(45);
+                entity.Property(e => e.password).IsRequired().HasMaxLength(255);
+            });
 
             // Configuración de IUserType
             modelBuilder.Entity<IUserType>(entity =>
