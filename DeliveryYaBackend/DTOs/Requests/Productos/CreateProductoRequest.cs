@@ -27,7 +27,7 @@ namespace DeliveryYaBackend.DTOs.Requests.Productos
         public bool Oferta { get; set; }
 
         // Datos del stock
-        public int? Stock { get; set; }
+        public int Stock { get; set; }
         public bool StockIlimitado { get; set; }
         public string? StockMedida { get; set; }
 

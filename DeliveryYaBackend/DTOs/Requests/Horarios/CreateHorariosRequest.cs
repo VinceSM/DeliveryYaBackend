@@ -4,9 +4,9 @@ namespace DeliveryYaBackend.DTOs.Requests.Horarios
 {
     public class CreateHorarioRequest
     {
-        public TimeOnly? Apertura { get; set; }
+        public TimeSpan? Apertura { get; set; }
 
-        public TimeOnly? Cierre { get; set; }
+        public TimeSpan? Cierre { get; set; }
 
         [MaxLength(25)]
         public string? Dias { get; set; }

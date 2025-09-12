@@ -1,29 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using DeliveryYaBackend.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DeliveryYaBackend.Models
+[Table("repartidor")]
+public class Repartidor
 {
-    [Table("repartidor")]
-    public class Repartidor
-    {
-        public int IdRepartidor { get; set; }
-        public int cantPedidos { get; set; }
-        public decimal puntuacion { get; set; }
-        public string? cvu { get; set; }
-        public bool libreRepartidor { get; set; }
-        public int IUserTypeIdIUserType { get; set; }
-        public int VehiculoIdVehiculo { get; set; }
-        public DateTime? createdAt { get; set; }
-        public DateTime? deletedAt { get; set; }
-        public DateTime? updatedAt { get; set; }
+    public int idrepartidor { get; set; }
+    public string? nombreCompleto { get; set; }
+    public string? dni { get; set; }
+    public DateOnly nacimiento { get; set; }
+    public string? celular { get; set; }
+    public string? ciudad { get; set; }
+    public string? calle { get; set; }
+    public int numero { get; set; }
+    public string? email { get; set; }
+    public string? password { get; set; }
+    public int cantPedidos { get; set; }
+    public decimal puntuacion { get; set; }
+    public string cvu { get; set; }
+    public bool libreRepartidor { get; set; }
+    public int vehiculoIdVehiculo { get; set; }
 
-        // Navigation properties
-        [ForeignKey("IUserTypeIdIUserType")]
-        public virtual IUserType? IUserType { get; set; }
-
-        [ForeignKey("VehiculoIdVehiculo")]
-        public virtual Vehiculo? Vehiculo { get; set; }
-    }
+    [ForeignKey("vehiculoIdVehiculo")]
+    public virtual Vehiculo? Vehiculo { get; set; }
+    public DateTime createdAt { get; set; }
+    public DateTime updatedAt { get; set; }
+    public DateTime? deletedAt { get; set; }
 }

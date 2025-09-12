@@ -5,11 +5,37 @@ using DeliveryYaBackend.Services;
 using DeliveryYaBackend.Services.Interfaces;
 using DeliveryYaBackend.Services.Mapping;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var secretKey = jwtSettings["SecretKey"];
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddAuthorization();
 
 // Configurar DbContext con MySQL
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -32,14 +58,17 @@ builder.Services.AddScoped<ITarifaRepartidorService, TarifaRepartidorService>();
 builder.Services.AddScoped<IHorarioService, HorarioService>();
 builder.Services.AddScoped<IItemPedidoService, ItemPedidoService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddScoped<JwtService>();
 
 var origenesPermitidos = builder.Configuration.GetSection("origenesPermitidos").Get<string[]>()!;
 
-builder.Services.AddCors(opciones =>
+builder.Services.AddCors(options =>
 {
-    opciones.AddDefaultPolicy(opcionesCORS =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        opcionesCORS.WithOrigins(origenesPermitidos).AllowAnyMethod().AllowAnyHeader();
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
@@ -54,7 +83,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors();
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 

@@ -57,6 +57,33 @@ namespace DeliveryYaBackend.Services
             return await _pedidoRepository.FindAsync(p => p.RepartidorIdRepartidor == repartidorId);
         }
 
+        public async Task<IEnumerable<Pedido>> GetAllPedidosAsync()
+        {
+            return await _pedidoRepository.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<Pedido>> GetPedidosByEstadoAsync(string estado)
+        {
+            // Primero obtener el ID del estado
+            var estados = await _estadoPedidoRepository.FindAsync(e => e.tipo == estado);
+            var estadoPedido = estados.FirstOrDefault();
+
+            if (estadoPedido == null)
+                return new List<Pedido>();
+
+            // Luego obtener los pedidos con ese estado
+            return await _pedidoRepository.FindAsync(p => p.EstadoPedidoIdEstado == estadoPedido.idestado);
+        }
+
+        public async Task<bool> UpdatePedidoAsync(Pedido pedido)
+        {
+            var existingPedido = await _pedidoRepository.GetByIdAsync(pedido.idpedido);
+            if (existingPedido == null) return false;
+
+            _pedidoRepository.Update(pedido);
+            return await _pedidoRepository.SaveChangesAsync();
+        }
+
         public async Task<bool> UpdateEstadoPedidoAsync(int pedidoId, string nuevoEstado)
         {
             var pedido = await _pedidoRepository.GetByIdAsync(pedidoId);

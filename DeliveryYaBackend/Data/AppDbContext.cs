@@ -13,7 +13,6 @@ namespace DeliveryYaBackend.Data
         // Tablas principales
         // En AppDbContext.cs
         public DbSet<Admin> Admins { get; set; }
-        public DbSet<IUserType> IUserTypes { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Vehiculo> Vehiculos { get; set; }
         public DbSet<Repartidor> Repartidores { get; set; }
@@ -44,25 +43,17 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.password).IsRequired().HasMaxLength(255);
             });
 
-            // Configuración de IUserType
-            modelBuilder.Entity<IUserType>(entity =>
-            {
-                entity.HasKey(e => e.idusertype);
-                entity.Property(e => e.nombreCompleto).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.dni).IsRequired().HasMaxLength(25);
-                entity.Property(e => e.celular).IsRequired().HasMaxLength(25);
-                entity.Property(e => e.email).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.password).IsRequired().HasMaxLength(255);
-            });
-
             // Configuración de Cliente
             modelBuilder.Entity<Cliente>(entity =>
             {
                 entity.HasKey(e => e.idcliente);
-                entity.HasOne(e => e.IUserType)
-                      .WithMany()
-                      .HasForeignKey(e => e.IUserTypeIdIUserType)
-                      .OnDelete(DeleteBehavior.Restrict);
+                entity.Property(e => e.nombreCompleto).IsRequired().HasMaxLength(45);
+                entity.Property(e => e.dni).IsRequired().HasMaxLength(25);
+                entity.Property(e => e.celular).IsRequired().HasMaxLength(25);
+                entity.Property(e => e.ciudad).IsRequired().HasMaxLength(45);
+                entity.Property(e => e.calle).IsRequired().HasMaxLength(45);
+                entity.Property(e => e.email).IsRequired().HasMaxLength(45);
+                entity.Property(e => e.password).IsRequired().HasMaxLength(255);
             });
 
             // Configuración de Vehiculo
@@ -77,20 +68,24 @@ namespace DeliveryYaBackend.Data
             });
 
             // Configuración de Repartidor
+            // Configuración de Repartidor (ACTUALIZADA)
             modelBuilder.Entity<Repartidor>(entity =>
             {
-                entity.HasKey(e => e.IdRepartidor);
+                entity.HasKey(e => e.idrepartidor);
+                entity.Property(e => e.nombreCompleto).IsRequired().HasMaxLength(45);
+                entity.Property(e => e.dni).IsRequired().HasMaxLength(25);
+                entity.Property(e => e.celular).IsRequired().HasMaxLength(25);
+                entity.Property(e => e.ciudad).IsRequired().HasMaxLength(45);
+                entity.Property(e => e.calle).IsRequired().HasMaxLength(45);
+                entity.Property(e => e.email).IsRequired().HasMaxLength(45);
+                entity.Property(e => e.password).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.puntuacion).HasColumnType("decimal(10,1)");
                 entity.Property(e => e.cvu).IsRequired().HasMaxLength(25);
 
-                entity.HasOne(e => e.IUserType)
-                      .WithMany()
-                      .HasForeignKey(e => e.IUserTypeIdIUserType)
-                      .OnDelete(DeleteBehavior.Restrict);
-
+                // SOLO mantener la relación con Vehiculo
                 entity.HasOne(e => e.Vehiculo)
                       .WithMany()
-                      .HasForeignKey(e => e.VehiculoIdVehiculo)
+                      .HasForeignKey(e => e.vehiculoIdVehiculo)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 

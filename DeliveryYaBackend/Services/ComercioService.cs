@@ -63,6 +63,17 @@ namespace DeliveryYaBackend.Services
             return comercio;
         }
 
+        public async Task<Comercio> GetComercioByEmailAsync(string email)
+        {
+            var comercios = await _comercioRepository.FindAsync(c => c.email == email);
+            return comercios.FirstOrDefault();
+        }
+
+        public async Task<bool> ComercioExistsAsync(string email)
+        {
+            var comercios = await _comercioRepository.FindAsync(c => c.email == email);
+            return comercios.Any();
+        }
 
         public async Task<Comercio> GetComercioByIdAsync(int id)
         {
