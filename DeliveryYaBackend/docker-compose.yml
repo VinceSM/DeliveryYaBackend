@@ -1,0 +1,25 @@
+﻿version: "3.9"
+
+services:
+  backend:
+    build: ./DeliveryYaBackend   # ruta a tu backend
+    container_name: deliveryya-backend
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    networks:
+      - deliveryya-net
+
+  frontend:
+    build: ./DeliveryYaFrontend   # ruta a tu frontend con Vite
+    container_name: deliveryya-frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - deliveryya-net
+    environment:
+      - VITE_API_URL=http://backend:8080   # 👈 clave: el front llama al backend usando el nombre del servicio
+
+networks:
+  deliveryya-net:
+    driver: bridge
