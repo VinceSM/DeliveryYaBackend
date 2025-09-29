@@ -1,6 +1,6 @@
 ﻿namespace DeliveryYaBackend.DTOs.Responses.Usuarios
 {
-    public class RepartidorDetailResponse
+    public class RepartidorDetalleResponse
     {
         public int Id { get; set; }
         public int UserId { get; set; }

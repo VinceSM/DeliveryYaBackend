@@ -15,8 +15,8 @@ namespace DeliveryYaBackend.DTOs.Responses.Pedidos
         public bool ComercioRepartidor { get; set; }
 
         // Información de usuarios
-        public ClienteInfoResponse? Cliente { get; set; }
-        public RepartidorInfoResponse? Repartidor { get; set; }
+        public ClienteDetalleResponse? ClienteDetail { get; set; }
+        public RepartidorDetalleResponse? Repartidor { get; set; }
 
         // Items del pedido
         public List<ItemPedidoResponse> Items { get; set; } = new List<ItemPedidoResponse>();

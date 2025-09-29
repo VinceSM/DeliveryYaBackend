@@ -1,6 +1,6 @@
 ﻿namespace DeliveryYaBackend.DTOs.Responses.Usuarios
 {
-    public class ClienteDetailResponse
+    public class ClienteDetalleResponse
     {
         public int Id { get; set; }
         public int UserId { get; set; }

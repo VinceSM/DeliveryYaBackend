@@ -3862,23 +3862,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vsmx4\\.nuget\\packages\\": {},
+    "C:\\Users\\Vicente\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
+      "projectUniqueName": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
       "projectName": "DeliveryYaBackend",
-      "projectPath": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
-      "packagesPath": "C:\\Users\\vsmx4\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vsmx4\\OneDrive\\Documentos\\DeliveryYaBackend\\DeliveryYaBackend\\obj\\",
+      "projectPath": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
+      "packagesPath": "C:\\Users\\Vicente\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\vsmx4\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Vicente\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3887,7 +3887,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3976,7 +3975,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -3985,7 +3984,7 @@
       "code": "NU1608",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Detected package version outside of dependency constraint: AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1 requires AutoMapper (= 12.0.1) but version AutoMapper 15.0.1 was resolved.",
+      "message": "Se detectó una versión del paquete fuera de la restricción de dependencia: AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1 requiere AutoMapper (= 12.0.1), pero la versión AutoMapper 15.0.1 ya se resolvió.",
       "libraryId": "AutoMapper",
       "targetGraphs": [
         "net8.0"
