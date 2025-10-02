@@ -14,10 +14,6 @@ namespace DeliveryYaBackend.DTOs.Responses.Pedidos
         public MetodoPagoResponse? MetodoPago { get; set; } // ← Objeto completo
         public bool ComercioRepartidor { get; set; }
 
-        // Información de usuarios
-        public ClienteDetalleResponse? ClienteDetail { get; set; }
-        public RepartidorDetalleResponse? Repartidor { get; set; }
-
         // Items del pedido
         public List<ItemPedidoResponse> Items { get; set; } = new List<ItemPedidoResponse>();
         public DateTime? CreatedAt { get; set; }

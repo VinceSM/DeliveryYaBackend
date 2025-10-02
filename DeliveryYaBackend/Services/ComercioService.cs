@@ -1,4 +1,4 @@
-﻿using DeliveryYaBackend.Data.Repositories.Interfaces;
+﻿using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Models;
 using DeliveryYaBackend.Services.Interfaces;
 using Org.BouncyCastle.Crypto.Generators;

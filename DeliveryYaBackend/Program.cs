@@ -1,6 +1,4 @@
-using DeliveryYaBackend.Data;
-using DeliveryYaBackend.Data.Repositories;
-using DeliveryYaBackend.Data.Repositories.Interfaces;
+﻿using DeliveryYaBackend.Data;
 using DeliveryYaBackend.Services;
 using DeliveryYaBackend.Services.Interfaces;
 using DeliveryYaBackend.Services.Mapping;
@@ -8,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using DeliveryYaBackend.Repositories.Interfaces;
+using DeliveryYaBackend.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +41,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 43)) // Versi�n de tu MySQL
+        new MySqlServerVersion(new Version(8, 0, 43)) // Versión de tu MySQL
     ));
 
 // Registrar el Generic Repository
@@ -49,7 +49,8 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IRepartidorService, RepartidorService>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
 builder.Services.AddScoped<IComercioService, ComercioService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
@@ -83,7 +84,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors();
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 

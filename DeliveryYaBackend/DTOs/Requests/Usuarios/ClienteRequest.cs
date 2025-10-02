@@ -1,8 +1,7 @@
-﻿namespace DeliveryYaBackend.DTOs.Responses.Usuarios
+﻿namespace DeliveryYaBackend.DTOs.Requests.Usuarios
 {
-    public class ClienteResponse
+    public class ClienteRequest
     {
-        public int Id { get; set; }
         public string NombreCompleto { get; set; } = null!;
         public string Dni { get; set; } = null!;
         public DateOnly Nacimiento { get; set; }
@@ -11,6 +10,6 @@
         public string Calle { get; set; } = null!;
         public int Numero { get; set; } = 0;
         public string Email { get; set; } = null!;
-        // ⚠️ No devolvemos Password por seguridad
+        public string Password { get; set; } = null!;  // Se usará solo en creación/login
     }
 }

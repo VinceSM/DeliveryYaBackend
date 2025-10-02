@@ -1,63 +1,48 @@
-﻿using Microsoft.EntityFrameworkCore;
-using DeliveryYaBackend.Data.Repositories.Interfaces;
-using System.Linq.Expressions;
+﻿using DeliveryYaBackend.Data;
+using DeliveryYaBackend.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace DeliveryYaBackend.Data.Repositories
+namespace DeliveryYaBackend.Repositories
 {
     public class GenericRepository<T> : IRepository<T> where T : class
     {
-        protected readonly AppDbContext _context;
-        protected readonly DbSet<T> _dbSet;
+        private readonly AppDbContext _context;
+        private readonly DbSet<T> _dbSet;
 
         public GenericRepository(AppDbContext context)
         {
             _context = context;
-            _dbSet = context.Set<T>();
+            _dbSet = _context.Set<T>();
         }
 
-        public virtual async Task<T> GetByIdAsync(int id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
-
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        public async Task<T?> GetByIdAsync(int id)
         {
-            return await _dbSet.Where(predicate).ToListAsync();
+            return await _dbSet.FindAsync(id);
         }
 
-        public virtual async Task AddAsync(T entity)
+        public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
         }
 
-        public virtual void Update(T entity)
+        public void Update(T entity)
         {
             _dbSet.Update(entity);
         }
 
-        public virtual void Remove(T entity)
+        public void Delete(T entity)
         {
             _dbSet.Remove(entity);
         }
 
-        public virtual async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        public async Task SaveChangesAsync()
         {
-            return await _dbSet.AnyAsync(predicate);
-        }
-
-        public virtual async Task<int> CountAsync(Expression<Func<T, bool>> predicate)
-        {
-            return await _dbSet.CountAsync(predicate);
-        }
-
-        public virtual async Task<bool> SaveChangesAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
+            await _context.SaveChangesAsync();
         }
     }
 }

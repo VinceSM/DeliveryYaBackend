@@ -1,8 +1,7 @@
-﻿namespace DeliveryYaBackend.DTOs.Responses.Usuarios
+﻿namespace DeliveryYaBackend.DTOs.Requests.Usuarios
 {
-    public class RepartidorResponse
+    public class RepartidorRequest
     {
-        public int Id { get; set; }
         public string NombreCompleto { get; set; } = null!;
         public string Dni { get; set; } = null!;
         public DateOnly Nacimiento { get; set; }
@@ -11,12 +10,11 @@
         public string Calle { get; set; } = null!;
         public int Numero { get; set; } = 0;
         public string Email { get; set; } = null!;
-        public decimal Puntuacion { get; set; }
+        public string Password { get; set; } = null!;
         public string Cvu { get; set; } = null!;
-        public bool LibreRepartidor { get; set; }
+        public bool LibreRepartidor { get; set; } = true;
 
-        // Info del vehículo
-        public int VehiculoId { get; set; }
+        // Datos de Vehículo (opcional)
         public string TipoVehiculo { get; set; } = null!;
         public string? Patente { get; set; }
         public string Modelo { get; set; } = null!;

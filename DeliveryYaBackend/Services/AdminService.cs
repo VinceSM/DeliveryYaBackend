@@ -1,38 +1,77 @@
-﻿using DeliveryYaBackend.Data.Repositories.Interfaces;
+﻿using DeliveryYaBackend.DTOs.Requests.Usuarios;
+using DeliveryYaBackend.DTOs.Responses.Usuarios;
 using DeliveryYaBackend.Models;
+using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Services.Interfaces;
 
 namespace DeliveryYaBackend.Services
 {
     public class AdminService : IAdminService
     {
-        private readonly IRepository<Admin> _adminRepository;
+        private readonly IAdminRepository _adminRepository;
 
-        public AdminService(IRepository<Admin> adminRepository)
+        public AdminService(IAdminRepository adminRepository)
         {
             _adminRepository = adminRepository;
         }
 
-        public async Task<Admin> LoginAsync(string usuario, string password)
+        public async Task<IEnumerable<AdminResponse>> GetAllAsync()
         {
-            var admins = await _adminRepository.FindAsync(a =>
-                a.usuario == usuario && a.password == password);
-            return admins.FirstOrDefault();
+            var admins = await _adminRepository.GetAllAsync();
+            return admins.Select(a => ToResponse(a));
         }
 
-        public async Task<Admin> GetAdminByIdAsync(int id)
+        public async Task<AdminResponse?> GetByIdAsync(int id)
         {
-            return await _adminRepository.GetByIdAsync(id);
+            var admin = await _adminRepository.GetByIdAsync(id);
+            return admin == null ? null : ToResponse(admin);
         }
 
-        public async Task<bool> ChangePasswordAsync(int adminId, string newPassword)
+        public async Task<AdminResponse> CreateAsync(AdminRequest request)
         {
-            var admin = await _adminRepository.GetByIdAsync(adminId);
+            var admin = new Admin
+            {
+                usuario = request.Usuario,
+                password = request.Password // ⚠️ luego conviene hashear
+            };
+
+            await _adminRepository.AddAsync(admin);
+            await _adminRepository.SaveChangesAsync();
+
+            return ToResponse(admin);
+        }
+
+        public async Task<AdminResponse?> UpdateAsync(int id, AdminRequest request)
+        {
+            var admin = await _adminRepository.GetByIdAsync(id);
+            if (admin == null) return null;
+
+            admin.usuario = request.Usuario;
+            admin.password = request.Password;
+
+            _adminRepository.Update(admin);
+            await _adminRepository.SaveChangesAsync();
+
+            return ToResponse(admin);
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var admin = await _adminRepository.GetByIdAsync(id);
             if (admin == null) return false;
 
-            admin.password = newPassword;
-            _adminRepository.Update(admin);
-            return await _adminRepository.SaveChangesAsync();
+            _adminRepository.Delete(admin);
+            await _adminRepository.SaveChangesAsync();
+            return true;
+        }
+
+        private AdminResponse ToResponse(Admin admin)
+        {
+            return new AdminResponse
+            {
+                Id = admin.idadmin,
+                Usuario = admin.usuario
+            };
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DeliveryYaBackend.DTOs.Responses.Admin;
 using DeliveryYaBackend.DTOs.Responses.Auth;
 using DeliveryYaBackend.DTOs.Responses.Categorias;
 using DeliveryYaBackend.DTOs.Responses.Comercios;
@@ -18,7 +17,7 @@ namespace DeliveryYaBackend.Services.Mapping
             CreateMap<Cliente, LoginClienteResponse>();
             CreateMap<Repartidor, LoginRepartidorResponse>();
             CreateMap<Comercio, LoginComercioResponse>();
-            CreateMap<Admin, LoginAdminResponse>();
+            CreateMap<Admin, AdminResponse>();
 
             // Pedidos
             CreateMap<Pedido, PedidoResponse>();

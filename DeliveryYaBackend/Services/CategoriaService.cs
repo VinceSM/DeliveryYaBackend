@@ -1,5 +1,5 @@
-﻿using DeliveryYaBackend.Data.Repositories.Interfaces;
-using DeliveryYaBackend.Models;
+﻿using DeliveryYaBackend.Models;
+using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Services.Interfaces;
 
 namespace DeliveryYaBackend.Services
