@@ -3,18 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\controllers\\horarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:controllers\\horarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\dtos\\requests\\horarios\\horarioupdaterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:dtos\\requests\\horarios\\horarioupdaterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\dtos\\requests\\horarios\\updatehorariosrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:dtos\\requests\\horarios\\updatehorariosrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -31,51 +19,12 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "HorariosController.cs",
-              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Controllers\\HorariosController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HorariosController.cs",
-              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Controllers\\HorariosController.cs",
-              "RelativeToolTip": "Controllers\\HorariosController.cs",
-              "ViewState": "AgIAALIAAAAAAAAAAAAmwLEAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-02T21:43:34.72Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HorarioUpdateRequest.cs",
-              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Horarios\\HorarioUpdateRequest.cs",
-              "RelativeDocumentMoniker": "DTOs\\Requests\\Horarios\\HorarioUpdateRequest.cs",
-              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Horarios\\HorarioUpdateRequest.cs",
-              "RelativeToolTip": "DTOs\\Requests\\Horarios\\HorarioUpdateRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-02T21:43:07.359Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UpdateHorariosRequest.cs",
-              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Horarios\\UpdateHorariosRequest.cs",
-              "RelativeDocumentMoniker": "DTOs\\Requests\\Horarios\\UpdateHorariosRequest.cs",
-              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\DTOs\\Requests\\Horarios\\UpdateHorariosRequest.cs",
-              "RelativeToolTip": "DTOs\\Requests\\Horarios\\UpdateHorariosRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-02T21:42:31.848Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAFcAAAAAAAAAAAAAAGcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAF0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-02T21:15:20.203Z",
               "EditorCaption": ""
