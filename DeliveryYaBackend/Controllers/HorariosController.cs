@@ -172,12 +172,20 @@ namespace DeliveryYaBackend.Controllers
         }
 
         [HttpPut("comercio/{comercioId}/horario/{horarioId}")]
-        public async Task<IActionResult> UpdateHorarioComercio(int comercioId, int horarioId,
-            [FromBody] TimeSpan apertura, [FromBody] TimeSpan cierre)
+        public async Task<IActionResult> UpdateHorarioComercio(
+         int comercioId,
+         int horarioId,
+         [FromBody] HorarioUpdateRequest request)
         {
             try
             {
-                var resultado = await _horarioService.UpdateHorarioComercioAsync(comercioId, horarioId, apertura, cierre);
+                var resultado = await _horarioService.UpdateHorarioComercioAsync(
+                    comercioId,
+                    horarioId,
+                    request.Apertura,
+                    request.Cierre
+                );
+
                 if (!resultado)
                     return NotFound("Comercio o horario no encontrados");
 
@@ -189,5 +197,6 @@ namespace DeliveryYaBackend.Controllers
                 return StatusCode(500, "Error interno del servidor");
             }
         }
+
     }
 }
