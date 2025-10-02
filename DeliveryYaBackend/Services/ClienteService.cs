@@ -74,9 +74,14 @@ namespace DeliveryYaBackend.Services
             var cliente = await _clienteRepository.GetByIdAsync(id);
             if (cliente == null) return false;
 
-            _clienteRepository.Delete(cliente);
+            _clienteRepository.Remove(cliente);
             await _clienteRepository.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<bool> ClienteExistsAsync(string email)
+        {
+            return await _clienteRepository.ExistsAsync(c => c.email == email);
         }
 
         private ClienteResponse ToResponse(Cliente cliente)

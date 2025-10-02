@@ -3,32 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\services\\comercioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:services\\comercioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\repositories\\horariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:repositories\\horariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,27 +23,15 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ComercioService.cs",
-              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Services\\ComercioService.cs",
-              "RelativeDocumentMoniker": "Services\\ComercioService.cs",
-              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Services\\ComercioService.cs",
-              "RelativeToolTip": "Services\\ComercioService.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAAAAAAAAAvAAAAAAAAAA==",
+              "Title": "HorarioRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Repositories\\HorarioRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\HorarioRepository.cs",
+              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Repositories\\HorarioRepository.cs",
+              "RelativeToolTip": "Repositories\\HorarioRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-02T19:59:27.552Z",
+              "WhenOpened": "2025-10-02T21:19:41.867Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Properties\\launchSettings.json",
-              "ViewState": "AgIAABoAAAAAAAAAAAAwwDMAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-02T19:46:18.033Z"
             },
             {
               "$type": "Document",
@@ -73,58 +41,10 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAE8AAAAAAAAAAAAcwFkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-02T19:32:34.837Z",
+              "WhenOpened": "2025-10-02T21:15:20.203Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "docker-compose.yml",
-              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\docker-compose.yml",
-              "RelativeDocumentMoniker": "docker-compose.yml",
-              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\docker-compose.yml",
-              "RelativeToolTip": "docker-compose.yml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
-              "WhenOpened": "2025-10-02T19:32:22.829Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Dockerfile",
-              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Dockerfile",
-              "RelativeDocumentMoniker": "Dockerfile",
-              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Dockerfile",
-              "RelativeToolTip": "Dockerfile",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAuwB0AAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-10-02T19:31:54.94Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "appsettings.Development.json",
-              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\appsettings.Development.json",
-              "RelativeToolTip": "appsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-02T19:30:58.82Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABTAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-02T19:30:56.819Z"
             }
           ]
         }

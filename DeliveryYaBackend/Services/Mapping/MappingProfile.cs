@@ -32,10 +32,7 @@ namespace DeliveryYaBackend.Services.Mapping
 
             // Usuarios
             CreateMap<Cliente, ClienteResponse>();
-            CreateMap<Cliente, ClienteDetalleResponse>();
             CreateMap<Repartidor, RepartidorResponse>();
-            CreateMap<Repartidor, RepartidorDetalleResponse>();
-            CreateMap<Vehiculo, VehiculoResponse>();
 
             // Comercios
             CreateMap<Comercio, ComercioResponse>();

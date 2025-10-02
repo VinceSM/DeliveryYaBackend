@@ -105,7 +105,7 @@ namespace DeliveryYaBackend.Services
             var repartidor = await _repartidorRepository.GetByIdAsync(id);
             if (repartidor == null) return false;
 
-            _repartidorRepository.Delete(repartidor);
+            _repartidorRepository.Remove(repartidor);
             await _repartidorRepository.SaveChangesAsync();
             return true;
         }

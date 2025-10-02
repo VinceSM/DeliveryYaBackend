@@ -60,7 +60,7 @@ namespace DeliveryYaBackend.Services
             var admin = await _adminRepository.GetByIdAsync(id);
             if (admin == null) return false;
 
-            _adminRepository.Delete(admin);
+            _adminRepository.Remove(admin);
             await _adminRepository.SaveChangesAsync();
             return true;
         }

@@ -61,6 +61,19 @@ builder.Services.AddScoped<IItemPedidoService, ItemPedidoService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<JwtService>();
 
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IRepartidorRepository, RepartidorRepository>();
+builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<IComercioRepository, ComercioRepository>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IStockRepository, StockRepository>();
+builder.Services.AddScoped<ITarifaRepartidorRepository, TarifaRepartidorRepository>();
+builder.Services.AddScoped<IHorarioRepository, HorarioRepository>();
+builder.Services.AddScoped<IItemPedidoRepository, ItemPedidoRepository>();
+
+
 var origenesPermitidos = builder.Configuration.GetSection("origenesPermitidos").Get<string[]>()!;
 
 builder.Services.AddCors(options =>
