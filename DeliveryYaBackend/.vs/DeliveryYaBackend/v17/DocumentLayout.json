@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\migrations\\appdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:migrations\\appdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\migrations\\20251003203229_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:migrations\\20251003203229_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\deliveryyabackend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:deliveryyabackend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|c:\\users\\vicente\\documents\\visual studio 2022\\repos\\deliveryyabackend\\deliveryyabackend\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{670111E7-0439-40EE-91E2-CB1870F1DCE4}|DeliveryYaBackend.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -35,19 +47,57 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAA2wA0AAAAdAAAAAAAAAA==",
+              "Title": "AppDbContextModelSnapshot.cs",
+              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Migrations\\AppDbContextModelSnapshot.cs",
+              "RelativeDocumentMoniker": "Migrations\\AppDbContextModelSnapshot.cs",
+              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Migrations\\AppDbContextModelSnapshot.cs",
+              "RelativeToolTip": "Migrations\\AppDbContextModelSnapshot.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-03T20:13:30.745Z",
+              "WhenOpened": "2025-10-03T20:34:46.067Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "20251003203229_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Migrations\\20251003203229_InitialCreate.cs",
+              "RelativeDocumentMoniker": "Migrations\\20251003203229_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Migrations\\20251003203229_InitialCreate.cs",
+              "RelativeToolTip": "Migrations\\20251003203229_InitialCreate.cs",
+              "ViewState": "AgIAAFoCAAAAAAAAAAAAABIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T20:32:29.646Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DeliveryYaBackend.csproj",
+              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
+              "RelativeDocumentMoniker": "DeliveryYaBackend.csproj",
+              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\DeliveryYaBackend.csproj",
+              "RelativeToolTip": "DeliveryYaBackend.csproj",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-03T20:24:25.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAQBAAAAAAAAAAAAwBIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T20:13:30.745Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "AdminService.cs",
               "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Services\\AdminService.cs",
               "RelativeDocumentMoniker": "Services\\AdminService.cs",
@@ -55,12 +105,11 @@
               "RelativeToolTip": "Services\\AdminService.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAIA5wBQAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-03T20:13:28.363Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-03T20:13:28.363Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "AdminRepository.cs",
               "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Repositories\\AdminRepository.cs",
               "RelativeDocumentMoniker": "Repositories\\AdminRepository.cs",
@@ -68,12 +117,11 @@
               "RelativeToolTip": "Repositories\\AdminRepository.cs",
               "ViewState": "AgIAABIAAAAAAAAAAAAAABIAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-03T20:13:26.321Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-03T20:13:26.321Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Admin.cs",
               "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Models\\Admin.cs",
               "RelativeDocumentMoniker": "Models\\Admin.cs",
@@ -81,12 +129,11 @@
               "RelativeToolTip": "Models\\Admin.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-03T20:12:57.123Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-03T20:12:57.123Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Vicente\\Documents\\Visual Studio 2022\\repos\\DeliveryYaBackend\\DeliveryYaBackend\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -94,8 +141,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAACQAAAAAAAAAAAAMwDEAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-02T21:15:20.203Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-02T21:15:20.203Z"
             }
           ]
         }
