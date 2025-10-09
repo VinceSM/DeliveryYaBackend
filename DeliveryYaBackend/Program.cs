@@ -41,7 +41,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 43)) // Versión de tu MySQL
+        new MySqlServerVersion(new Version(8, 0, 43))
     ));
 
 // Registrar el Generic Repository
@@ -73,9 +73,7 @@ builder.Services.AddScoped<ITarifaRepartidorRepository, TarifaRepartidorReposito
 builder.Services.AddScoped<IHorarioRepository, HorarioRepository>();
 builder.Services.AddScoped<IItemPedidoRepository, ItemPedidoRepository>();
 
-
-var origenesPermitidos = builder.Configuration.GetSection("origenesPermitidos").Get<string[]>()!;
-
+// Configuración CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -98,11 +96,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();  // COMENTA ESTA LÍNEA TEMPORALMENTE
 
-app.UseCors("AllowAll");
+// ORDEN CORRECTO DE MIDDLEWARES:
+app.UseCors("AllowAll");  // PRIMERO: CORS
 
-app.UseAuthorization();
+app.UseAuthentication();   // SEGUNDO: Authentication
+app.UseAuthorization();    // TERCERO: Authorization
 
 app.MapControllers();
 
