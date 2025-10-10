@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DeliveryYaBackend.DTOs.Requests.Auth.Login
+namespace DeliveryYaBackend.DTOs.Requests.Login
 {
-    public class LoginComercioRequest
+    public class LoginUsuarioRequest
     {
         [Required]
         [EmailAddress]

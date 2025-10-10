@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DeliveryYaBackend.DTOs.Requests.Auth.Login
+namespace DeliveryYaBackend.DTOs.Requests.Login
 {
-    public class LoginClienteRequest
+    public class LoginAdminRequest
     {
         [Required]
         [EmailAddress]
-        public string? Email { get; set; }
+        public string? Usuario { get; set; }
 
         [Required]
         public string? Password { get; set; }

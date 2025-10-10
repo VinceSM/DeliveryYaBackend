@@ -47,6 +47,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Registrar el Generic Repository
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();

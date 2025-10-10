@@ -3,8 +3,7 @@
     public class LoginRepartidorResponse
     {
         public string? Token { get; set; }
-        public int UserId { get; set; }           // idusertype
-        public int RepartidorId { get; set; }     // idrepartidor
+        public int idRepartidor { get; set; }
         public string? NombreCompleto { get; set; }
         public string? Email { get; set; }
         public string? Celular { get; set; }

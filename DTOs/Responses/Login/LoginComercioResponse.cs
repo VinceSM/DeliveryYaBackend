@@ -3,7 +3,7 @@
     public class LoginComercioResponse
     {
         public string? Token { get; set; }
-        public int ComercioId { get; set; }      // idcomercio
+        public int idComercio { get; set; }
         public string? NombreComercio { get; set; }
         public string? Email { get; set; }
         public string? Encargado { get; set; }

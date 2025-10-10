@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DeliveryYaBackend.DTOs.Requests.Auth.Register
+namespace DeliveryYaBackend.DTOs.Requests.Register
 {
     public class RegisterComercioRequest
     {
