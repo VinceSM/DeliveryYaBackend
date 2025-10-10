@@ -1,9 +1,7 @@
 ﻿using DeliveryYaBackend.Data;
+using DeliveryYaBackend.DTOs.Requests.Login;
 using DeliveryYaBackend.Models;
-using DeliveryYaBackend.DTOs.Requests;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -22,29 +20,71 @@ namespace DeliveryYaBackend.Services
             _config = config;
         }
 
-        public async Task<string?> LoginAsync(LoginRequest request)
+        // LOGIN CLIENTE
+        public async Task<string?> LoginClienteAsync(LoginClienteRequest request)
         {
-            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.usuario == request.Usuario);
+            var cliente = await _context.Clientes
+                .FirstOrDefaultAsync(c => c.email == request.Email && c.password == request.Password);
 
-            if (admin == null || admin.password != request.Password)
+            if (cliente == null)
                 return null;
 
-            // Crear token
+            return GenerateJwtToken(cliente.email!, "Cliente");
+        }
+
+        // LOGIN REPARTIDOR
+        public async Task<string?> LoginRepartidorAsync(LoginRepartidorRequest request)
+        {
+            var repartidor = await _context.Repartidores
+                .FirstOrDefaultAsync(r => r.email == request.Email && r.password == request.Password);
+
+            if (repartidor == null)
+                return null;
+
+            return GenerateJwtToken(repartidor.email!, "Repartidor");
+        }
+
+        // LOGIN COMERCIO
+        public async Task<string?> LoginComercioAsync(LoginComercioRequest request)
+        {
+            var comercio = await _context.Comercios
+                .FirstOrDefaultAsync(c => c.email == request.Email && c.password == request.Password);
+
+            if (comercio == null)
+                return null;
+
+            return GenerateJwtToken(comercio.email!, "Comercio");
+        }
+
+        // LOGIN ADMIN
+        public async Task<string?> LoginAdminAsync(LoginAdminRequest request)
+        {
+            var admin = await _context.Admins
+                .FirstOrDefaultAsync(a => a.usuario == request.Usuario && a.password == request.Password);
+
+            if (admin == null)
+                return null;
+
+            return GenerateJwtToken(admin.usuario!, "Admin");
+        }
+
+        // GENERADOR DE TOKEN
+        private string GenerateJwtToken(string identifier, string role)
+        {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, admin.usuario),
-                new Claim("id", admin.idadmin.ToString()),
-                new Claim(ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Name, identifier),
+                new Claim(ClaimTypes.Role, role)
             };
 
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_config["Jwt:ExpireMinutes"])),
+                expires: DateTime.UtcNow.AddHours(8),
                 signingCredentials: creds
             );
 

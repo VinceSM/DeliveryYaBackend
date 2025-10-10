@@ -2,10 +2,9 @@
 
 namespace DeliveryYaBackend.DTOs.Requests.Login
 {
-    public class LoginUsuarioRequest
+    public class LoginClienteRequest
     {
-        [Required]
-        [EmailAddress]
+        [Required, EmailAddress]
         public string? Email { get; set; }
 
         [Required]
