@@ -3,6 +3,8 @@ using DeliveryYaBackend.DTOs.Responses.Usuarios;
 using DeliveryYaBackend.Models;
 using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace DeliveryYaBackend.Services
 {
@@ -39,8 +41,10 @@ namespace DeliveryYaBackend.Services
                 calle = request.Calle,
                 numero = request.Numero,
                 email = request.Email,
-                password = request.Password // ⚠️ más adelante conviene hashear
+                password = request.Password
             };
+
+            cliente.password = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
             await _clienteRepository.AddAsync(cliente);
             await _clienteRepository.SaveChangesAsync();

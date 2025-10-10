@@ -1,6 +1,7 @@
 ﻿using DeliveryYaBackend.Data;
 using DeliveryYaBackend.DTOs.Requests.Login;
 using DeliveryYaBackend.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

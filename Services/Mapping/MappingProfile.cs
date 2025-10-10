@@ -5,6 +5,7 @@ using DeliveryYaBackend.DTOs.Responses.Comercios;
 using DeliveryYaBackend.DTOs.Responses.Pedidos;
 using DeliveryYaBackend.DTOs.Responses.Productos;
 using DeliveryYaBackend.DTOs.Responses.Usuarios;
+using Microsoft.AspNetCore.Identity;
 using DeliveryYaBackend.Models;
 
 namespace DeliveryYaBackend.Services.Mapping

@@ -3,6 +3,8 @@ using DeliveryYaBackend.DTOs.Responses.Usuarios;
 using DeliveryYaBackend.Models;
 using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace DeliveryYaBackend.Services
 {
@@ -62,6 +64,8 @@ namespace DeliveryYaBackend.Services
                 Vehiculo = vehiculo
             };
 
+            repartidor.password = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
             await _repartidorRepository.AddAsync(repartidor);
             await _repartidorRepository.SaveChangesAsync();
 
@@ -92,6 +96,11 @@ namespace DeliveryYaBackend.Services
                 repartidor.Vehiculo.marca = request.Marca;
                 repartidor.Vehiculo.seguro = request.Seguro;
                 repartidor.Vehiculo.companiaSeguros = request.CompaniaSeguros;
+            }
+
+            if (!string.IsNullOrEmpty(request.Password))
+            {
+                repartidor.password = BCrypt.Net.BCrypt.HashPassword(request.Password);
             }
 
             _repartidorRepository.Update(repartidor);

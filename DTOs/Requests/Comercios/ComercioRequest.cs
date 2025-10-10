@@ -2,7 +2,7 @@
 
 namespace DeliveryYaBackend.DTOs.Requests.Comercios
 {
-    public class CreateComercioRequest
+    public class ComercioRequest
     {
         [Required]
         [MaxLength(45)]

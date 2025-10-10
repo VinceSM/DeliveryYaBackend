@@ -1,7 +1,12 @@
-﻿using DeliveryYaBackend.Repositories.Interfaces;
+﻿using DeliveryYaBackend.DTOs.Requests.Comercios;
+using DeliveryYaBackend.DTOs.Responses.Comercios;
 using DeliveryYaBackend.Models;
+using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Org.BouncyCastle.Crypto.Generators;
+
 
 namespace DeliveryYaBackend.Services
 {
@@ -37,30 +42,54 @@ namespace DeliveryYaBackend.Services
         }
 
         // OPERACIONES BÁSICAS
-        public async Task<Comercio> CreateComercioAsync(Comercio comercio)
+        public async Task<ComercioResponse> CreateComercioAsync(ComercioRequest request)
         {
-            // Validar que el email no exista
-            var comercioExistente = await _comercioRepository.FindAsync(c =>
-                c.email == comercio.email);
-
-            if (comercioExistente.Any())
+            var comercio = new Comercio
             {
-                throw new Exception("Ya existe un comercio con ese email");
-            }
+                email = request.Email,
+                password = request.Password,
+                nombreComercio = request.NombreComercio,
+                fotoPortada = request.FotoPortada,
+                celular = request.Celular,
+                ciudad = request.Ciudad,
+                calle = request.Calle,
+                numero = request.Numero,
+                latitud = request.Latitud,
+                longitud = request.Longitud,
+                encargado = request.Encargado,
+                cvu = request.Cvu,
+                alias = request.Alias,
+                destacado = request.Destacado
+            };
 
-            // Hashear la password antes de guardar (recomendado)
-            // comercio.password = HashPassword(comercio.password);
-
-            // Puedes agregar lógica de validación adicional aquí
-            if (string.IsNullOrEmpty(comercio.password) || comercio.password.Length < 6)
-            {
-                throw new Exception("La contraseña debe tener al menos 6 caracteres");
-            }
+            // 🔒 Hashear la contraseña antes de guardar
+            comercio.password = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
             await _comercioRepository.AddAsync(comercio);
             await _comercioRepository.SaveChangesAsync();
 
-            return comercio;
+            return ToResponse(comercio);
+        }
+
+        private ComercioResponse ToResponse(Comercio comercio)
+        {
+            return new ComercioResponse
+            {
+                Id = comercio.idcomercio,
+                Email = comercio.email,
+                NombreComercio = comercio.nombreComercio,
+                FotoPortada = comercio.fotoPortada,
+                Celular = comercio.celular,
+                Ciudad = comercio.ciudad,
+                Calle = comercio.calle,
+                Numero = comercio.numero,
+                Latitud = comercio.latitud,
+                Longitud = comercio.longitud,
+                Encargado = comercio.encargado,
+                Cvu = comercio.cvu,
+                Alias = comercio.alias,
+                Destacado = comercio.destacado
+            };
         }
 
         public async Task<Comercio> GetComercioByEmailAsync(string email)
@@ -109,13 +138,37 @@ namespace DeliveryYaBackend.Services
             return await _comercioRepository.FindAsync(c => c.ciudad.Equals(ciudad, StringComparison.OrdinalIgnoreCase));
         }
 
-        public async Task<bool> UpdateComercioAsync(Comercio comercio)
+        public async Task<ComercioResponse?> UpdateComercioAsync(int id, ComercioRequest request)
         {
-            var existingComercio = await _comercioRepository.GetByIdAsync(comercio.idcomercio);
-            if (existingComercio == null) return false;
+            var comercio = await _comercioRepository.GetByIdAsync(id);
+            if (comercio == null) return null;
+
+            comercio.nombreComercio = request.NombreComercio;
+            comercio.email = request.Email;
+            comercio.calle = request.Calle;
+            comercio.numero = request.Numero;
+            comercio.ciudad = request.Ciudad;
+            comercio.fotoPortada = request.FotoPortada;
+            comercio.celular = request.Celular;
+            comercio.encargado = request.Encargado;
+            comercio.cvu = request.Cvu;
+            comercio.alias = request.Alias;
+            comercio.latitud = request.Latitud;
+            comercio.longitud = request.Longitud;
+            comercio.destacado = request.Destacado;
+
+            // Solo hashear si la contraseña viene en el request
+            if (!string.IsNullOrEmpty(request.Password))
+            {
+                comercio.password = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            }
+
+            comercio.updatedAt = DateTime.UtcNow;
 
             _comercioRepository.Update(comercio);
-            return await _comercioRepository.SaveChangesAsync();
+            await _comercioRepository.SaveChangesAsync();
+
+            return ToResponse(comercio);
         }
 
         public async Task<bool> DeleteComercioAsync(int id)
@@ -123,15 +176,10 @@ namespace DeliveryYaBackend.Services
             var comercio = await _comercioRepository.GetByIdAsync(id);
             if (comercio == null) return false;
 
-            // Verificar si el comercio tiene productos o pedidos
-            var productos = await GetProductosByComercioAsync(id);
-            if (productos.Any())
-            {
-                throw new Exception("No se puede eliminar el comercio porque tiene productos asociados");
-            }
-
             _comercioRepository.Remove(comercio);
-            return await _comercioRepository.SaveChangesAsync();
+            await _comercioRepository.SaveChangesAsync();
+
+            return true;
         }
 
         // GESTIÓN DE DESTACADOS Y ESTADO

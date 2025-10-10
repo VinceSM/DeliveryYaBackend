@@ -9,7 +9,8 @@ namespace DeliveryYaBackend.DTOs.Responses.Comercios
         public string? FotoPortada { get; set; }
         public string? Celular { get; set; }
         public string? Ciudad { get; set; }
-        public string? Direccion { get; set; }
+        public string? Calle { get; set; }
+        public int Numero { get; set; }
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
         public string? Encargado { get; set; }

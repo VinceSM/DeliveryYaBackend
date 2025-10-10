@@ -83,7 +83,7 @@ namespace DeliveryYaBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateComercio([FromBody] CreateComercioRequest request)
+        public async Task<IActionResult> CreateComercio([FromBody] ComercioRequest request)
         {
             try
             {

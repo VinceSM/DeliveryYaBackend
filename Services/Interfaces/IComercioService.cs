@@ -1,11 +1,13 @@
-﻿using DeliveryYaBackend.Models;
+﻿using DeliveryYaBackend.DTOs.Requests.Comercios;
+using DeliveryYaBackend.DTOs.Responses.Comercios;
+using DeliveryYaBackend.Models;
 
 namespace DeliveryYaBackend.Services.Interfaces
 {
     public interface IComercioService
     {
         // Operaciones básicas de Comercio
-        Task<Comercio> CreateComercioAsync(Comercio comercio);
+        Task<ComercioResponse> CreateComercioAsync(ComercioRequest comercio);
         Task<Comercio> GetComercioByIdAsync(int id);
         Task<Comercio> GetComercioWithDetailsAsync(int id);
         Task<IEnumerable<Comercio>> GetAllComerciosAsync();
