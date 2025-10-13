@@ -20,20 +20,23 @@ var secretKey = jwtSettings["SecretKey"];
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
         };
     });
 
 builder.Services.AddAuthorization();
+
 
 
 // Configurar DbContext con MySQL
@@ -101,8 +104,8 @@ if (app.Environment.IsDevelopment())
 // ORDEN CORRECTO DE MIDDLEWARES:
 app.UseCors("AllowAll");  // PRIMERO: CORS
 
-app.UseAuthentication();   // SEGUNDO: Authentication
-app.UseAuthorization();    // TERCERO: Authorization
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
