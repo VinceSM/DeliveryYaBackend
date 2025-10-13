@@ -92,6 +92,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+//Console.WriteLine($"JWT Secret: {builder.Configuration["JwtSettings:SecretKey"]}");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
