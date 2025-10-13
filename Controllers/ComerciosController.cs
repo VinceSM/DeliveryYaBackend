@@ -83,30 +83,30 @@ namespace DeliveryYaBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateComercio([FromBody] ComercioRequest request)
+        public async Task<IActionResult> CreateComercio([FromBody] ComercioRequest requestC)
         {
             try
             {
                 var comercio = new Comercio
                 {
-                    nombreComercio = request.NombreComercio,
-                    email = request.Email,
-                    password = request.Password,
-                    fotoPortada = request.FotoPortada,
-                    celular = request.Celular,
-                    ciudad = request.Ciudad,
-                    calle = request.Calle,
-                    numero = request.Numero,
-                    latitud = request.Latitud,
-                    longitud = request.Longitud,
-                    encargado = request.Encargado,
-                    cvu = request.Cvu,
-                    alias = request.Alias,
-                    destacado = request.Destacado
+                    nombreComercio = requestC.NombreComercio,
+                    email = requestC.Email,
+                    password = requestC.Password,
+                    fotoPortada = requestC.FotoPortada,
+                    celular = requestC.Celular,
+                    ciudad = requestC.Ciudad,
+                    calle = requestC.Calle,
+                    numero = requestC.Numero,
+                    latitud = requestC.Latitud,
+                    longitud = requestC.Longitud,
+                    encargado = requestC.Encargado,
+                    cvu = requestC.Cvu,
+                    alias = requestC.Alias,
+                    destacado = requestC.Destacado
                 };
 
-                var resultado = await _comercioService.CreateComercioAsync(comercio);
-                return CreatedAtAction(nameof(GetComercioById), new { id = resultado.idcomercio }, resultado);
+                var resultado = await _comercioService.CreateComercioAsync(requestC);
+                return CreatedAtAction(nameof(GetComercioById), new { id = resultado.Id }, resultado);
             }
             catch (Exception ex)
             {
@@ -141,8 +141,8 @@ namespace DeliveryYaBackend.Controllers
                     destacado = request.Destacado
                 };
 
-                var resultado = await _comercioService.UpdateComercioAsync(comercio);
-                if (!resultado)
+                var resultado = await _comercioService.UpdateComercioAsync(id, request);
+                if (resultado == null)
                     return NotFound("Comercio no encontrado");
 
                 return Ok("Comercio actualizado exitosamente");
@@ -168,7 +168,7 @@ namespace DeliveryYaBackend.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al eliminar comercio");
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, "Error interno del servidor");
             }
         }
 

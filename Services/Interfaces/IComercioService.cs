@@ -15,7 +15,7 @@ namespace DeliveryYaBackend.Services.Interfaces
         Task<IEnumerable<Comercio>> GetComerciosByCiudadAsync(string ciudad);
         Task<Comercio> GetComercioByEmailAsync(string email);
         Task<bool> ComercioExistsAsync(string email);
-        Task<bool> UpdateComercioAsync(Comercio comercio);
+        Task<ComercioResponse> UpdateComercioAsync(int id, UpdateComercioRequest comercio);
         Task<bool> DeleteComercioAsync(int id);
 
         // Gestión de estado y destacados

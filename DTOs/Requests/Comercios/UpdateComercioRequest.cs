@@ -53,5 +53,7 @@ namespace DeliveryYaBackend.DTOs.Requests.Comercios
         public string? Alias { get; set; }
 
         public bool Destacado { get; set; }
+
+        public string? Password { get; set; }
     }
 }

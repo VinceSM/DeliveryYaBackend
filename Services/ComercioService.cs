@@ -138,7 +138,7 @@ namespace DeliveryYaBackend.Services
             return await _comercioRepository.FindAsync(c => c.ciudad.Equals(ciudad, StringComparison.OrdinalIgnoreCase));
         }
 
-        public async Task<ComercioResponse?> UpdateComercioAsync(int id, ComercioRequest request)
+        public async Task<ComercioResponse?> UpdateComercioAsync(int id, UpdateComercioRequest request)
         {
             var comercio = await _comercioRepository.GetByIdAsync(id);
             if (comercio == null) return null;
