@@ -1,21 +1,57 @@
-﻿using DeliveryYaBackend.DTOs.Requests;
+﻿using DeliveryYaBackend.Data;
+using DeliveryYaBackend.DTOs.Requests;
 using DeliveryYaBackend.DTOs.Requests.Categorias;
 using DeliveryYaBackend.DTOs.Responses;
 using DeliveryYaBackend.DTOs.Responses.Categorias;
+using DeliveryYaBackend.DTOs.Responses.Productos;
 using DeliveryYaBackend.Models;
 using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeliveryYaBackend.Services
 {
     public class CategoriaService : ICategoriaService
     {
         private readonly ICategoriaRepository _categoriaRepository;
+        private readonly AppDbContext _context;
 
         public CategoriaService(ICategoriaRepository categoriaRepository)
         {
             _categoriaRepository = categoriaRepository;
         }
+
+        public async Task<CategoriaProductoResponse?> GetCategoriaConProductosAsync(int categoriaId)
+        {
+            var categoria = await _context.Categorias
+                .Where(c => c.idcategoria == categoriaId && c.deletedAt == null)
+                .Include(c => c.CategoriaProductos!)
+                    .ThenInclude(cp => cp.Producto)
+                .FirstOrDefaultAsync();
+
+            if (categoria == null)
+                return null;
+
+            return new CategoriaProductoResponse
+            {
+                Id = categoria.idcategoria,
+                Nombre = categoria.nombre!,
+                Productos = categoria.CategoriaProductos!
+                    .Where(cp => cp.Producto!.deletedAt == null)
+                    .Select(cp => new ProductoResponse
+                    {
+                        idproducto = cp.Producto!.idproducto,
+                        nombre = cp.Producto.nombre!,
+                        precioUnitario = cp.Producto.precioUnitario,
+                        fotoPortada = cp.Producto.fotoPortada,
+                        descripcion = cp.Producto.descripcion,
+                        unidadMedida = cp.Producto.unidadMedida,
+                        oferta = cp.Producto.oferta ?? false
+                    })
+                    .ToList()
+            };
+        }
+
 
         // ✅ Crear categoría
         public async Task<CategoriaResponse> CreateAsync(CreateCategoriaRequest request)

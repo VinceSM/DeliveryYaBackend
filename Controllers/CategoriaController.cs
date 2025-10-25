@@ -53,5 +53,15 @@ namespace DeliveryYaBackend.Controllers
             if (!eliminado) return NotFound();
             return NoContent();
         }
+
+        [HttpGet("{id}/productos")]
+        public async Task<IActionResult> GetCategoriaConProductos(int id)
+        {
+            var categoria = await _categoriaService.GetCategoriaConProductosAsync(id);
+            if (categoria == null)
+                return NotFound(new { mensaje = "Categoría no encontrada o sin productos." });
+
+            return Ok(categoria);
+        }
     }
 }

@@ -4,34 +4,20 @@ namespace DeliveryYaBackend.DTOs.Requests.Productos
 {
     public class CreateProductoRequest
     {
-        [Required]
-        [MaxLength(45)]
-        public string? Nombre { get; set; }
+        [Required(ErrorMessage = "El nombre del producto es obligatorio.")]
+        public string? nombre { get; set; } = string.Empty;
 
-        [Required]
-        [MaxLength(45)]
-        public string? FotoPortada { get; set; }
+        public string? descripcion { get; set; }
+        public string? unidadMedida { get; set; }
+        public decimal precioUnitario { get; set; }
 
-        [Required]
-        [MaxLength(255)]
-        public string? Descripcion { get; set; }
+        public bool? oferta { get; set; } = false;
 
-        [Required]
-        [MaxLength(25)]
-        public string? UnidadMedida { get; set; }
+        public string? fotoPortada { get; set; }
 
-        [Required]
-        [Range(0.01, double.MaxValue)]
-        public decimal PrecioUnitario { get; set; }
+        [Required(ErrorMessage = "Debe especificar el ID de stock.")]
+        public int StockIdStock { get; set; }
 
-        public bool Oferta { get; set; }
-
-        // Datos del stock
-        public int Stock { get; set; }
-        public bool StockIlimitado { get; set; }
-        public string? StockMedida { get; set; }
-
-        // Categorías del producto
-        public List<int> CategoriaIds { get; set; } = new List<int>();
+        public int CategoriaId { get; set; }
     }
 }

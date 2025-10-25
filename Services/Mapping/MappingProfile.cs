@@ -29,7 +29,6 @@ namespace DeliveryYaBackend.Services.Mapping
 
             // Productos
             CreateMap<Producto, ProductoResponse>();
-            CreateMap<Producto, ProductoDetailResponse>();
 
             // Usuarios
             CreateMap<Cliente, ClienteResponse>();

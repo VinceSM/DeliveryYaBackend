@@ -1,6 +1,4 @@
-﻿using DeliveryYaBackend.DTOs.Requests;
-using DeliveryYaBackend.DTOs.Requests.Categorias;
-using DeliveryYaBackend.DTOs.Responses;
+﻿using DeliveryYaBackend.DTOs.Requests.Categorias;
 using DeliveryYaBackend.DTOs.Responses.Categorias;
 
 namespace DeliveryYaBackend.Services.Interfaces
@@ -12,5 +10,7 @@ namespace DeliveryYaBackend.Services.Interfaces
         Task<CategoriaResponse> CreateAsync(CreateCategoriaRequest request);
         Task<CategoriaResponse?> UpdateAsync(int id, UpdateCategoriaRequest request);
         Task<bool> DeleteAsync(int id);
+        Task<CategoriaProductoResponse?> GetCategoriaConProductosAsync(int categoriaId);
+
     }
 }

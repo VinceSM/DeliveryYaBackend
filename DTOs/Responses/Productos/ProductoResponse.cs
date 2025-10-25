@@ -1,19 +1,16 @@
-﻿using DeliveryYaBackend.DTOs.Responses.Categorias;
-
-namespace DeliveryYaBackend.DTOs.Responses.Productos
+﻿namespace DeliveryYaBackend.DTOs.Responses.Productos
 {
     public class ProductoResponse
     {
-        public int Id { get; set; }
-        public string? Nombre { get; set; }
-        public string? FotoPortada { get; set; }
-        public string? Descripcion { get; set; }
-        public string? UnidadMedida { get; set; }
-        public decimal PrecioUnitario { get; set; }
-        public bool Oferta { get; set; }
-        public int StockDisponible { get; set; }
-        public bool StockIlimitado { get; set; }
-        public List<CategoriaResponse> Categorias { get; set; } = new List<CategoriaResponse>();
-        public DateTime? CreatedAt { get; set; }
+        public int idproducto { get; set; }
+        public string? nombre { get; set; }
+        public string? descripcion { get; set; }
+        public string? unidadMedida { get; set; }
+        public decimal precioUnitario { get; set; }
+        public bool? oferta { get; set; }
+        public string? fotoPortada { get; set; }
+        public int StockIdStock { get; set; }
+        public DateTime? createdAt { get; set; }
+        public DateTime? updatedAt { get; set; }
     }
 }
