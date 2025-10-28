@@ -11,6 +11,7 @@ namespace DeliveryYaBackend.DTOs.Requests.Productos
         public string? unidadMedida { get; set; }
         public decimal precioUnitario { get; set; }
         public bool? oferta { get; set; }
+        public bool? stock { get; set; }
         public string? fotoPortada { get; set; }
         public int StockIdStock { get; set; }
     }

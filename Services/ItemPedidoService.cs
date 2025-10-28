@@ -10,41 +10,24 @@ namespace DeliveryYaBackend.Services
         private readonly IRepository<Producto> _productoRepository;
         private readonly IRepository<Pedido> _pedidoRepository;
         private readonly IRepository<Comercio> _comercioRepository;
-        private readonly IStockService _stockService;
 
         public ItemPedidoService(
             IRepository<ItemPedido> itemPedidoRepository,
             IRepository<Producto> productoRepository,
             IRepository<Pedido> pedidoRepository,
-            IRepository<Comercio> comercioRepository,
-            IStockService stockService)
+            IRepository<Comercio> comercioRepository
+            )
         {
             _itemPedidoRepository = itemPedidoRepository;
             _productoRepository = productoRepository;
             _pedidoRepository = pedidoRepository;
             _comercioRepository = comercioRepository;
-            _stockService = stockService;
         }
 
         public async Task<ItemPedido> CreateItemPedidoAsync(ItemPedido itemPedido)
         {
-            // Verificar stock antes de crear el item
-            var stockSuficiente = await _stockService.VerificarStockSuficienteAsync(
-                itemPedido.Producto.StockIdStock, itemPedido.cantProducto);
 
-            if (!stockSuficiente)
-            {
-                throw new Exception("Stock insuficiente para el producto");
-            }
-
-            await _itemPedidoRepository.AddAsync(itemPedido);
-            await _itemPedidoRepository.SaveChangesAsync();
-
-            // Actualizar stock
-            await _stockService.DecrementarStockPorProductoAsync(
-                itemPedido.ProductoIdProducto, itemPedido.cantProducto);
-
-            return itemPedido;
+            throw new NotImplementedException();
         }
 
         public async Task<ItemPedido> GetItemPedidoByIdAsync(int id)
@@ -78,15 +61,7 @@ namespace DeliveryYaBackend.Services
 
         public async Task<bool> DeleteItemPedidoAsync(int id)
         {
-            var item = await _itemPedidoRepository.GetByIdAsync(id);
-            if (item == null) return false;
-
-            // Restaurar stock al eliminar el item
-            await _stockService.IncrementarStockPorProductoAsync(
-                item.ProductoIdProducto, item.cantProducto);
-
-            _itemPedidoRepository.Remove(item);
-            return await _itemPedidoRepository.SaveChangesAsync();
+            throw new NotImplementedException();
         }
 
         public async Task<bool> AddItemToPedidoAsync(int pedidoId, int productoId, int comercioId, int cantidad, decimal precio)
@@ -107,42 +82,7 @@ namespace DeliveryYaBackend.Services
 
         public async Task<bool> UpdateCantidadItemAsync(int itemId, int nuevaCantidad)
         {
-            var item = await _itemPedidoRepository.GetByIdAsync(itemId);
-            if (item == null) return false;
-
-            // Calcular diferencia de cantidad
-            int diferencia = nuevaCantidad - item.cantProducto;
-
-            // Verificar stock si estamos incrementando
-            if (diferencia > 0)
-            {
-                var stockSuficiente = await _stockService.VerificarStockSuficienteAsync(
-                    item.Producto.StockIdStock, diferencia);
-
-                if (!stockSuficiente)
-                {
-                    throw new Exception("Stock insuficiente para actualizar la cantidad");
-                }
-            }
-
-            // Actualizar stock
-            if (diferencia != 0)
-            {
-                if (diferencia > 0)
-                {
-                    await _stockService.DecrementarStockPorProductoAsync(item.ProductoIdProducto, diferencia);
-                }
-                else
-                {
-                    await _stockService.IncrementarStockPorProductoAsync(item.ProductoIdProducto, -diferencia);
-                }
-            }
-
-            item.cantProducto = nuevaCantidad;
-            item.total = nuevaCantidad * item.precioFinal;
-
-            _itemPedidoRepository.Update(item);
-            return await _itemPedidoRepository.SaveChangesAsync();
+            throw new NotImplementedException();
         }
 
         public async Task<bool> UpdatePrecioItemAsync(int itemId, decimal nuevoPrecio)
@@ -204,10 +144,7 @@ namespace DeliveryYaBackend.Services
 
         public async Task<bool> VerificarStockParaItemAsync(int productoId, int cantidad)
         {
-            var producto = await _productoRepository.GetByIdAsync(productoId);
-            if (producto == null) return false;
-
-            return await _stockService.VerificarStockSuficienteAsync(producto.StockIdStock, cantidad);
+            throw new NotImplementedException();
         }
 
         public async Task<bool> ItemExistsInPedidoAsync(int pedidoId, int productoId)

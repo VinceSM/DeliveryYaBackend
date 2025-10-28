@@ -26,7 +26,7 @@ namespace DeliveryYaBackend.Services
                 unidadMedida = request.unidadMedida,
                 precioUnitario = request.precioUnitario,
                 oferta = request.oferta,
-                StockIdStock = request.StockIdStock,
+                stock = request.stock,
             };
 
             var creado = await _repository.CreateProductoAsync(producto, idCategoria);
@@ -39,6 +39,7 @@ namespace DeliveryYaBackend.Services
                 precioUnitario = creado.precioUnitario,
                 unidadMedida = creado.unidadMedida,
                 oferta = creado.oferta,
+                stock = creado.stock,
                 fotoPortada = creado.fotoPortada,
                 createdAt = creado.createdAt
             };
@@ -57,6 +58,7 @@ namespace DeliveryYaBackend.Services
                 precioUnitario = p.precioUnitario,
                 unidadMedida = p.unidadMedida,
                 oferta = p.oferta,
+                stock = p.stock,
                 fotoPortada = p.fotoPortada,
                 createdAt = p.createdAt
             });
@@ -75,6 +77,7 @@ namespace DeliveryYaBackend.Services
                 precioUnitario = p.precioUnitario,
                 unidadMedida = p.unidadMedida,
                 oferta = p.oferta,
+                stock = p.stock,
                 fotoPortada = p.fotoPortada,
                 createdAt = p.createdAt
             });
@@ -94,6 +97,7 @@ namespace DeliveryYaBackend.Services
                 precioUnitario = producto.precioUnitario,
                 unidadMedida = producto.unidadMedida,
                 oferta = producto.oferta,
+                stock = producto.stock,
                 fotoPortada = producto.fotoPortada,
                 updatedAt = producto.updatedAt
             };
@@ -111,7 +115,7 @@ namespace DeliveryYaBackend.Services
             productoExistente.unidadMedida = request.unidadMedida;
             productoExistente.oferta = request.oferta;
             productoExistente.fotoPortada = request.fotoPortada;
-            productoExistente.StockIdStock = request.StockIdStock;
+            productoExistente.stock = request.stock;
 
             var actualizado = await _repository.UpdateProductoAsync(productoExistente);
 
@@ -123,6 +127,7 @@ namespace DeliveryYaBackend.Services
                 precioUnitario = actualizado.precioUnitario,
                 unidadMedida = actualizado.unidadMedida,
                 oferta = actualizado.oferta,
+                stock = actualizado.stock,
                 fotoPortada = actualizado.fotoPortada,
                 updatedAt = actualizado.updatedAt
             };
