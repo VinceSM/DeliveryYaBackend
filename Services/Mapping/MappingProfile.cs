@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
+using DeliveryYaBackend.DTOs.Requests.Categorias;
+using DeliveryYaBackend.DTOs.Requests.Productos;
 using DeliveryYaBackend.DTOs.Responses.Auth;
 using DeliveryYaBackend.DTOs.Responses.Categorias;
 using DeliveryYaBackend.DTOs.Responses.Comercios;
 using DeliveryYaBackend.DTOs.Responses.Pedidos;
 using DeliveryYaBackend.DTOs.Responses.Productos;
 using DeliveryYaBackend.DTOs.Responses.Usuarios;
-using Microsoft.AspNetCore.Identity;
 using DeliveryYaBackend.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace DeliveryYaBackend.Services.Mapping
 {
@@ -28,6 +30,8 @@ namespace DeliveryYaBackend.Services.Mapping
             CreateMap<MetodoPagoPedido, MetodoPagoResponse>();
 
             // Productos
+            CreateMap<CreateProductoRequest, Producto>();
+            CreateMap<UpdateProductoRequest, Producto>();
             CreateMap<Producto, ProductoResponse>();
 
             // Usuarios
@@ -39,6 +43,8 @@ namespace DeliveryYaBackend.Services.Mapping
             CreateMap<Comercio, ComercioDetailResponse>();
 
             // Categorías
+            CreateMap<CreateCategoriaRequest, Categoria>();
+            CreateMap<UpdateCategoriaRequest, Categoria>();
             CreateMap<Categoria, CategoriaResponse>();
         }
     }

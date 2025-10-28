@@ -1,23 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DeliveryYaBackend.DTOs.Requests.Productos
+﻿namespace DeliveryYaBackend.DTOs.Requests.Productos
 {
     public class CreateProductoRequest
     {
-        [Required(ErrorMessage = "El nombre del producto es obligatorio.")]
-        public string? nombre { get; set; } = string.Empty;
-
+        public string? nombre { get; set; }
         public string? descripcion { get; set; }
         public string? unidadMedida { get; set; }
         public decimal precioUnitario { get; set; }
-
-        public bool? oferta { get; set; } = false;
-
+        public bool? oferta { get; set; }
         public string? fotoPortada { get; set; }
-
-        [Required(ErrorMessage = "Debe especificar el ID de stock.")]
         public int StockIdStock { get; set; }
 
+        // Relación con categoría
         public int CategoriaId { get; set; }
     }
 }
