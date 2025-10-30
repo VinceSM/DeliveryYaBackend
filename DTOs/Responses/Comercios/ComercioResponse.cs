@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string? Email { get; set; }
         public string? NombreComercio { get; set; }
-        public string? Descripcion { get; set; }
+        public string? TipoComercio { get; set; }
         public string? FotoPortada { get; set; }
         public decimal Envio { get; set; }
         public bool? DeliveryPropio { get; set; }

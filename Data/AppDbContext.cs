@@ -199,7 +199,7 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.email).IsRequired().HasMaxLength(45);
                 entity.Property(e => e.password).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.nombreComercio).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.descripcion).HasMaxLength(255);
+                entity.Property(e => e.tipoComercio).HasMaxLength(255);
                 entity.Property(e => e.fotoPortada).IsRequired().HasMaxLength(45);
                 entity.Property(e => e.envio).HasColumnType("decimal(10,2)").HasDefaultValue(0);
                 entity.Property(e => e.celular).IsRequired().HasMaxLength(25);

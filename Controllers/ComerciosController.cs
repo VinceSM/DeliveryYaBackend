@@ -92,7 +92,7 @@ namespace DeliveryYaBackend.Controllers
                     nombreComercio = requestC.NombreComercio,
                     email = requestC.Email,
                     password = requestC.Password,
-                    descripcion = requestC.Descripcion,
+                    tipoComercio = requestC.TipoComercio,
                     fotoPortada = requestC.FotoPortada,
                     envio = requestC.Envio,
                     deliveryPropio = requestC.DeliveryPropio,
@@ -130,7 +130,7 @@ namespace DeliveryYaBackend.Controllers
                 {
                     idcomercio = request.Id,
                     nombreComercio = request.NombreComercio,
-                    descripcion = request.Descripcion,
+                    tipoComercio = request.TipoComercio,
                     email = request.Email,
                     fotoPortada = request.FotoPortada,
                     envio = request.Envio,

@@ -11,7 +11,7 @@ namespace DeliveryYaBackend.Models
         public string? email { get; set; }
         public string? password { get; set; }
         public string? nombreComercio { get; set; }
-        public string? descripcion { get; set; }
+        public string? tipoComercio { get; set; }
         public string? fotoPortada { get; set; }
         public decimal envio { get; set; }
         public bool? deliveryPropio { get; set; }
