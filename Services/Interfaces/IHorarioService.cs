@@ -1,29 +1,21 @@
-﻿using DeliveryYaBackend.Models;
+﻿using DeliveryYaBackend.DTOs.Requests.Horarios;
+using DeliveryYaBackend.DTOs.Responses.Horarios;
 
 namespace DeliveryYaBackend.Services.Interfaces
 {
     public interface IHorarioService
     {
-        // Operaciones básicas de Horarios
-        Task<Horarios> CreateHorarioAsync(Horarios horario);
-        Task<Horarios> GetHorarioByIdAsync(int id);
-        Task<IEnumerable<Horarios>> GetAllHorariosAsync();
-        Task<bool> UpdateHorarioAsync(Horarios horario);
+        // CRUD básico de Horarios
+        Task<HorarioResponse> CreateHorarioAsync(CreateHorarioRequest request);
+        Task<HorarioResponse?> GetHorarioByIdAsync(int id);
+        Task<IEnumerable<HorarioResponse>> GetAllHorariosAsync();
+        Task<bool> UpdateHorarioAsync(UpdateHorarioRequest request);
         Task<bool> DeleteHorarioAsync(int id);
 
         // Gestión de horarios por comercio
-        Task<bool> AddHorarioToComercioAsync(int comercioId, int horarioId);
+        Task<HorarioResponse> CreateAndAssignHorarioAsync(int comercioId, CreateHorarioRequest request);
         Task<bool> RemoveHorarioFromComercioAsync(int comercioId, int horarioId);
-        Task<IEnumerable<Horarios>> GetHorariosByComercioAsync(int comercioId);
+        Task<IEnumerable<HorarioResponse>> GetHorariosByComercioAsync(int comercioId);
         Task<bool> UpdateHorarioComercioAsync(int comercioId, int horarioId, TimeSpan apertura, TimeSpan cierre);
-
-        // Validaciones de horarios
-        Task<bool> CheckComercioAbiertoAsync(int comercioId);
-        Task<bool> CheckHorarioValidoAsync(TimeSpan apertura, TimeSpan cierre);
-        Task<IEnumerable<Horarios>> GetHorariosByDiaAsync(string dia);
-
-        // Configuración de horarios
-        Task<bool> SetHorarioAbiertoAsync(int horarioId, bool abierto);
-        Task<bool> UpdateDiasHorarioAsync(int horarioId, string dias);
     }
 }

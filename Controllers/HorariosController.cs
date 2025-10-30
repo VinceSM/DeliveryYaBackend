@@ -1,6 +1,5 @@
 ﻿using DeliveryYaBackend.DTOs.Requests.Horarios;
 using DeliveryYaBackend.DTOs.Responses.Horarios;
-using DeliveryYaBackend.Models;
 using DeliveryYaBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,192 +10,120 @@ namespace DeliveryYaBackend.Controllers
     public class HorariosController : ControllerBase
     {
         private readonly IHorarioService _horarioService;
-        private readonly ILogger<HorariosController> _logger;
 
-        public HorariosController(IHorarioService horarioService, ILogger<HorariosController> logger)
+        public HorariosController(IHorarioService horarioService)
         {
             _horarioService = horarioService;
-            _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllHorarios()
+        // ================================================
+        // 🔹 CRUD DE HORARIOS
+        // ================================================
+
+        [HttpPost]
+        public async Task<ActionResult<HorarioResponse>> CreateHorario([FromBody] CreateHorarioRequest request)
         {
-            try
-            {
-                var horarios = await _horarioService.GetAllHorariosAsync();
-                return Ok(horarios);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al obtener horarios");
-                return StatusCode(500, "Error interno del servidor");
-            }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var horario = await _horarioService.CreateHorarioAsync(request);
+            return CreatedAtAction(nameof(GetHorarioById), new { id = horario.IdHorario }, horario);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetHorarioById(int id)
+        public async Task<ActionResult<HorarioResponse>> GetHorarioById(int id)
         {
-            try
-            {
-                var horario = await _horarioService.GetHorarioByIdAsync(id);
-                if (horario == null)
-                    return NotFound("Horario no encontrado");
+            var horario = await _horarioService.GetHorarioByIdAsync(id);
+            if (horario == null)
+                return NotFound(new { message = $"No se encontró el horario con ID {id}" });
 
-                return Ok(horario);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al obtener horario por ID");
-                return StatusCode(500, "Error interno del servidor");
-            }
+            return Ok(horario);
         }
 
-        [HttpGet("comercio/{comercioId}")]
-        public async Task<IActionResult> GetHorariosByComercio(int comercioId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<HorarioResponse>>> GetAllHorarios()
         {
-            try
-            {
-                var horarios = await _horarioService.GetHorariosByComercioAsync(comercioId);
-                return Ok(horarios);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al obtener horarios por comercio");
-                return StatusCode(500, "Error interno del servidor");
-            }
-        }
-
-        [HttpGet("comercio/{comercioId}/abierto")]
-        public async Task<IActionResult> CheckComercioAbierto(int comercioId)
-        {
-            try
-            {
-                var abierto = await _horarioService.CheckComercioAbiertoAsync(comercioId);
-                return Ok(new { Abierto = abierto });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al verificar si comercio está abierto");
-                return StatusCode(500, "Error interno del servidor");
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateHorario([FromBody] CreateHorarioRequest request)
-        {
-            try
-            {
-                var horario = new Horarios
-                {
-                    apertura = request.Apertura,
-                    cierre = request.Cierre,
-                    dias = request.Dias,
-                    abierto = request.Abierto
-                };
-
-                var resultado = await _horarioService.CreateHorarioAsync(horario);
-                return CreatedAtAction(nameof(GetHorarioById), new { id = resultado.idhorarios }, resultado);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al crear horario");
-                return StatusCode(500, "Error interno del servidor");
-            }
+            var horarios = await _horarioService.GetAllHorariosAsync();
+            return Ok(horarios);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateHorario(int id, [FromBody] UpdateHorarioRequest request)
         {
-            try
-            {
-                if (id != request.Id)
-                    return BadRequest("ID de horario no coincide");
+            if (id != request.IdHorario)
+                return BadRequest(new { message = "El ID del horario no coincide con el parámetro." });
 
-                var horario = new Horarios
-                {
-                    idhorarios = request.Id,
-                    apertura = request.Apertura,
-                    cierre = request.Cierre,
-                    dias = request.Dias,
-                    abierto = request.Abierto
-                };
+            var result = await _horarioService.UpdateHorarioAsync(request);
+            if (!result)
+                return NotFound(new { message = $"No se pudo actualizar el horario con ID {id}" });
 
-                var resultado = await _horarioService.UpdateHorarioAsync(horario);
-                if (!resultado)
-                    return NotFound("Horario no encontrado");
-
-                return Ok("Horario actualizado exitosamente");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al actualizar horario");
-                return StatusCode(500, "Error interno del servidor");
-            }
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHorario(int id)
         {
-            try
-            {
-                var resultado = await _horarioService.DeleteHorarioAsync(id);
-                if (!resultado)
-                    return NotFound("Horario no encontrado");
+            var result = await _horarioService.DeleteHorarioAsync(id);
+            if (!result)
+                return NotFound(new { message = $"No se encontró el horario con ID {id}" });
 
-                return Ok("Horario eliminado exitosamente");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al eliminar horario");
-                return StatusCode(500, ex.Message);
-            }
+            return NoContent();
         }
 
-        [HttpPost("comercio/{comercioId}/horario/{horarioId}")]
-        public async Task<IActionResult> AddHorarioToComercio(int comercioId, int horarioId)
-        {
-            try
-            {
-                var resultado = await _horarioService.AddHorarioToComercioAsync(comercioId, horarioId);
-                if (!resultado)
-                    return NotFound("Comercio o horario no encontrados");
+        // ================================================
+        // 🔹 GESTIÓN DE HORARIOS POR COMERCIO
+        // ================================================
 
-                return Ok("Horario agregado al comercio exitosamente");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al agregar horario al comercio");
-                return StatusCode(500, "Error interno del servidor");
-            }
+        [HttpPost("comercio/{comercioId}")]
+        public async Task<ActionResult<HorarioResponse>> CreateAndAssignHorario(
+            int comercioId,
+            [FromBody] CreateHorarioRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var horario = await _horarioService.CreateAndAssignHorarioAsync(comercioId, request);
+            return CreatedAtAction(nameof(GetHorarioById), new { id = horario.IdHorario }, horario);
+        }
+
+        [HttpGet("comercio/{comercioId}")]
+        public async Task<ActionResult<IEnumerable<HorarioResponse>>> GetHorariosByComercio(int comercioId)
+        {
+            var horarios = await _horarioService.GetHorariosByComercioAsync(comercioId);
+            return Ok(horarios);
+        }
+
+        [HttpDelete("comercio/{comercioId}/horario/{horarioId}")]
+        public async Task<IActionResult> RemoveHorarioFromComercio(int comercioId, int horarioId)
+        {
+            var result = await _horarioService.RemoveHorarioFromComercioAsync(comercioId, horarioId);
+            if (!result)
+                return NotFound(new { message = "La relación entre comercio y horario no existe." });
+
+            return NoContent();
         }
 
         [HttpPut("comercio/{comercioId}/horario/{horarioId}")]
         public async Task<IActionResult> UpdateHorarioComercio(
-         int comercioId,
-         int horarioId,
-         [FromBody] HorarioUpdateRequest request)
+            int comercioId,
+            int horarioId,
+            [FromBody] UpdateHorarioRequest request)
         {
-            try
-            {
-                var resultado = await _horarioService.UpdateHorarioComercioAsync(
-                    comercioId,
-                    horarioId,
-                    request.Apertura,
-                    request.Cierre
-                );
+            // Removed the incorrect HasValue checks since TimeSpan is a non-nullable value type.
+            if (request.Apertura == default || request.Cierre == default)
+                return BadRequest(new { message = "Los campos apertura y cierre son obligatorios." });
 
-                if (!resultado)
-                    return NotFound("Comercio o horario no encontrados");
+            var result = await _horarioService.UpdateHorarioComercioAsync(
+                comercioId,
+                horarioId,
+                request.Apertura,
+                request.Cierre
+            );
 
-                return Ok("Horario de comercio actualizado exitosamente");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al actualizar horario de comercio");
-                return StatusCode(500, "Error interno del servidor");
-            }
+            if (!result)
+                return NotFound(new { message = $"No se pudo actualizar el horario {horarioId} para el comercio {comercioId}." });
+
+            return NoContent();
         }
-
     }
 }

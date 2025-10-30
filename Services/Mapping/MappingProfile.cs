@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using DeliveryYaBackend.DTOs.Requests.Categorias;
 using DeliveryYaBackend.DTOs.Requests.Comercios;
+using DeliveryYaBackend.DTOs.Requests.Horarios;
 using DeliveryYaBackend.DTOs.Requests.Productos;
 using DeliveryYaBackend.DTOs.Responses.Auth;
 using DeliveryYaBackend.DTOs.Responses.Categorias;
 using DeliveryYaBackend.DTOs.Responses.Comercios;
+using DeliveryYaBackend.DTOs.Responses.Horarios;
 using DeliveryYaBackend.DTOs.Responses.Pedidos;
 using DeliveryYaBackend.DTOs.Responses.Productos;
 using DeliveryYaBackend.DTOs.Responses.Usuarios;
@@ -49,6 +51,11 @@ namespace DeliveryYaBackend.Services.Mapping
             CreateMap<CreateCategoriaRequest, Categoria>();
             CreateMap<UpdateCategoriaRequest, Categoria>();
             CreateMap<Categoria, CategoriaResponse>();
+
+            // Horarios
+            CreateMap<CreateHorarioRequest, Horarios>();
+            CreateMap<UpdateHorarioRequest, Horarios>();
+            CreateMap<Horarios, HorarioResponse>();
         }
     }
 }
