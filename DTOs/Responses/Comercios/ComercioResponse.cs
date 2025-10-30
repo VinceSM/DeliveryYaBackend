@@ -13,6 +13,7 @@
         public string? Ciudad { get; set; }
         public string? Calle { get; set; }
         public int Numero { get; set; }
+        public int Sucursales { get; set; }
         public string? Encargado { get; set; }
         public string? Cvu { get; set; }
         public string? Alias { get; set; }

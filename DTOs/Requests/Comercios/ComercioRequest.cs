@@ -47,6 +47,9 @@ namespace DeliveryYaBackend.DTOs.Requests.Comercios
         public int Numero { get; set; }
 
         [Required]
+        public int Sucursales { get; set; }
+
+        [Required]
         public decimal Latitud { get; set; }
 
         [Required]

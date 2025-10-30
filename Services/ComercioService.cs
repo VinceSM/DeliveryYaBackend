@@ -57,6 +57,7 @@ namespace DeliveryYaBackend.Services
                 ciudad = request.Ciudad,
                 calle = request.Calle,
                 numero = request.Numero,
+                sucursales = request.Sucursales,
                 latitud = request.Latitud,
                 longitud = request.Longitud,
                 encargado = request.Encargado,
@@ -89,6 +90,7 @@ namespace DeliveryYaBackend.Services
                 Ciudad = comercio.ciudad,
                 Calle = comercio.calle,
                 Numero = comercio.numero,
+                Sucursales = comercio.sucursales,
                 Latitud = comercio.latitud,
                 Longitud = comercio.longitud,
                 Encargado = comercio.encargado,
@@ -154,6 +156,7 @@ namespace DeliveryYaBackend.Services
             comercio.email = request.Email;
             comercio.calle = request.Calle;
             comercio.numero = request.Numero;
+            comercio.sucursales = request.Sucursales;
             comercio.ciudad = request.Ciudad;
             comercio.fotoPortada = request.FotoPortada;
             comercio.envio = request.Envio;
