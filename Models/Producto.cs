@@ -19,5 +19,7 @@ namespace DeliveryYaBackend.Models
         public DateTime? deletedAt { get; set; }
         public DateTime? updatedAt { get; set; }
 
+        public virtual ICollection<CategoriaProducto>? CategoriaProductos { get; set; }
+
     }
 }

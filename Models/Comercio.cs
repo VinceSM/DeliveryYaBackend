@@ -14,6 +14,7 @@ namespace DeliveryYaBackend.Models
         public string? descripcion { get; set; }
         public string? fotoPortada { get; set; }
         public decimal envio { get; set; }
+        public bool? deliveryPropio { get; set; }
         public string? celular { get; set; }
         public string? ciudad { get; set; }
         public string? calle { get; set; }

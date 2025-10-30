@@ -18,6 +18,16 @@ namespace DeliveryYaBackend.DTOs.Requests.Comercios
         [MaxLength(255)]
         public string? Password { get; set; }
 
+        [Required]
+        [MaxLength(255)]
+        public string? Descripcion { get; set; }
+
+        [Required]
+        public decimal Envio { get; set; }
+
+        [Required]
+        public bool DeliveryPropio { get; set; }
+
         [MaxLength(45)]
         public string? FotoPortada { get; set; }
 

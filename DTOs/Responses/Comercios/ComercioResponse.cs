@@ -5,7 +5,10 @@
         public int Id { get; set; }
         public string? Email { get; set; }
         public string? NombreComercio { get; set; }
+        public string? Descripcion { get; set; }
         public string? FotoPortada { get; set; }
+        public decimal Envio { get; set; }
+        public bool? DeliveryPropio { get; set; }
         public string? Celular { get; set; }
         public string? Ciudad { get; set; }
         public string? Calle { get; set; }
@@ -16,6 +19,5 @@
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
         public bool Destacado { get; set; }
-        public double? Puntuacion { get; set; }
     }
 }

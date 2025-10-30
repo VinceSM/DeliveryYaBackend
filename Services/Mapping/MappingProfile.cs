@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DeliveryYaBackend.DTOs.Requests.Categorias;
+using DeliveryYaBackend.DTOs.Requests.Comercios;
 using DeliveryYaBackend.DTOs.Requests.Productos;
 using DeliveryYaBackend.DTOs.Responses.Auth;
 using DeliveryYaBackend.DTOs.Responses.Categorias;
@@ -39,6 +40,8 @@ namespace DeliveryYaBackend.Services.Mapping
             CreateMap<Repartidor, RepartidorResponse>();
 
             // Comercios
+            CreateMap<ComercioRequest, Comercio>();
+            CreateMap<UpdateComercioRequest, Comercio>();
             CreateMap<Comercio, ComercioResponse>();
             CreateMap<Comercio, ComercioDetailResponse>();
 

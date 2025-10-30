@@ -11,7 +11,6 @@ namespace DeliveryYaBackend.Data
         { }
 
         // Tablas principales
-        // En AppDbContext.cs
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Vehiculo> Vehiculos { get; set; }
@@ -36,6 +35,7 @@ namespace DeliveryYaBackend.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // --- Admin ---
             modelBuilder.Entity<Admin>(entity =>
             {
                 entity.HasKey(e => e.idadmin);
@@ -43,7 +43,7 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.password).IsRequired().HasMaxLength(255);
             });
 
-            // Configuración de Cliente
+            // --- Cliente ---
             modelBuilder.Entity<Cliente>(entity =>
             {
                 entity.HasKey(e => e.idcliente);
@@ -56,7 +56,7 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.password).IsRequired().HasMaxLength(255);
             });
 
-            // Configuración de Vehiculo
+            // --- Vehiculo ---
             modelBuilder.Entity<Vehiculo>(entity =>
             {
                 entity.HasKey(e => e.idvehiculo);
@@ -67,8 +67,7 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.companiaSeguros).HasMaxLength(45);
             });
 
-            // Configuración de Repartidor
-            // Configuración de Repartidor (ACTUALIZADA)
+            // --- Repartidor ---
             modelBuilder.Entity<Repartidor>(entity =>
             {
                 entity.HasKey(e => e.idrepartidor);
@@ -82,14 +81,13 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.puntuacion).HasColumnType("decimal(10,1)");
                 entity.Property(e => e.cvu).IsRequired().HasMaxLength(25);
 
-                // SOLO mantener la relación con Vehiculo
                 entity.HasOne(e => e.Vehiculo)
                       .WithMany()
                       .HasForeignKey(e => e.vehiculoIdVehiculo)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // Configuración de TarifaRepartidorLibre
+            // --- TarifaRepartidorLibre ---
             modelBuilder.Entity<TarifaRepartidorLibre>(entity =>
             {
                 entity.HasKey(e => e.idtarifa);
@@ -102,21 +100,21 @@ namespace DeliveryYaBackend.Data
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // Configuración de EstadoPedido
+            // --- EstadoPedido ---
             modelBuilder.Entity<EstadoPedido>(entity =>
             {
                 entity.HasKey(e => e.idestado);
                 entity.Property(e => e.tipo).IsRequired().HasMaxLength(45);
             });
 
-            // Configuración de MetodoPagoPedido
+            // --- MetodoPagoPedido ---
             modelBuilder.Entity<MetodoPagoPedido>(entity =>
             {
                 entity.HasKey(e => e.idmetodo);
                 entity.Property(e => e.metodo).IsRequired().HasMaxLength(45);
             });
 
-            // Configuración de Pedido
+            // --- Pedido ---
             modelBuilder.Entity<Pedido>(entity =>
             {
                 entity.HasKey(e => e.idpedido);
@@ -144,7 +142,7 @@ namespace DeliveryYaBackend.Data
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // Configuración de Stock
+            // --- Stock ---
             modelBuilder.Entity<Stock>(entity =>
             {
                 entity.HasKey(e => e.idstock);
@@ -153,7 +151,7 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.medida).HasMaxLength(45);
             });
 
-            // Configuración de Producto
+            // --- Producto ---
             modelBuilder.Entity<Producto>(entity =>
             {
                 entity.HasKey(e => e.idproducto);
@@ -162,40 +160,39 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.descripcion).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.unidadMedida).IsRequired().HasMaxLength(45);
                 entity.Property(e => e.precioUnitario).HasColumnType("decimal(10,2)");
-
-                //Falta oferta y stock
             });
 
-            // Configuración de Horarios
+            // --- Horarios ---
             modelBuilder.Entity<Horarios>(entity =>
             {
                 entity.HasKey(e => e.idhorarios);
                 entity.Property(e => e.dias).HasConversion<string>();
             });
 
-            // Configuración de Categoria
+            // --- Categoria ---
             modelBuilder.Entity<Categoria>(entity =>
             {
                 entity.HasKey(e => e.idcategoria);
                 entity.Property(e => e.nombre).IsRequired().HasMaxLength(45);
             });
 
+            // --- CategoriaProducto (muchos a muchos) ---
             modelBuilder.Entity<CategoriaProducto>(entity =>
             {
                 entity.HasKey(e => new { e.CategoriaIdCategoria, e.ProductoIdProducto });
 
                 entity.HasOne(e => e.Categoria)
-                      .WithMany() // Podés poner .WithMany(c => c.CategoriaProductos) si agregás la lista en la entidad Categoria
+                      .WithMany(c => c.CategoriaProductos)
                       .HasForeignKey(e => e.CategoriaIdCategoria)
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Producto)
-                      .WithMany() // Podés poner .WithMany(p => p.CategoriaProductos) si agregás la lista en la entidad Producto
+                      .WithMany(p => p.CategoriaProductos)
                       .HasForeignKey(e => e.ProductoIdProducto)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // Configuración de Comercio
+            // --- Comercio ---
             modelBuilder.Entity<Comercio>(entity =>
             {
                 entity.HasKey(e => e.idcomercio);
@@ -213,25 +210,41 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.encargado).IsRequired().HasMaxLength(45);
                 entity.Property(e => e.cvu).IsRequired().HasMaxLength(45);
                 entity.Property(e => e.alias).IsRequired().HasMaxLength(45);
-                
             });
 
+            // --- ComercioCategoria (muchos a muchos) ---
             modelBuilder.Entity<ComercioCategoria>(entity =>
             {
                 entity.HasKey(e => new { e.ComercioIdComercio, e.CategoriaIdCategoria });
 
                 entity.HasOne(e => e.Comercio)
-                      .WithMany(c => c.ComercioCategorias) // Lista en Comercio
+                      .WithMany(c => c.ComercioCategorias)
                       .HasForeignKey(e => e.ComercioIdComercio)
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Categoria)
-                      .WithMany(c => c.ComercioCategorias) // Lista en Categoria
+                      .WithMany(c => c.ComercioCategorias)
                       .HasForeignKey(e => e.CategoriaIdCategoria)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // Configuración de ItemPedido (NUEVA TABLA IMPORTANTE)
+            // --- ComercioHorario (muchos a muchos) ---
+            modelBuilder.Entity<ComercioHorario>(entity =>
+            {
+                entity.HasKey(e => new { e.ComercioIdComercio, e.HorariosIdHorarios });
+
+                entity.HasOne(e => e.Comercio)
+                      .WithMany(c => c.ComercioHorarios)
+                      .HasForeignKey(e => e.ComercioIdComercio)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.Horarios)
+                      .WithMany()
+                      .HasForeignKey(e => e.HorariosIdHorarios)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // --- ItemPedido ---
             modelBuilder.Entity<ItemPedido>(entity =>
             {
                 entity.HasKey(e => e.iditemPedido);
@@ -254,63 +267,6 @@ namespace DeliveryYaBackend.Data
                       .HasForeignKey(e => e.ComercioIdComercio)
                       .OnDelete(DeleteBehavior.Restrict);
             });
-
-            // Configuración de tablas many-to-many
-
-            // CategoriaProducto
-            modelBuilder.Entity<CategoriaProducto>(entity =>
-            {
-                entity.HasKey(e => new { e.CategoriaIdCategoria, e.ProductoIdProducto });
-
-                entity.HasOne(e => e.Categoria)
-                      .WithMany()
-                      .HasForeignKey(e => e.CategoriaIdCategoria)
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.Producto)
-                      .WithMany()
-                      .HasForeignKey(e => e.ProductoIdProducto)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            // ComercioCategoria
-            modelBuilder.Entity<ComercioCategoria>(entity =>
-            {
-                entity.HasKey(e => new { e.ComercioIdComercio, e.CategoriaIdCategoria });
-
-                entity.HasOne(e => e.Comercio)
-                      .WithMany(c => c.ComercioCategorias)
-                      .HasForeignKey(e => e.ComercioIdComercio)
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.Categoria)
-                      .WithMany()
-                      .HasForeignKey(e => e.CategoriaIdCategoria)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            // ComercioHorario
-            modelBuilder.Entity<ComercioHorario>(entity =>
-            {
-                entity.HasKey(e => new { e.ComercioIdComercio, e.HorariosIdHorarios });
-
-                entity.HasOne(e => e.Comercio)
-                      .WithMany(c => c.ComercioHorarios)
-                      .HasForeignKey(e => e.ComercioIdComercio)
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.Horarios)
-                      .WithMany()
-                      .HasForeignKey(e => e.HorariosIdHorarios)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            // Configurar delete behavior para evitar ciclos
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes()
-                .SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
         }
     }
 }

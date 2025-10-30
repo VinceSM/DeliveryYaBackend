@@ -49,7 +49,10 @@ namespace DeliveryYaBackend.Services
                 email = request.Email,
                 password = request.Password,
                 nombreComercio = request.NombreComercio,
+                descripcion = request.Descripcion,
                 fotoPortada = request.FotoPortada,
+                envio = request.Envio,
+                deliveryPropio = request.DeliveryPropio,
                 celular = request.Celular,
                 ciudad = request.Ciudad,
                 calle = request.Calle,
@@ -78,7 +81,10 @@ namespace DeliveryYaBackend.Services
                 Id = comercio.idcomercio,
                 Email = comercio.email,
                 NombreComercio = comercio.nombreComercio,
+                Descripcion = comercio.descripcion,
                 FotoPortada = comercio.fotoPortada,
+                Envio = comercio.envio,
+                DeliveryPropio = comercio.deliveryPropio,
                 Celular = comercio.celular,
                 Ciudad = comercio.ciudad,
                 Calle = comercio.calle,
@@ -144,11 +150,14 @@ namespace DeliveryYaBackend.Services
             if (comercio == null) return null;
 
             comercio.nombreComercio = request.NombreComercio;
+            comercio.descripcion = request.Descripcion;
             comercio.email = request.Email;
             comercio.calle = request.Calle;
             comercio.numero = request.Numero;
             comercio.ciudad = request.Ciudad;
             comercio.fotoPortada = request.FotoPortada;
+            comercio.envio = request.Envio;
+            comercio.deliveryPropio = request.DeliveryPropio;
             comercio.celular = request.Celular;
             comercio.encargado = request.Encargado;
             comercio.cvu = request.Cvu;
