@@ -23,6 +23,10 @@ namespace DeliveryYaBackend.DTOs.Requests.Comercios
         public string? TipoComercio { get; set; }
 
         [Required]
+        [MaxLength(255)]
+        public string? Eslogan { get; set; }
+
+        [Required]
         public decimal Envio { get; set; }
 
         [Required]

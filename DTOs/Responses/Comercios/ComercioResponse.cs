@@ -6,6 +6,7 @@
         public string? Email { get; set; }
         public string? NombreComercio { get; set; }
         public string? TipoComercio { get; set; }
+        public string? Eslogan { get; set; }
         public string? FotoPortada { get; set; }
         public decimal Envio { get; set; }
         public bool? DeliveryPropio { get; set; }

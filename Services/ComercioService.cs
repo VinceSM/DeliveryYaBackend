@@ -50,6 +50,7 @@ namespace DeliveryYaBackend.Services
                 password = request.Password,
                 nombreComercio = request.NombreComercio,
                 tipoComercio = request.TipoComercio,
+                eslogan = request.Eslogan,
                 fotoPortada = request.FotoPortada,
                 envio = request.Envio,
                 deliveryPropio = request.DeliveryPropio,
@@ -83,6 +84,7 @@ namespace DeliveryYaBackend.Services
                 Email = comercio.email,
                 NombreComercio = comercio.nombreComercio,
                 TipoComercio = comercio.tipoComercio,
+                Eslogan = comercio.eslogan,
                 FotoPortada = comercio.fotoPortada,
                 Envio = comercio.envio,
                 DeliveryPropio = comercio.deliveryPropio,
@@ -153,6 +155,7 @@ namespace DeliveryYaBackend.Services
 
             comercio.nombreComercio = request.NombreComercio;
             comercio.tipoComercio = request.TipoComercio;
+            comercio.eslogan = request.Eslogan;
             comercio.email = request.Email;
             comercio.calle = request.Calle;
             comercio.numero = request.Numero;
