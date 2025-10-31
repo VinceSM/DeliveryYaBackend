@@ -54,7 +54,7 @@ namespace DeliveryYaBackend.Services
 
         public async Task<IEnumerable<Pedido>> GetPedidosByRepartidorAsync(int repartidorId)
         {
-            return await _pedidoRepository.FindAsync(p => p.RepartidorIdRepartidor == repartidorId);
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<Pedido>> GetAllPedidosAsync()

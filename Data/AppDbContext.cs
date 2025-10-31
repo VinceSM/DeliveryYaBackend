@@ -43,18 +43,117 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.password).IsRequired().HasMaxLength(255);
             });
 
+            // --- Categoria ---
+            modelBuilder.Entity<Categoria>(entity =>
+            {
+                entity.ToTable("categoria");
+
+                entity.HasKey(e => e.idcategoria);
+
+                entity.Property(e => e.idcategoria)
+                    .HasColumnName("idcategoria")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.nombre)
+                    .HasColumnName("nombre")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.createdAt)
+                    .HasColumnName("createdAt")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("GETDATE()");
+
+                entity.Property(e => e.deletedAt)
+                    .HasColumnName("deletedAt")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.updatedAt)
+                    .HasColumnName("updatedAt")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("GETDATE()");
+
+                // Relaciones
+                entity.HasMany(e => e.CategoriaProductos)
+                    .WithOne(cp => cp.Categoria)
+                    .HasForeignKey(cp => cp.CategoriaIdCategoria)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasMany(e => e.ComercioCategorias)
+                    .WithOne(cc => cc.Categoria)
+                    .HasForeignKey(cc => cc.CategoriaIdCategoria)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+
             // --- Cliente ---
             modelBuilder.Entity<Cliente>(entity =>
             {
+                entity.ToTable("cliente");
+
                 entity.HasKey(e => e.idcliente);
-                entity.Property(e => e.nombreCompleto).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.dni).IsRequired().HasMaxLength(25);
-                entity.Property(e => e.celular).IsRequired().HasMaxLength(25);
-                entity.Property(e => e.ciudad).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.calle).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.email).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.password).IsRequired().HasMaxLength(255);
+
+                entity.Property(e => e.idcliente)
+                    .HasColumnName("idcliente")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.nombreCompleto)
+                    .HasColumnName("nombreCompleto")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.dni)
+                    .HasColumnName("dni")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.nacimiento)
+                    .HasColumnName("nacimiento")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.celular)
+                    .HasColumnName("celular")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ciudad)
+                    .HasColumnName("ciudad")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.calle)
+                    .HasColumnName("calle")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.numero)
+                    .HasColumnName("numero");
+
+                entity.Property(e => e.email)
+                    .HasColumnName("email")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.password)
+                    .HasColumnName("password")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.createdAt)
+                    .HasColumnName("createdAt")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("GETDATE()");
+
+                entity.Property(e => e.updatedAt)
+                    .HasColumnName("updatedAt")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("GETDATE()");
+
+                entity.Property(e => e.deletedAt)
+                    .HasColumnName("deletedAt")
+                    .HasColumnType("datetime");
             });
+
 
             // --- Vehiculo ---
             modelBuilder.Entity<Vehiculo>(entity =>
@@ -117,29 +216,61 @@ namespace DeliveryYaBackend.Data
             // --- Pedido ---
             modelBuilder.Entity<Pedido>(entity =>
             {
-                entity.HasKey(e => e.idpedido);
-                entity.Property(e => e.codigo).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.subtotalPedido).HasColumnType("decimal(10,2)");
+                entity.ToTable("pedido");
 
+                // Clave primaria
+                entity.HasKey(e => e.idpedido);
+
+                // Propiedades
+                entity.Property(e => e.fecha)
+                      .HasColumnType("datetime")
+                      .IsRequired();
+
+                entity.Property(e => e.hora)
+                      .HasColumnType("time")
+                      .IsRequired();
+
+                entity.Property(e => e.codigo)
+                      .HasMaxLength(45);
+
+                entity.Property(e => e.pagado)
+                      .IsRequired();
+
+                entity.Property(e => e.comercioRepartidor)
+                      .IsRequired();
+
+                entity.Property(e => e.subtotalPedido)
+                      .HasColumnType("decimal(10,2)");
+
+                entity.Property(e => e.createdAt)
+                      .HasColumnType("datetime");
+
+                entity.Property(e => e.updatedAt)
+                      .HasColumnType("datetime");
+
+                entity.Property(e => e.deletedAt)
+                      .HasColumnType("datetime");
+
+                // Relaciones
                 entity.HasOne(e => e.Cliente)
                       .WithMany()
                       .HasForeignKey(e => e.ClienteIdCliente)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(e => e.Repartidor)
-                      .WithMany()
-                      .HasForeignKey(e => e.RepartidorIdRepartidor)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.EstadoPedido)
                       .WithMany()
                       .HasForeignKey(e => e.EstadoPedidoIdEstado)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.MetodoPagoPedido)
                       .WithMany()
                       .HasForeignKey(e => e.MetodoPagoPedidoIdMetodo)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasMany(e => e.ItemsPedido)
+                      .WithOne(i => i.Pedido)
+                      .HasForeignKey(i => i.PedidoIdPedido)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             // --- Stock ---
@@ -154,119 +285,416 @@ namespace DeliveryYaBackend.Data
             // --- Producto ---
             modelBuilder.Entity<Producto>(entity =>
             {
+                entity.ToTable("producto");
+
+                // Clave primaria
                 entity.HasKey(e => e.idproducto);
-                entity.Property(e => e.nombre).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.fotoPortada).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.descripcion).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.unidadMedida).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.precioUnitario).HasColumnType("decimal(10,2)");
+
+                // Propiedades
+                entity.Property(e => e.nombre)
+                      .HasMaxLength(100);
+
+                entity.Property(e => e.fotoPortada)
+                      .HasMaxLength(255);
+
+                entity.Property(e => e.descripcion)
+                      .HasMaxLength(500);
+
+                entity.Property(e => e.unidadMedida)
+                      .HasMaxLength(50);
+
+                entity.Property(e => e.precioUnitario)
+                      .HasColumnType("decimal(10,2)")
+                      .IsRequired();
+
+                entity.Property(e => e.oferta)
+                      .HasDefaultValue(false);
+
+                entity.Property(e => e.stock)
+                      .HasDefaultValue(true);
+
+                entity.Property(e => e.createdAt)
+                      .HasColumnType("datetime");
+
+                entity.Property(e => e.updatedAt)
+                      .HasColumnType("datetime");
+
+                entity.Property(e => e.deletedAt)
+                      .HasColumnType("datetime");
+
+                // Relaciones
+                entity.HasMany(e => e.CategoriaProductos)
+                      .WithOne(cp => cp.Producto)
+                      .HasForeignKey(cp => cp.ProductoIdProducto)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             // --- Horarios ---
             modelBuilder.Entity<Horarios>(entity =>
             {
+                entity.ToTable("horarios");
+
                 entity.HasKey(e => e.idhorarios);
-                entity.Property(e => e.dias).HasConversion<string>();
+
+                entity.Property(e => e.idhorarios)
+                    .HasColumnName("idhorarios")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.apertura)
+                    .HasColumnName("apertura")
+                    .HasColumnType("time");
+
+                entity.Property(e => e.cierre)
+                    .HasColumnName("cierre")
+                    .HasColumnType("time");
+
+                entity.Property(e => e.dias)
+                    .HasColumnName("dias")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.abierto)
+                    .HasColumnName("abierto")
+                    .IsRequired();
+
+                entity.Property(e => e.createdAt)
+                    .HasColumnName("createdAt")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.deletedAt)
+                    .HasColumnName("deletedAt")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.updatedAt)
+                    .HasColumnName("updatedAt")
+                    .HasColumnType("datetime");
+
+                // Relaciones
+                entity.HasMany(e => e.ComercioHorarios)
+                    .WithOne(ch => ch.Horarios)
+                    .HasForeignKey(ch => ch.HorariosIdHorarios)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // --- Categoria ---
-            modelBuilder.Entity<Categoria>(entity =>
-            {
-                entity.HasKey(e => e.idcategoria);
-                entity.Property(e => e.nombre).IsRequired().HasMaxLength(45);
-            });
 
             // --- CategoriaProducto (muchos a muchos) ---
             modelBuilder.Entity<CategoriaProducto>(entity =>
             {
+                entity.ToTable("categoria_has_producto");
+
+                // Clave compuesta (muchos a muchos)
                 entity.HasKey(e => new { e.CategoriaIdCategoria, e.ProductoIdProducto });
 
+                entity.Property(e => e.CategoriaIdCategoria)
+                    .HasColumnName("categoria_idcategoria");
+
+                entity.Property(e => e.ProductoIdProducto)
+                    .HasColumnName("producto_idproducto");
+
+                // Relaciones
                 entity.HasOne(e => e.Categoria)
-                      .WithMany(c => c.CategoriaProductos)
-                      .HasForeignKey(e => e.CategoriaIdCategoria)
-                      .OnDelete(DeleteBehavior.Cascade);
+                    .WithMany(c => c.CategoriaProductos)
+                    .HasForeignKey(e => e.CategoriaIdCategoria)
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Producto)
-                      .WithMany(p => p.CategoriaProductos)
-                      .HasForeignKey(e => e.ProductoIdProducto)
-                      .OnDelete(DeleteBehavior.Cascade);
+                    .WithMany(p => p.CategoriaProductos)
+                    .HasForeignKey(e => e.ProductoIdProducto)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
+
 
             // --- Comercio ---
             modelBuilder.Entity<Comercio>(entity =>
             {
+                entity.ToTable("comercio");
+
                 entity.HasKey(e => e.idcomercio);
-                entity.Property(e => e.email).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.password).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.nombreComercio).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.tipoComercio).HasMaxLength(255);
-                entity.Property(e => e.fotoPortada).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.envio).HasColumnType("decimal(10,2)").HasDefaultValue(0);
-                entity.Property(e => e.celular).IsRequired().HasMaxLength(25);
-                entity.Property(e => e.ciudad).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.calle).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.latitud).HasColumnType("decimal(10,7)");
-                entity.Property(e => e.longitud).HasColumnType("decimal(10,7)");
-                entity.Property(e => e.encargado).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.cvu).IsRequired().HasMaxLength(45);
-                entity.Property(e => e.alias).IsRequired().HasMaxLength(45);
+
+                entity.Property(e => e.idcomercio)
+                    .HasColumnName("idcomercio")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.email)
+                    .HasColumnName("email")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.password)
+                    .HasColumnName("password")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.nombreComercio)
+                    .HasColumnName("nombreComercio")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.tipoComercio)
+                    .HasColumnName("tipoComercio")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.eslogan)
+                    .HasColumnName("eslogan")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.fotoPortada)
+                    .HasColumnName("fotoPortada")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.envio)
+                    .HasColumnName("envio")
+                    .HasColumnType("decimal(10,2)")
+                    .IsRequired();
+
+                entity.Property(e => e.deliveryPropio)
+                    .HasColumnName("deliveryPropio");
+
+                entity.Property(e => e.celular)
+                    .HasColumnName("celular")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ciudad)
+                    .HasColumnName("ciudad")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.calle)
+                    .HasColumnName("calle")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.numero)
+                    .HasColumnName("numero");
+
+                entity.Property(e => e.sucursales)
+                    .HasColumnName("sucursales");
+
+                entity.Property(e => e.latitud)
+                    .HasColumnName("latitud")
+                    .HasColumnType("decimal(10,6)");
+
+                entity.Property(e => e.longitud)
+                    .HasColumnName("longitud")
+                    .HasColumnType("decimal(10,6)");
+
+                entity.Property(e => e.encargado)
+                    .HasColumnName("encargado")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.cvu)
+                    .HasColumnName("cvu")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.alias)
+                    .HasColumnName("alias")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.destacado)
+                    .HasColumnName("destacado")
+                    .IsRequired();
+
+                entity.Property(e => e.createdAt)
+                    .HasColumnName("createdAt")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.deletedAt)
+                    .HasColumnName("deletedAt")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.updatedAt)
+                    .HasColumnName("updatedAt")
+                    .HasColumnType("datetime");
+
+                // Relaciones
+                entity.HasMany(e => e.ItemsPedido)
+                    .WithOne(i => i.Comercio)
+                    .HasForeignKey(i => i.ComercioIdComercio)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasMany(e => e.ComercioCategorias)
+                    .WithOne(cc => cc.Comercio)
+                    .HasForeignKey(cc => cc.ComercioIdComercio)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasMany(e => e.ComercioHorarios)
+                    .WithOne(ch => ch.Comercio)
+                    .HasForeignKey(ch => ch.ComercioIdComercio)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
+
 
             // --- ComercioCategoria (muchos a muchos) ---
             modelBuilder.Entity<ComercioCategoria>(entity =>
             {
+                entity.ToTable("comercio_has_categoria");
+
+                // Clave compuesta
                 entity.HasKey(e => new { e.ComercioIdComercio, e.CategoriaIdCategoria });
 
+                entity.Property(e => e.ComercioIdComercio)
+                    .HasColumnName("comercio_idcomercio");
+
+                entity.Property(e => e.CategoriaIdCategoria)
+                    .HasColumnName("categoria_idcategoria");
+
+                // Relaciones
                 entity.HasOne(e => e.Comercio)
-                      .WithMany(c => c.ComercioCategorias)
-                      .HasForeignKey(e => e.ComercioIdComercio)
-                      .OnDelete(DeleteBehavior.Cascade);
+                    .WithMany(c => c.ComercioCategorias)
+                    .HasForeignKey(e => e.ComercioIdComercio)
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Categoria)
-                      .WithMany(c => c.ComercioCategorias)
-                      .HasForeignKey(e => e.CategoriaIdCategoria)
-                      .OnDelete(DeleteBehavior.Cascade);
+                    .WithMany(c => c.ComercioCategorias)
+                    .HasForeignKey(e => e.CategoriaIdCategoria)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             // --- ComercioHorario (muchos a muchos) ---
             modelBuilder.Entity<ComercioHorario>(entity =>
             {
+                entity.ToTable("comercio_has_horarios");
+
+                // Clave compuesta
                 entity.HasKey(e => new { e.ComercioIdComercio, e.HorariosIdHorarios });
 
+                // Propiedades
+                entity.Property(e => e.ComercioIdComercio)
+                    .HasColumnName("comercio_idcomercio");
+
+                entity.Property(e => e.HorariosIdHorarios)
+                    .HasColumnName("horarios_idhorarios");
+
+                // Relaciones
                 entity.HasOne(e => e.Comercio)
-                      .WithMany(c => c.ComercioHorarios)
-                      .HasForeignKey(e => e.ComercioIdComercio)
-                      .OnDelete(DeleteBehavior.Cascade);
+                    .WithMany(c => c.ComercioHorarios)
+                    .HasForeignKey(e => e.ComercioIdComercio)
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Horarios)
-                      .WithMany()
-                      .HasForeignKey(e => e.HorariosIdHorarios)
-                      .OnDelete(DeleteBehavior.Cascade);
+                    .WithMany(h => h.ComercioHorarios)
+                    .HasForeignKey(e => e.HorariosIdHorarios)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
+
 
             // --- ItemPedido ---
             modelBuilder.Entity<ItemPedido>(entity =>
             {
-                entity.HasKey(e => e.iditemPedido);
-                entity.Property(e => e.cantProducto).IsRequired();
-                entity.Property(e => e.precioFinal).HasColumnType("decimal(10,2)");
-                entity.Property(e => e.total).HasColumnType("decimal(10,2)");
+                entity.ToTable("item_pedido");
 
+                // Clave primaria
+                entity.HasKey(e => e.iditemPedido);
+
+                // Propiedades
+                entity.Property(e => e.iditemPedido)
+                      .HasColumnName("iditemPedido");
+
+                entity.Property(e => e.cantProducto)
+                      .IsRequired();
+
+                entity.Property(e => e.precioFinal)
+                      .HasColumnType("decimal(10,2)")
+                      .IsRequired();
+
+                entity.Property(e => e.total)
+                      .HasColumnType("decimal(10,2)")
+                      .IsRequired();
+
+                entity.Property(e => e.createdAt)
+                      .HasColumnType("datetime")
+                      .IsRequired(false);
+
+                entity.Property(e => e.updatedAt)
+                      .HasColumnType("datetime")
+                      .IsRequired(false);
+
+                entity.Property(e => e.deletedAt)
+                      .HasColumnType("datetime")
+                      .IsRequired(false);
+
+                // Relaciones
                 entity.HasOne(e => e.Producto)
                       .WithMany()
                       .HasForeignKey(e => e.ProductoIdProducto)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Pedido)
                       .WithMany(p => p.ItemsPedido)
                       .HasForeignKey(e => e.PedidoIdPedido)
                       .OnDelete(DeleteBehavior.Cascade);
 
+                // FIX: Use HasOne/WithMany/HasForeignKey for Comercio navigation
                 entity.HasOne(e => e.Comercio)
-                      .WithMany()
+                      .WithMany(c => c.ItemsPedido)
                       .HasForeignKey(e => e.ComercioIdComercio)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
             });
+
+
+            modelBuilder.Entity<EstadoPedido>(entity =>
+            {
+                entity.ToTable("estado_pedido");
+
+                // Clave primaria
+                entity.HasKey(e => e.idestado);
+
+                // Propiedades
+                entity.Property(e => e.idestado)
+                    .HasColumnName("idestado");
+
+                entity.Property(e => e.tipo)
+                    .IsRequired()
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.createdAt)
+                    .HasColumnType("datetime")
+                    .IsRequired();
+
+                entity.Property(e => e.updatedAt)
+                    .HasColumnType("datetime")
+                    .IsRequired();
+
+                entity.Property(e => e.deletedAt)
+                    .HasColumnType("datetime")
+                    .IsRequired(false);
+            });
+
+            modelBuilder.Entity<MetodoPagoPedido>(entity =>
+            {
+                entity.ToTable("metodo_pago_pedido");
+
+                // Clave primaria
+                entity.HasKey(e => e.idmetodo);
+
+                // Propiedades
+                entity.Property(e => e.idmetodo)
+                      .HasColumnName("idmetodo");
+
+                entity.Property(e => e.metodo)
+                      .IsRequired()
+                      .HasMaxLength(45);
+
+                entity.Property(e => e.createdAt)
+                      .HasColumnType("datetime")
+                      .IsRequired();
+
+                entity.Property(e => e.updatedAt)
+                      .HasColumnType("datetime")
+                      .IsRequired();
+
+                entity.Property(e => e.deletedAt)
+                      .HasColumnType("datetime")
+                      .IsRequired(false);
+            });
+
         }
     }
 }

@@ -82,7 +82,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasKey("idcliente");
 
-                    b.ToTable("cliente");
+                    b.ToTable("cliente", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Admin", b =>
@@ -105,7 +105,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasKey("idadmin");
 
-                    b.ToTable("Admins");
+                    b.ToTable("Admins", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Categoria", b =>
@@ -132,7 +132,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasKey("idcategoria");
 
-                    b.ToTable("categoria");
+                    b.ToTable("categoria", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.CategoriaProducto", b =>
@@ -149,7 +149,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasIndex("ProductoIdProducto");
 
-                    b.ToTable("categoria_has_producto");
+                    b.ToTable("categoria_has_producto", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Comercio", b =>
@@ -245,7 +245,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasKey("idcomercio");
 
-                    b.ToTable("comercio");
+                    b.ToTable("comercio", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.ComercioCategoria", b =>
@@ -262,7 +262,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasIndex("CategoriaIdCategoria");
 
-                    b.ToTable("comercio_has_categoria");
+                    b.ToTable("comercio_has_categoria", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.ComercioHorario", b =>
@@ -284,7 +284,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasIndex("Horariosidhorarios");
 
-                    b.ToTable("comercio_has_horarios");
+                    b.ToTable("comercio_has_horarios", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.EstadoPedido", b =>
@@ -311,7 +311,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasKey("idestado");
 
-                    b.ToTable("EstadoPedidos");
+                    b.ToTable("EstadoPedidos", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Horarios", b =>
@@ -345,7 +345,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasKey("idhorarios");
 
-                    b.ToTable("horarios");
+                    b.ToTable("horarios", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.ItemPedido", b =>
@@ -396,7 +396,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasIndex("ProductoIdProducto");
 
-                    b.ToTable("ItemPedidos");
+                    b.ToTable("ItemPedidos", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.MetodoPagoPedido", b =>
@@ -423,7 +423,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasKey("idmetodo");
 
-                    b.ToTable("MetodoPagoPedidos");
+                    b.ToTable("MetodoPagoPedidos", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Pedido", b =>
@@ -489,7 +489,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasIndex("RepartidorIdRepartidor");
 
-                    b.ToTable("pedido");
+                    b.ToTable("pedido", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Producto", b =>
@@ -540,7 +540,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasKey("idproducto");
 
-                    b.ToTable("producto");
+                    b.ToTable("producto", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Stock", b =>
@@ -574,7 +574,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasIndex("stockIlimitado");
 
-                    b.ToTable("Stocks");
+                    b.ToTable("Stocks", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.TarifaRepartidorLibre", b =>
@@ -611,7 +611,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasIndex("RepartidorIdRepartidor");
 
-                    b.ToTable("tarifaRepartidorLibre");
+                    b.ToTable("tarifaRepartidorLibre", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Vehiculo", b =>
@@ -659,7 +659,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasKey("idvehiculo");
 
-                    b.ToTable("Vehiculos");
+                    b.ToTable("Vehiculos", (string)null);
                 });
 
             modelBuilder.Entity("Repartidor", b =>
@@ -741,7 +741,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasIndex("vehiculoIdVehiculo");
 
-                    b.ToTable("repartidor");
+                    b.ToTable("repartidor", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.CategoriaProducto", b =>

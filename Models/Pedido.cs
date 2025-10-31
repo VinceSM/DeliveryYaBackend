@@ -20,10 +20,6 @@ namespace DeliveryYaBackend.Models
         public int ClienteIdCliente { get; set; }
 
         [Required]
-        [Column("repartidor_idrepartidor")]
-        public int RepartidorIdRepartidor { get; set; }
-
-        [Required]
         [Column("estadopedido_idestado")]
         public int EstadoPedidoIdEstado { get; set; }
 
@@ -37,9 +33,6 @@ namespace DeliveryYaBackend.Models
         // Navigation properties
         [ForeignKey("ClienteIdCliente")]
         public virtual Cliente? Cliente { get; set; }
-
-        [ForeignKey("RepartidorIdRepartidor")]
-        public virtual Repartidor? Repartidor { get; set; }
 
         [ForeignKey("EstadoPedidoIdEstado")]
         public virtual EstadoPedido? EstadoPedido { get; set; }

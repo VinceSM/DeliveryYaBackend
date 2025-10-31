@@ -112,7 +112,6 @@ namespace DeliveryYaBackend.Controllers
                     comercioRepartidor = request.ComercioRepartidor,
                     subtotalPedido = 0,
                     ClienteIdCliente = request.ClienteId, // ← Usar el nombre exacto de la propiedad
-                    RepartidorIdRepartidor = request.RepartidorId, // ← Usar el nombre exacto
                     EstadoPedidoIdEstado = 1,
                     MetodoPagoPedidoIdMetodo = request.MetodoPagoId // ← Usar el nombre exacto
                 };
