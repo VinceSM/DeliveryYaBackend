@@ -25,7 +25,7 @@ namespace DeliveryYaBackend.DTOs.Requests.Comercios
         public string? Eslogan { get; set; }
 
         [Required]
-        public decimal Envio { get; set; }
+        public decimal? Envio { get; set; }
 
         [Required]
         public bool DeliveryPropio { get; set; }
@@ -52,10 +52,10 @@ namespace DeliveryYaBackend.DTOs.Requests.Comercios
         public int Sucursales { get; set; }
 
         [Required]
-        public decimal Latitud { get; set; }
+        public decimal? Latitud { get; set; }
 
         [Required]
-        public decimal Longitud { get; set; }
+        public decimal? Longitud { get; set; }
 
         [Required]
         [MaxLength(45)]

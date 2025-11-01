@@ -14,15 +14,15 @@ namespace DeliveryYaBackend.Models
         public string? tipoComercio { get; set; }
         public string? eslogan { get; set; }
         public string? fotoPortada { get; set; }
-        public decimal envio { get; set; }
+        public decimal? envio { get; set; }
         public bool? deliveryPropio { get; set; }
         public string? celular { get; set; }
         public string? ciudad { get; set; }
         public string? calle { get; set; }
         public int numero { get; set; }
         public int sucursales { get; set; }
-        public decimal latitud { get; set; }
-        public decimal longitud { get; set; }
+        public decimal? latitud { get; set; }
+        public decimal? longitud { get; set; }
         public string? encargado { get; set; }
         public string? cvu { get; set; }
         public string? alias { get; set; }

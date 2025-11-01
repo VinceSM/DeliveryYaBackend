@@ -8,7 +8,7 @@
         public string? TipoComercio { get; set; }
         public string? Eslogan { get; set; }
         public string? FotoPortada { get; set; }
-        public decimal Envio { get; set; }
+        public decimal? Envio { get; set; }
         public bool? DeliveryPropio { get; set; }
         public string? Celular { get; set; }
         public string? Ciudad { get; set; }
@@ -18,8 +18,8 @@
         public string? Encargado { get; set; }
         public string? Cvu { get; set; }
         public string? Alias { get; set; }
-        public decimal Latitud { get; set; }
-        public decimal Longitud { get; set; }
+        public decimal? Latitud { get; set; }
+        public decimal? Longitud { get; set; }
         public bool Destacado { get; set; }
     }
 }
