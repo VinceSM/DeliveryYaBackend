@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DeliveryYaBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,11 +38,11 @@ namespace DeliveryYaBackend.Migrations
                 {
                     idcategoria = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    nombre = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    nombre = table.Column<string>(type: "varchar(150)", unicode: false, maxLength: 150, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    createdAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    deletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    updatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    createdAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    deletedAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    updatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -56,25 +56,25 @@ namespace DeliveryYaBackend.Migrations
                 {
                     idcliente = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    nombreCompleto = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    nombreCompleto = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    dni = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false)
+                    dni = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     nacimiento = table.Column<DateOnly>(type: "date", nullable: false),
-                    celular = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false)
+                    celular = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ciudad = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    ciudad = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    calle = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    calle = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     numero = table.Column<int>(type: "int", nullable: false),
-                    email = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    email = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    password = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                    password = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    createdAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    updatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    deletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    createdAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    updatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    deletedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,33 +88,40 @@ namespace DeliveryYaBackend.Migrations
                 {
                     idcomercio = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    email = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    email = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    password = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                    password = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    nombreComercio = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    nombreComercio = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    fotoPortada = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    tipoComercio = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    celular = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false)
+                    eslogan = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ciudad = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    fotoPortada = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    calle = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    envio = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    deliveryPropio = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    celular = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ciudad = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    calle = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     numero = table.Column<int>(type: "int", nullable: false),
-                    latitud = table.Column<decimal>(type: "decimal(10,7)", nullable: false),
-                    longitud = table.Column<decimal>(type: "decimal(10,7)", nullable: false),
-                    encargado = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    sucursales = table.Column<int>(type: "int", nullable: false),
+                    latitud = table.Column<decimal>(type: "decimal(10,6)", nullable: false),
+                    longitud = table.Column<decimal>(type: "decimal(10,6)", nullable: false),
+                    encargado = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    cvu = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    cvu = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    alias = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    alias = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     destacado = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    deletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    updatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    createdAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    deletedAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    updatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -123,20 +130,20 @@ namespace DeliveryYaBackend.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "EstadoPedidos",
+                name: "estado_pedido",
                 columns: table => new
                 {
                     idestado = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     tipo = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    createdAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    updatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    deletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    createdAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    updatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    deletedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EstadoPedidos", x => x.idestado);
+                    table.PrimaryKey("PK_estado_pedido", x => x.idestado);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -146,14 +153,14 @@ namespace DeliveryYaBackend.Migrations
                 {
                     idhorarios = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    apertura = table.Column<TimeSpan>(type: "time(6)", nullable: true),
-                    cierre = table.Column<TimeSpan>(type: "time(6)", nullable: true),
-                    dias = table.Column<string>(type: "longtext", nullable: true)
+                    apertura = table.Column<TimeSpan>(type: "time", nullable: true),
+                    cierre = table.Column<TimeSpan>(type: "time", nullable: true),
+                    dias = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     abierto = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    deletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    updatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    createdAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    deletedAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    updatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -162,20 +169,47 @@ namespace DeliveryYaBackend.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "MetodoPagoPedidos",
+                name: "metodo_pago_pedido",
                 columns: table => new
                 {
                     idmetodo = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     metodo = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    createdAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    updatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    deletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    createdAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    updatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    deletedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MetodoPagoPedidos", x => x.idmetodo);
+                    table.PrimaryKey("PK_metodo_pago_pedido", x => x.idmetodo);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "producto",
+                columns: table => new
+                {
+                    idproducto = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    nombre = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    fotoPortada = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    descripcion = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    unidadMedida = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    precioUnitario = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    oferta = table.Column<bool>(type: "tinyint(1)", nullable: true, defaultValue: false),
+                    stock = table.Column<bool>(type: "tinyint(1)", nullable: true, defaultValue: true),
+                    createdAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    deletedAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    updatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_producto", x => x.idproducto);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -231,30 +265,23 @@ namespace DeliveryYaBackend.Migrations
                 columns: table => new
                 {
                     comercio_idcomercio = table.Column<int>(type: "int", nullable: false),
-                    categoria_idcategoria = table.Column<int>(type: "int", nullable: false),
-                    Categoriaidcategoria = table.Column<int>(type: "int", nullable: true)
+                    categoria_idcategoria = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_comercio_has_categoria", x => new { x.comercio_idcomercio, x.categoria_idcategoria });
                     table.ForeignKey(
-                        name: "FK_comercio_has_categoria_categoria_Categoriaidcategoria",
-                        column: x => x.Categoriaidcategoria,
-                        principalTable: "categoria",
-                        principalColumn: "idcategoria",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_comercio_has_categoria_categoria_categoria_idcategoria",
                         column: x => x.categoria_idcategoria,
                         principalTable: "categoria",
                         principalColumn: "idcategoria",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_comercio_has_categoria_comercio_comercio_idcomercio",
                         column: x => x.comercio_idcomercio,
                         principalTable: "comercio",
                         principalColumn: "idcomercio",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -263,8 +290,7 @@ namespace DeliveryYaBackend.Migrations
                 columns: table => new
                 {
                     comercio_idcomercio = table.Column<int>(type: "int", nullable: false),
-                    horarios_idhorarios = table.Column<int>(type: "int", nullable: false),
-                    Horariosidhorarios = table.Column<int>(type: "int", nullable: true)
+                    horarios_idhorarios = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -274,52 +300,82 @@ namespace DeliveryYaBackend.Migrations
                         column: x => x.comercio_idcomercio,
                         principalTable: "comercio",
                         principalColumn: "idcomercio",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_comercio_has_horarios_horarios_Horariosidhorarios",
-                        column: x => x.Horariosidhorarios,
-                        principalTable: "horarios",
-                        principalColumn: "idhorarios",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_comercio_has_horarios_horarios_horarios_idhorarios",
                         column: x => x.horarios_idhorarios,
                         principalTable: "horarios",
                         principalColumn: "idhorarios",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "producto",
+                name: "pedido",
                 columns: table => new
                 {
-                    idproducto = table.Column<int>(type: "int", nullable: false)
+                    idpedido = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    nombre = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    fecha = table.Column<DateTime>(type: "datetime", nullable: false),
+                    hora = table.Column<TimeSpan>(type: "time", nullable: false),
+                    codigo = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    fotoPortada = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    descripcion = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    unidadMedida = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    precioUnitario = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    oferta = table.Column<bool>(type: "tinyint(1)", nullable: true),
-                    stock_idstock = table.Column<int>(type: "int", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    deletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    updatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    pagado = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    comercioRepartidor = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    subtotalPedido = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    cliente_idcliente = table.Column<int>(type: "int", nullable: false),
+                    estadopedido_idestado = table.Column<int>(type: "int", nullable: false),
+                    metodoPagoPedido_idmetodo = table.Column<int>(type: "int", nullable: false),
+                    createdAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    deletedAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    updatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_producto", x => x.idproducto);
+                    table.PrimaryKey("PK_pedido", x => x.idpedido);
                     table.ForeignKey(
-                        name: "FK_producto_Stocks_stock_idstock",
-                        column: x => x.stock_idstock,
-                        principalTable: "Stocks",
-                        principalColumn: "idstock",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_pedido_cliente_cliente_idcliente",
+                        column: x => x.cliente_idcliente,
+                        principalTable: "cliente",
+                        principalColumn: "idcliente",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_pedido_estado_pedido_estadopedido_idestado",
+                        column: x => x.estadopedido_idestado,
+                        principalTable: "estado_pedido",
+                        principalColumn: "idestado",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_pedido_metodo_pago_pedido_metodoPagoPedido_idmetodo",
+                        column: x => x.metodoPagoPedido_idmetodo,
+                        principalTable: "metodo_pago_pedido",
+                        principalColumn: "idmetodo",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "categoria_has_producto",
+                columns: table => new
+                {
+                    categoria_idcategoria = table.Column<int>(type: "int", nullable: false),
+                    producto_idproducto = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_categoria_has_producto", x => new { x.categoria_idcategoria, x.producto_idproducto });
+                    table.ForeignKey(
+                        name: "FK_categoria_has_producto_categoria_categoria_idcategoria",
+                        column: x => x.categoria_idcategoria,
+                        principalTable: "categoria",
+                        principalColumn: "idcategoria",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_categoria_has_producto_producto_producto_idproducto",
+                        column: x => x.producto_idproducto,
+                        principalTable: "producto",
+                        principalColumn: "idproducto",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -368,85 +424,42 @@ namespace DeliveryYaBackend.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "categoria_has_producto",
+                name: "item_pedido",
                 columns: table => new
                 {
-                    categoria_idcategoria = table.Column<int>(type: "int", nullable: false),
-                    producto_idproducto = table.Column<int>(type: "int", nullable: false),
-                    Categoriaidcategoria = table.Column<int>(type: "int", nullable: true)
+                    iditemPedido = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    cantProducto = table.Column<int>(type: "int", nullable: false),
+                    precioFinal = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    total = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    ProductoIdProducto = table.Column<int>(type: "int", nullable: false),
+                    PedidoIdPedido = table.Column<int>(type: "int", nullable: false),
+                    ComercioIdComercio = table.Column<int>(type: "int", nullable: false),
+                    createdAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    deletedAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    updatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_categoria_has_producto", x => new { x.categoria_idcategoria, x.producto_idproducto });
+                    table.PrimaryKey("PK_item_pedido", x => x.iditemPedido);
                     table.ForeignKey(
-                        name: "FK_categoria_has_producto_categoria_Categoriaidcategoria",
-                        column: x => x.Categoriaidcategoria,
-                        principalTable: "categoria",
-                        principalColumn: "idcategoria",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_item_pedido_comercio_ComercioIdComercio",
+                        column: x => x.ComercioIdComercio,
+                        principalTable: "comercio",
+                        principalColumn: "idcomercio",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_categoria_has_producto_categoria_categoria_idcategoria",
-                        column: x => x.categoria_idcategoria,
-                        principalTable: "categoria",
-                        principalColumn: "idcategoria",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_item_pedido_pedido_PedidoIdPedido",
+                        column: x => x.PedidoIdPedido,
+                        principalTable: "pedido",
+                        principalColumn: "idpedido",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_categoria_has_producto_producto_producto_idproducto",
-                        column: x => x.producto_idproducto,
+                        name: "FK_item_pedido_producto_ProductoIdProducto",
+                        column: x => x.ProductoIdProducto,
                         principalTable: "producto",
                         principalColumn: "idproducto",
-                        onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "pedido",
-                columns: table => new
-                {
-                    idpedido = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    fecha = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    hora = table.Column<TimeSpan>(type: "time(6)", nullable: false),
-                    codigo = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    pagado = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    comercioRepartidor = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    subtotalPedido = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    cliente_idcliente = table.Column<int>(type: "int", nullable: false),
-                    repartidor_idrepartidor = table.Column<int>(type: "int", nullable: false),
-                    estadopedido_idestado = table.Column<int>(type: "int", nullable: false),
-                    metodoPagoPedido_idmetodo = table.Column<int>(type: "int", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    deletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    updatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_pedido", x => x.idpedido);
-                    table.ForeignKey(
-                        name: "FK_pedido_EstadoPedidos_estadopedido_idestado",
-                        column: x => x.estadopedido_idestado,
-                        principalTable: "EstadoPedidos",
-                        principalColumn: "idestado",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_pedido_MetodoPagoPedidos_metodoPagoPedido_idmetodo",
-                        column: x => x.metodoPagoPedido_idmetodo,
-                        principalTable: "MetodoPagoPedidos",
-                        principalColumn: "idmetodo",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_pedido_cliente_cliente_idcliente",
-                        column: x => x.cliente_idcliente,
-                        principalTable: "cliente",
-                        principalColumn: "idcliente",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_pedido_repartidor_repartidor_idrepartidor",
-                        column: x => x.repartidor_idrepartidor,
-                        principalTable: "repartidor",
-                        principalColumn: "idrepartidor",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -476,58 +489,6 @@ namespace DeliveryYaBackend.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "ItemPedidos",
-                columns: table => new
-                {
-                    iditemPedido = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    cantProducto = table.Column<int>(type: "int", nullable: false),
-                    precioFinal = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    total = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    ProductoIdProducto = table.Column<int>(type: "int", nullable: false),
-                    PedidoIdPedido = table.Column<int>(type: "int", nullable: false),
-                    ComercioIdComercio = table.Column<int>(type: "int", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    deletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    updatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Comercioidcomercio = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ItemPedidos", x => x.iditemPedido);
-                    table.ForeignKey(
-                        name: "FK_ItemPedidos_comercio_ComercioIdComercio",
-                        column: x => x.ComercioIdComercio,
-                        principalTable: "comercio",
-                        principalColumn: "idcomercio",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ItemPedidos_comercio_Comercioidcomercio",
-                        column: x => x.Comercioidcomercio,
-                        principalTable: "comercio",
-                        principalColumn: "idcomercio",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ItemPedidos_pedido_PedidoIdPedido",
-                        column: x => x.PedidoIdPedido,
-                        principalTable: "pedido",
-                        principalColumn: "idpedido",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ItemPedidos_producto_ProductoIdProducto",
-                        column: x => x.ProductoIdProducto,
-                        principalTable: "producto",
-                        principalColumn: "idproducto",
-                        onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_categoria_has_producto_Categoriaidcategoria",
-                table: "categoria_has_producto",
-                column: "Categoriaidcategoria");
-
             migrationBuilder.CreateIndex(
                 name: "IX_categoria_has_producto_producto_idproducto",
                 table: "categoria_has_producto",
@@ -539,38 +500,23 @@ namespace DeliveryYaBackend.Migrations
                 column: "categoria_idcategoria");
 
             migrationBuilder.CreateIndex(
-                name: "IX_comercio_has_categoria_Categoriaidcategoria",
-                table: "comercio_has_categoria",
-                column: "Categoriaidcategoria");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_comercio_has_horarios_horarios_idhorarios",
                 table: "comercio_has_horarios",
                 column: "horarios_idhorarios");
 
             migrationBuilder.CreateIndex(
-                name: "IX_comercio_has_horarios_Horariosidhorarios",
-                table: "comercio_has_horarios",
-                column: "Horariosidhorarios");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItemPedidos_Comercioidcomercio",
-                table: "ItemPedidos",
-                column: "Comercioidcomercio");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItemPedidos_ComercioIdComercio",
-                table: "ItemPedidos",
+                name: "IX_item_pedido_ComercioIdComercio",
+                table: "item_pedido",
                 column: "ComercioIdComercio");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemPedidos_PedidoIdPedido",
-                table: "ItemPedidos",
+                name: "IX_item_pedido_PedidoIdPedido",
+                table: "item_pedido",
                 column: "PedidoIdPedido");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemPedidos_ProductoIdProducto",
-                table: "ItemPedidos",
+                name: "IX_item_pedido_ProductoIdProducto",
+                table: "item_pedido",
                 column: "ProductoIdProducto");
 
             migrationBuilder.CreateIndex(
@@ -589,19 +535,14 @@ namespace DeliveryYaBackend.Migrations
                 column: "metodoPagoPedido_idmetodo");
 
             migrationBuilder.CreateIndex(
-                name: "IX_pedido_repartidor_idrepartidor",
-                table: "pedido",
-                column: "repartidor_idrepartidor");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_producto_stock_idstock",
-                table: "producto",
-                column: "stock_idstock");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_repartidor_vehiculoIdVehiculo",
                 table: "repartidor",
                 column: "vehiculoIdVehiculo");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stocks_stockIlimitado",
+                table: "Stocks",
+                column: "stockIlimitado");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tarifaRepartidorLibre_repartidor_idrepartidor",
@@ -625,7 +566,10 @@ namespace DeliveryYaBackend.Migrations
                 name: "comercio_has_horarios");
 
             migrationBuilder.DropTable(
-                name: "ItemPedidos");
+                name: "item_pedido");
+
+            migrationBuilder.DropTable(
+                name: "Stocks");
 
             migrationBuilder.DropTable(
                 name: "tarifaRepartidorLibre");
@@ -646,19 +590,16 @@ namespace DeliveryYaBackend.Migrations
                 name: "producto");
 
             migrationBuilder.DropTable(
-                name: "EstadoPedidos");
-
-            migrationBuilder.DropTable(
-                name: "MetodoPagoPedidos");
+                name: "repartidor");
 
             migrationBuilder.DropTable(
                 name: "cliente");
 
             migrationBuilder.DropTable(
-                name: "repartidor");
+                name: "estado_pedido");
 
             migrationBuilder.DropTable(
-                name: "Stocks");
+                name: "metodo_pago_pedido");
 
             migrationBuilder.DropTable(
                 name: "Vehiculos");

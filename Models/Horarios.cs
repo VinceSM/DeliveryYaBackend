@@ -15,7 +15,5 @@ namespace DeliveryYaBackend.Models
         public DateTime? deletedAt { get; set; }
         public DateTime? updatedAt { get; set; }
 
-        // Navigation properties
-        public virtual ICollection<ComercioHorario>? ComercioHorarios { get; set; }
     }
 }

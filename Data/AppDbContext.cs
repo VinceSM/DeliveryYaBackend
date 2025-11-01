@@ -62,7 +62,7 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.createdAt)
                     .HasColumnName("createdAt")
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("GETDATE()");
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.deletedAt)
                     .HasColumnName("deletedAt")
@@ -71,18 +71,7 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.updatedAt)
                     .HasColumnName("updatedAt")
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("GETDATE()");
-
-                // Relaciones
-                entity.HasMany(e => e.CategoriaProductos)
-                    .WithOne(cp => cp.Categoria)
-                    .HasForeignKey(cp => cp.CategoriaIdCategoria)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasMany(e => e.ComercioCategorias)
-                    .WithOne(cc => cc.Categoria)
-                    .HasForeignKey(cc => cc.CategoriaIdCategoria)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
 
@@ -142,12 +131,12 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.createdAt)
                     .HasColumnName("createdAt")
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("GETDATE()");
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.updatedAt)
                     .HasColumnName("updatedAt")
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("GETDATE()");
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.deletedAt)
                     .HasColumnName("deletedAt")
@@ -321,12 +310,6 @@ namespace DeliveryYaBackend.Data
 
                 entity.Property(e => e.deletedAt)
                       .HasColumnType("datetime");
-
-                // Relaciones
-                entity.HasMany(e => e.CategoriaProductos)
-                      .WithOne(cp => cp.Producto)
-                      .HasForeignKey(cp => cp.ProductoIdProducto)
-                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             // --- Horarios ---
@@ -369,11 +352,6 @@ namespace DeliveryYaBackend.Data
                     .HasColumnName("updatedAt")
                     .HasColumnType("datetime");
 
-                // Relaciones
-                entity.HasMany(e => e.ComercioHorarios)
-                    .WithOne(ch => ch.Horarios)
-                    .HasForeignKey(ch => ch.HorariosIdHorarios)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
 
@@ -391,16 +369,6 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.ProductoIdProducto)
                     .HasColumnName("producto_idproducto");
 
-                // Relaciones
-                entity.HasOne(e => e.Categoria)
-                    .WithMany(c => c.CategoriaProductos)
-                    .HasForeignKey(e => e.CategoriaIdCategoria)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.Producto)
-                    .WithMany(p => p.CategoriaProductos)
-                    .HasForeignKey(e => e.ProductoIdProducto)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
 
@@ -513,21 +481,6 @@ namespace DeliveryYaBackend.Data
                     .HasColumnName("updatedAt")
                     .HasColumnType("datetime");
 
-                // Relaciones
-                entity.HasMany(e => e.ItemsPedido)
-                    .WithOne(i => i.Comercio)
-                    .HasForeignKey(i => i.ComercioIdComercio)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasMany(e => e.ComercioCategorias)
-                    .WithOne(cc => cc.Comercio)
-                    .HasForeignKey(cc => cc.ComercioIdComercio)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasMany(e => e.ComercioHorarios)
-                    .WithOne(ch => ch.Comercio)
-                    .HasForeignKey(ch => ch.ComercioIdComercio)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
 
@@ -545,16 +498,6 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.CategoriaIdCategoria)
                     .HasColumnName("categoria_idcategoria");
 
-                // Relaciones
-                entity.HasOne(e => e.Comercio)
-                    .WithMany(c => c.ComercioCategorias)
-                    .HasForeignKey(e => e.ComercioIdComercio)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.Categoria)
-                    .WithMany(c => c.ComercioCategorias)
-                    .HasForeignKey(e => e.CategoriaIdCategoria)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             // --- ComercioHorario (muchos a muchos) ---
@@ -572,16 +515,6 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.HorariosIdHorarios)
                     .HasColumnName("horarios_idhorarios");
 
-                // Relaciones
-                entity.HasOne(e => e.Comercio)
-                    .WithMany(c => c.ComercioHorarios)
-                    .HasForeignKey(e => e.ComercioIdComercio)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.Horarios)
-                    .WithMany(h => h.ComercioHorarios)
-                    .HasForeignKey(e => e.HorariosIdHorarios)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
 
@@ -631,11 +564,6 @@ namespace DeliveryYaBackend.Data
                       .HasForeignKey(e => e.PedidoIdPedido)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                // FIX: Use HasOne/WithMany/HasForeignKey for Comercio navigation
-                entity.HasOne(e => e.Comercio)
-                      .WithMany(c => c.ItemsPedido)
-                      .HasForeignKey(e => e.ComercioIdComercio)
-                      .OnDelete(DeleteBehavior.Cascade);
             });
 
 

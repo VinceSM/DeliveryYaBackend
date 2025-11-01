@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliveryYaBackend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251028205217_ActualizacionProductoComercio")]
-    partial class ActualizacionProductoComercio
+    [Migration("20251101041703_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,63 +29,80 @@ namespace DeliveryYaBackend.Migrations
                 {
                     b.Property<int>("idcliente")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idcliente");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("idcliente"));
 
                     b.Property<string>("calle")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("calle");
 
                     b.Property<string>("celular")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("varchar(25)");
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("celular");
 
                     b.Property<string>("ciudad")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("ciudad");
 
                     b.Property<DateTime>("createdAt")
-                        .HasColumnType("datetime(6)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<DateTime?>("deletedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime")
+                        .HasColumnName("deletedAt");
 
                     b.Property<string>("dni")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("varchar(25)");
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("dni");
 
                     b.Property<string>("email")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("email");
 
                     b.Property<DateOnly>("nacimiento")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasColumnName("nacimiento");
 
                     b.Property<string>("nombreCompleto")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("nombreCompleto");
 
                     b.Property<int>("numero")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("numero");
 
                     b.Property<string>("password")
-                        .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("password");
 
                     b.Property<DateTime>("updatedAt")
-                        .HasColumnType("datetime(6)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasColumnName("updatedAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("idcliente");
 
-                    b.ToTable("cliente");
+                    b.ToTable("cliente", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Admin", b =>
@@ -115,27 +132,36 @@ namespace DeliveryYaBackend.Migrations
                 {
                     b.Property<int>("idcategoria")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idcategoria");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("idcategoria"));
 
                     b.Property<DateTime?>("createdAt")
-                        .HasColumnType("datetime(6)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<DateTime?>("deletedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime")
+                        .HasColumnName("deletedAt");
 
                     b.Property<string>("nombre")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(150)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(150)")
+                        .HasColumnName("nombre");
 
                     b.Property<DateTime?>("updatedAt")
-                        .HasColumnType("datetime(6)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasColumnName("updatedAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("idcategoria");
 
-                    b.ToTable("categoria");
+                    b.ToTable("categoria", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.CategoriaProducto", b =>
@@ -148,109 +174,137 @@ namespace DeliveryYaBackend.Migrations
                         .HasColumnType("int")
                         .HasColumnName("producto_idproducto");
 
-                    b.Property<int?>("Categoriaidcategoria")
-                        .HasColumnType("int");
-
                     b.HasKey("CategoriaIdCategoria", "ProductoIdProducto");
-
-                    b.HasIndex("Categoriaidcategoria");
 
                     b.HasIndex("ProductoIdProducto");
 
-                    b.ToTable("categoria_has_producto");
+                    b.ToTable("categoria_has_producto", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Comercio", b =>
                 {
                     b.Property<int>("idcomercio")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idcomercio");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("idcomercio"));
 
                     b.Property<string>("alias")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("alias");
 
                     b.Property<string>("calle")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("calle");
 
                     b.Property<string>("celular")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("varchar(25)");
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("celular");
 
                     b.Property<string>("ciudad")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("ciudad");
 
                     b.Property<DateTime?>("createdAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime")
+                        .HasColumnName("createdAt");
 
                     b.Property<string>("cvu")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("cvu");
 
                     b.Property<DateTime?>("deletedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime")
+                        .HasColumnName("deletedAt");
 
-                    b.Property<string>("descripcion")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                    b.Property<bool?>("deliveryPropio")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("deliveryPropio");
 
                     b.Property<bool>("destacado")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("destacado");
 
                     b.Property<string>("email")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("email");
 
                     b.Property<string>("encargado")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("encargado");
 
                     b.Property<decimal>("envio")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("decimal(10,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnName("envio");
+
+                    b.Property<string>("eslogan")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("eslogan");
 
                     b.Property<string>("fotoPortada")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(500)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(500)")
+                        .HasColumnName("fotoPortada");
 
                     b.Property<decimal>("latitud")
-                        .HasColumnType("decimal(10,7)");
+                        .HasColumnType("decimal(10,6)")
+                        .HasColumnName("latitud");
 
                     b.Property<decimal>("longitud")
-                        .HasColumnType("decimal(10,7)");
+                        .HasColumnType("decimal(10,6)")
+                        .HasColumnName("longitud");
 
                     b.Property<string>("nombreComercio")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("nombreComercio");
 
                     b.Property<int>("numero")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("numero");
 
                     b.Property<string>("password")
-                        .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("password");
+
+                    b.Property<int>("sucursales")
+                        .HasColumnType("int")
+                        .HasColumnName("sucursales");
+
+                    b.Property<string>("tipoComercio")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("tipoComercio");
 
                     b.Property<DateTime?>("updatedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime")
+                        .HasColumnName("updatedAt");
 
                     b.HasKey("idcomercio");
 
-                    b.ToTable("comercio");
+                    b.ToTable("comercio", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.ComercioCategoria", b =>
@@ -263,16 +317,11 @@ namespace DeliveryYaBackend.Migrations
                         .HasColumnType("int")
                         .HasColumnName("categoria_idcategoria");
 
-                    b.Property<int?>("Categoriaidcategoria")
-                        .HasColumnType("int");
-
                     b.HasKey("ComercioIdComercio", "CategoriaIdCategoria");
 
                     b.HasIndex("CategoriaIdCategoria");
 
-                    b.HasIndex("Categoriaidcategoria");
-
-                    b.ToTable("comercio_has_categoria");
+                    b.ToTable("comercio_has_categoria", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.ComercioHorario", b =>
@@ -285,31 +334,27 @@ namespace DeliveryYaBackend.Migrations
                         .HasColumnType("int")
                         .HasColumnName("horarios_idhorarios");
 
-                    b.Property<int?>("Horariosidhorarios")
-                        .HasColumnType("int");
-
                     b.HasKey("ComercioIdComercio", "HorariosIdHorarios");
 
                     b.HasIndex("HorariosIdHorarios");
 
-                    b.HasIndex("Horariosidhorarios");
-
-                    b.ToTable("comercio_has_horarios");
+                    b.ToTable("comercio_has_horarios", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.EstadoPedido", b =>
                 {
                     b.Property<int>("idestado")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idestado");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("idestado"));
 
                     b.Property<DateTime>("createdAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("deletedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("tipo")
                         .IsRequired()
@@ -317,59 +362,67 @@ namespace DeliveryYaBackend.Migrations
                         .HasColumnType("varchar(45)");
 
                     b.Property<DateTime>("updatedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.HasKey("idestado");
 
-                    b.ToTable("EstadoPedidos");
+                    b.ToTable("estado_pedido", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Horarios", b =>
                 {
                     b.Property<int>("idhorarios")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idhorarios");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("idhorarios"));
 
                     b.Property<bool>("abierto")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("abierto");
 
                     b.Property<TimeSpan?>("apertura")
-                        .HasColumnType("time(6)");
+                        .HasColumnType("time")
+                        .HasColumnName("apertura");
 
                     b.Property<TimeSpan?>("cierre")
-                        .HasColumnType("time(6)");
+                        .HasColumnType("time")
+                        .HasColumnName("cierre");
 
                     b.Property<DateTime?>("createdAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime")
+                        .HasColumnName("createdAt");
 
                     b.Property<DateTime?>("deletedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime")
+                        .HasColumnName("deletedAt");
 
                     b.Property<string>("dias")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("dias");
 
                     b.Property<DateTime?>("updatedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime")
+                        .HasColumnName("updatedAt");
 
                     b.HasKey("idhorarios");
 
-                    b.ToTable("horarios");
+                    b.ToTable("horarios", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.ItemPedido", b =>
                 {
                     b.Property<int>("iditemPedido")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("iditemPedido");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("iditemPedido"));
 
                     b.Property<int>("ComercioIdComercio")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Comercioidcomercio")
                         .HasColumnType("int");
 
                     b.Property<int>("PedidoIdPedido")
@@ -382,10 +435,10 @@ namespace DeliveryYaBackend.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("createdAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("deletedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<decimal>("precioFinal")
                         .HasColumnType("decimal(10,2)");
@@ -394,34 +447,33 @@ namespace DeliveryYaBackend.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime?>("updatedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.HasKey("iditemPedido");
 
                     b.HasIndex("ComercioIdComercio");
 
-                    b.HasIndex("Comercioidcomercio");
-
                     b.HasIndex("PedidoIdPedido");
 
                     b.HasIndex("ProductoIdProducto");
 
-                    b.ToTable("ItemPedidos");
+                    b.ToTable("item_pedido", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.MetodoPagoPedido", b =>
                 {
                     b.Property<int>("idmetodo")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idmetodo");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("idmetodo"));
 
                     b.Property<DateTime>("createdAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("deletedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("metodo")
                         .IsRequired()
@@ -429,11 +481,11 @@ namespace DeliveryYaBackend.Migrations
                         .HasColumnType("varchar(45)");
 
                     b.Property<DateTime>("updatedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.HasKey("idmetodo");
 
-                    b.ToTable("MetodoPagoPedidos");
+                    b.ToTable("metodo_pago_pedido", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Pedido", b =>
@@ -456,12 +508,7 @@ namespace DeliveryYaBackend.Migrations
                         .HasColumnType("int")
                         .HasColumnName("metodoPagoPedido_idmetodo");
 
-                    b.Property<int>("RepartidorIdRepartidor")
-                        .HasColumnType("int")
-                        .HasColumnName("repartidor_idrepartidor");
-
                     b.Property<string>("codigo")
-                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("varchar(45)");
 
@@ -469,16 +516,16 @@ namespace DeliveryYaBackend.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("createdAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("deletedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime>("fecha")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<TimeSpan>("hora")
-                        .HasColumnType("time(6)");
+                        .HasColumnType("time");
 
                     b.Property<bool>("pagado")
                         .HasColumnType("tinyint(1)");
@@ -487,7 +534,7 @@ namespace DeliveryYaBackend.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime?>("updatedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.HasKey("idpedido");
 
@@ -497,9 +544,7 @@ namespace DeliveryYaBackend.Migrations
 
                     b.HasIndex("MetodoPagoPedidoIdMetodo");
 
-                    b.HasIndex("RepartidorIdRepartidor");
-
-                    b.ToTable("pedido");
+                    b.ToTable("pedido", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Producto", b =>
@@ -511,46 +556,46 @@ namespace DeliveryYaBackend.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("idproducto"));
 
                     b.Property<DateTime?>("createdAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("deletedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("descripcion")
-                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("fotoPortada")
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("fotoPortada")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
-
                     b.Property<string>("nombre")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<bool?>("oferta")
-                        .HasColumnType("tinyint(1)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
 
                     b.Property<decimal>("precioUnitario")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<bool?>("stock")
-                        .HasColumnType("tinyint(1)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("unidadMedida")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("varchar(45)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime?>("updatedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.HasKey("idproducto");
 
-                    b.ToTable("producto");
+                    b.ToTable("producto", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Stock", b =>
@@ -759,18 +804,13 @@ namespace DeliveryYaBackend.Migrations
                     b.HasOne("DeliveryYaBackend.Models.Categoria", "Categoria")
                         .WithMany()
                         .HasForeignKey("CategoriaIdCategoria")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DeliveryYaBackend.Models.Categoria", null)
-                        .WithMany("CategoriaProductos")
-                        .HasForeignKey("Categoriaidcategoria")
-                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DeliveryYaBackend.Models.Producto", "Producto")
                         .WithMany()
                         .HasForeignKey("ProductoIdProducto")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Categoria");
@@ -783,18 +823,13 @@ namespace DeliveryYaBackend.Migrations
                     b.HasOne("DeliveryYaBackend.Models.Categoria", "Categoria")
                         .WithMany()
                         .HasForeignKey("CategoriaIdCategoria")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DeliveryYaBackend.Models.Categoria", null)
-                        .WithMany("ComercioCategorias")
-                        .HasForeignKey("Categoriaidcategoria")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("DeliveryYaBackend.Models.Comercio", "Comercio")
-                        .WithMany("ComercioCategorias")
+                        .WithMany()
                         .HasForeignKey("ComercioIdComercio")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Categoria");
@@ -805,21 +840,16 @@ namespace DeliveryYaBackend.Migrations
             modelBuilder.Entity("DeliveryYaBackend.Models.ComercioHorario", b =>
                 {
                     b.HasOne("DeliveryYaBackend.Models.Comercio", "Comercio")
-                        .WithMany("ComercioHorarios")
+                        .WithMany()
                         .HasForeignKey("ComercioIdComercio")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DeliveryYaBackend.Models.Horarios", "Horarios")
                         .WithMany()
                         .HasForeignKey("HorariosIdHorarios")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DeliveryYaBackend.Models.Horarios", null)
-                        .WithMany("ComercioHorarios")
-                        .HasForeignKey("Horariosidhorarios")
-                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Comercio");
 
@@ -831,24 +861,19 @@ namespace DeliveryYaBackend.Migrations
                     b.HasOne("DeliveryYaBackend.Models.Comercio", "Comercio")
                         .WithMany()
                         .HasForeignKey("ComercioIdComercio")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DeliveryYaBackend.Models.Comercio", null)
-                        .WithMany("ItemsPedido")
-                        .HasForeignKey("Comercioidcomercio")
-                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DeliveryYaBackend.Models.Pedido", "Pedido")
                         .WithMany("ItemsPedido")
                         .HasForeignKey("PedidoIdPedido")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DeliveryYaBackend.Models.Producto", "Producto")
                         .WithMany()
                         .HasForeignKey("ProductoIdProducto")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Comercio");
@@ -863,25 +888,19 @@ namespace DeliveryYaBackend.Migrations
                     b.HasOne("Cliente", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteIdCliente")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DeliveryYaBackend.Models.EstadoPedido", "EstadoPedido")
                         .WithMany()
                         .HasForeignKey("EstadoPedidoIdEstado")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DeliveryYaBackend.Models.MetodoPagoPedido", "MetodoPagoPedido")
                         .WithMany()
                         .HasForeignKey("MetodoPagoPedidoIdMetodo")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Repartidor", "Repartidor")
-                        .WithMany()
-                        .HasForeignKey("RepartidorIdRepartidor")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -889,8 +908,6 @@ namespace DeliveryYaBackend.Migrations
                     b.Navigation("EstadoPedido");
 
                     b.Navigation("MetodoPagoPedido");
-
-                    b.Navigation("Repartidor");
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.TarifaRepartidorLibre", b =>
@@ -913,27 +930,6 @@ namespace DeliveryYaBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("Vehiculo");
-                });
-
-            modelBuilder.Entity("DeliveryYaBackend.Models.Categoria", b =>
-                {
-                    b.Navigation("CategoriaProductos");
-
-                    b.Navigation("ComercioCategorias");
-                });
-
-            modelBuilder.Entity("DeliveryYaBackend.Models.Comercio", b =>
-                {
-                    b.Navigation("ComercioCategorias");
-
-                    b.Navigation("ComercioHorarios");
-
-                    b.Navigation("ItemsPedido");
-                });
-
-            modelBuilder.Entity("DeliveryYaBackend.Models.Horarios", b =>
-                {
-                    b.Navigation("ComercioHorarios");
                 });
 
             modelBuilder.Entity("DeliveryYaBackend.Models.Pedido", b =>

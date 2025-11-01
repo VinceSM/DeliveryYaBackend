@@ -30,10 +30,5 @@ namespace DeliveryYaBackend.Models
         public DateTime? createdAt { get; set; }
         public DateTime? deletedAt { get; set; }
         public DateTime? updatedAt { get; set; }
-
-        // Navigation properties
-        public virtual ICollection<ItemPedido>? ItemsPedido { get; set; }
-        public virtual ICollection<ComercioCategoria>? ComercioCategorias { get; set; }
-        public virtual ICollection<ComercioHorario>? ComercioHorarios { get; set; }
     }
 }

@@ -121,16 +121,17 @@ namespace DeliveryYaBackend.Services
 
         public async Task<Comercio> GetComercioWithDetailsAsync(int id)
         {
-            var comercio = await _comercioRepository.GetByIdAsync(id);
-            if (comercio == null) return null;
+            throw new NotImplementedException();
+            //var comercio = await _comercioRepository.GetByIdAsync(id);
+            //if (comercio == null) return null;
 
-            // Cargar categorías
-            comercio.ComercioCategorias = (await _comercioCategoriaRepository.FindAsync(cc => cc.ComercioIdComercio == id)).ToList();
+            //// Cargar categorías
+            //comercio.ComercioCategorias = (await _comercioCategoriaRepository.FindAsync(cc => cc.ComercioIdComercio == id)).ToList();
 
-            // Cargar horarios
-            comercio.ComercioHorarios = (await _comercioHorarioRepository.FindAsync(ch => ch.ComercioIdComercio == id)).ToList();
+            //// Cargar horarios
+            //comercio.ComercioHorarios = (await _comercioHorarioRepository.FindAsync(ch => ch.ComercioIdComercio == id)).ToList();
 
-            return comercio;
+            //return comercio;
         }
 
         public async Task<IEnumerable<Comercio>> GetAllComerciosAsync()
