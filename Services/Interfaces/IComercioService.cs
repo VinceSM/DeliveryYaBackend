@@ -19,9 +19,7 @@ namespace DeliveryYaBackend.Services.Interfaces
         Task<bool> DeleteComercioAsync(int id);
 
         // Gestión de estado y destacados
-        Task<bool> UpdateComercioDestacadoAsync(int comercioId, bool destacado);
         Task<IEnumerable<Comercio>> GetComerciosDestacadosAsync();
-        Task<bool> UpdateComercioEstadoAsync(int comercioId, bool activo);
 
         // Categorías de comercios
         Task<bool> AddCategoriaToComercioAsync(int comercioId, int categoriaId);

@@ -94,8 +94,8 @@ namespace DeliveryYaBackend.Controllers
                     password = requestC.Password,
                     tipoComercio = requestC.TipoComercio,
                     eslogan = requestC.Eslogan,
-                    fotoPortada = requestC.FotoPortada,
-                    envio = requestC.Envio,
+                    fotoPortada = null,
+                    envio = 0,
                     deliveryPropio = requestC.DeliveryPropio,
                     celular = requestC.Celular,
                     ciudad = requestC.Ciudad,
@@ -107,7 +107,7 @@ namespace DeliveryYaBackend.Controllers
                     encargado = requestC.Encargado,
                     cvu = requestC.Cvu,
                     alias = requestC.Alias,
-                    destacado = requestC.Destacado
+                    destacado = false,
                 };
 
                 var resultado = await _comercioService.CreateComercioAsync(requestC);

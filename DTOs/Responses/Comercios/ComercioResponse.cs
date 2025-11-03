@@ -21,5 +21,7 @@
         public decimal? Latitud { get; set; }
         public decimal? Longitud { get; set; }
         public bool Destacado { get; set; }
+        public DateTime? CreatedAt { get; set; }
+
     }
 }

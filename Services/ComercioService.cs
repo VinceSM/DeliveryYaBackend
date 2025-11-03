@@ -199,39 +199,10 @@ namespace DeliveryYaBackend.Services
         }
 
         // GESTIÓN DE DESTACADOS Y ESTADO
-        public async Task<bool> UpdateComercioDestacadoAsync(int comercioId, bool destacado)
-        {
-            var comercio = await _comercioRepository.GetByIdAsync(comercioId);
-            if (comercio == null) return false;
-
-            comercio.destacado = destacado;
-            _comercioRepository.Update(comercio);
-            return await _comercioRepository.SaveChangesAsync();
-        }
 
         public async Task<IEnumerable<Comercio>> GetComerciosDestacadosAsync()
         {
             return await _comercioRepository.FindAsync(c => c.destacado == true);
-        }
-
-        public async Task<bool> UpdateComercioEstadoAsync(int comercioId, bool activo)
-        {
-            var comercio = await _comercioRepository.GetByIdAsync(comercioId);
-            if (comercio == null) return false;
-
-            // Lógica para activar/desactivar comercio
-            // Puedes usar deletedAt para soft delete
-            if (activo)
-            {
-                comercio.deletedAt = null;
-            }
-            else
-            {
-                comercio.deletedAt = DateTime.UtcNow;
-            }
-
-            _comercioRepository.Update(comercio);
-            return await _comercioRepository.SaveChangesAsync();
         }
 
         // CATEGORÍAS DE COMERCIOS

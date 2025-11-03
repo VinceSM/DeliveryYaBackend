@@ -45,7 +45,7 @@ namespace DeliveryYaBackend.Services.Mapping
             CreateMap<ComercioRequest, Comercio>();
             CreateMap<UpdateComercioRequest, Comercio>();
             CreateMap<Comercio, ComercioResponse>();
-            CreateMap<Comercio, ComercioDetailResponse>();
+            CreateMap<Comercio, ComercioDetalleResponse>();
 
             // Categorías
             CreateMap<CreateCategoriaRequest, Categoria>();
