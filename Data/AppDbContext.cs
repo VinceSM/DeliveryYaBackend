@@ -469,6 +469,11 @@ namespace DeliveryYaBackend.Data
                     .HasColumnName("destacado")
                     .IsRequired();
 
+                entity.Property(e => e.comision)
+                    .HasColumnName("comision")
+                    .HasColumnType("decimal(10,2)")
+                    .IsRequired();
+
                 entity.Property(e => e.createdAt)
                     .HasColumnName("createdAt")
                     .HasColumnType("datetime");

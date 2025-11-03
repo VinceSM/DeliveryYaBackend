@@ -34,7 +34,7 @@ namespace DeliveryYaBackend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            request.idproducto = id;
+            request.IdProducto = id;
 
             var productoActualizado = await _productoService.UpdateAsync(request);
             if (productoActualizado == null)

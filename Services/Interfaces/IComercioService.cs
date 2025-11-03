@@ -9,7 +9,6 @@ namespace DeliveryYaBackend.Services.Interfaces
         // Operaciones básicas de Comercio
         Task<ComercioResponse> CreateComercioAsync(ComercioRequest comercio);
         Task<Comercio> GetComercioByIdAsync(int id);
-        Task<Comercio> GetComercioWithDetailsAsync(int id);
         Task<IEnumerable<Comercio>> GetAllComerciosAsync();
         Task<IEnumerable<Comercio>> GetComerciosByNombreAsync(string nombre);
         Task<IEnumerable<Comercio>> GetComerciosByCiudadAsync(string ciudad);
@@ -40,5 +39,6 @@ namespace DeliveryYaBackend.Services.Interfaces
         // Estadísticas y reportes
         Task<decimal> GetVentasTotalesByComercioAsync(int comercioId, DateTime? startDate, DateTime? endDate);
         Task<int> GetPedidosComercioAsync(int comercioId, DateTime? startDate, DateTime? endDate);
+        Task<ComercioPanelResponse?> GetComercioPanelDetalleAsync(int id);
     }
 }

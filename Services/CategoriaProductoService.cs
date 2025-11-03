@@ -20,28 +20,28 @@ namespace DeliveryYaBackend.Services
         {
             var producto = new Producto
             {
-                nombre = request.nombre,
-                descripcion = request.descripcion,
-                fotoPortada = request.fotoPortada,
-                unidadMedida = request.unidadMedida,
-                precioUnitario = request.precioUnitario,
-                oferta = request.oferta,
-                stock = request.stock,
+                nombre = request.Nombre,
+                descripcion = request.Descripcion,
+                fotoPortada = request.FotoPortada,
+                unidadMedida = request.UnidadMedida,
+                precioUnitario = request.PrecioUnitario,
+                oferta = request.Oferta,
+                stock = request.Stock,
             };
 
             var creado = await _repository.CreateProductoAsync(producto, idCategoria);
 
             return new ProductoResponse
             {
-                idproducto = creado.idproducto,
-                nombre = creado.nombre,
-                descripcion = creado.descripcion,
-                precioUnitario = creado.precioUnitario,
-                unidadMedida = creado.unidadMedida,
-                oferta = creado.oferta,
-                stock = creado.stock,
-                fotoPortada = creado.fotoPortada,
-                createdAt = creado.createdAt
+                IdProducto = creado.idproducto,
+                Nombre = creado.nombre,
+                Descripcion = creado.descripcion,
+                PrecioUnitario = creado.precioUnitario,
+                UnidadMedida = creado.unidadMedida,
+                Oferta = creado.oferta,
+                Stock = creado.stock,
+                FotoPortada = creado.fotoPortada,
+                CreatedAt = creado.createdAt
             };
         }
 
@@ -52,15 +52,15 @@ namespace DeliveryYaBackend.Services
 
             return productos.Select(p => new ProductoResponse
             {
-                idproducto = p.idproducto,
-                nombre = p.nombre,
-                descripcion = p.descripcion,
-                precioUnitario = p.precioUnitario,
-                unidadMedida = p.unidadMedida,
-                oferta = p.oferta,
-                stock = p.stock,
-                fotoPortada = p.fotoPortada,
-                createdAt = p.createdAt
+                IdProducto = p.idproducto,
+                Nombre = p.nombre,
+                Descripcion = p.descripcion,
+                PrecioUnitario = p.precioUnitario,
+                UnidadMedida = p.unidadMedida,
+                Oferta = p.oferta,
+                Stock = p.stock,
+                FotoPortada = p.fotoPortada,
+                CreatedAt = p.createdAt
             });
         }
 
@@ -71,15 +71,15 @@ namespace DeliveryYaBackend.Services
 
             return productos.Select(p => new ProductoResponse
             {
-                idproducto = p.idproducto,
-                nombre = p.nombre,
-                descripcion = p.descripcion,
-                precioUnitario = p.precioUnitario,
-                unidadMedida = p.unidadMedida,
-                oferta = p.oferta,
-                stock = p.stock,
-                fotoPortada = p.fotoPortada,
-                createdAt = p.createdAt
+                IdProducto = p.idproducto,
+                Nombre = p.nombre,
+                Descripcion = p.descripcion,
+                PrecioUnitario = p.precioUnitario,
+                UnidadMedida = p.unidadMedida,
+                Oferta = p.oferta,
+                Stock = p.stock,
+                FotoPortada = p.fotoPortada,
+                CreatedAt = p.createdAt
             });
         }
 
@@ -91,15 +91,15 @@ namespace DeliveryYaBackend.Services
 
             return new ProductoResponse
             {
-                idproducto = producto.idproducto,
-                nombre = producto.nombre,
-                descripcion = producto.descripcion,
-                precioUnitario = producto.precioUnitario,
-                unidadMedida = producto.unidadMedida,
-                oferta = producto.oferta,
-                stock = producto.stock,
-                fotoPortada = producto.fotoPortada,
-                updatedAt = producto.updatedAt
+                IdProducto = producto.idproducto,
+                Nombre = producto.nombre,
+                Descripcion = producto.descripcion,
+                PrecioUnitario = producto.precioUnitario,
+                UnidadMedida = producto.unidadMedida,
+                Oferta = producto.oferta,
+                Stock = producto.stock,
+                FotoPortada = producto.fotoPortada,
+                UpdatedAt = producto.updatedAt
             };
         }
 
@@ -109,27 +109,27 @@ namespace DeliveryYaBackend.Services
             var productoExistente = await _repository.GetProductoByIdAsync(idProducto);
             if (productoExistente == null) return null;
 
-            productoExistente.nombre = request.nombre;
-            productoExistente.descripcion = request.descripcion;
-            productoExistente.precioUnitario = request.precioUnitario;
-            productoExistente.unidadMedida = request.unidadMedida;
-            productoExistente.oferta = request.oferta;
-            productoExistente.fotoPortada = request.fotoPortada;
-            productoExistente.stock = request.stock;
+            productoExistente.nombre = request.Nombre;
+            productoExistente.descripcion = request.Descripcion;
+            productoExistente.precioUnitario = request.PrecioUnitario;
+            productoExistente.unidadMedida = request.UnidadMedida;
+            productoExistente.oferta = request.Oferta;
+            productoExistente.fotoPortada = request.FotoPortada;
+            productoExistente.stock = request.Stock;
 
             var actualizado = await _repository.UpdateProductoAsync(productoExistente);
 
             return new ProductoResponse
             {
-                idproducto = actualizado.idproducto,
-                nombre = actualizado.nombre,
-                descripcion = actualizado.descripcion,
-                precioUnitario = actualizado.precioUnitario,
-                unidadMedida = actualizado.unidadMedida,
-                oferta = actualizado.oferta,
-                stock = actualizado.stock,
-                fotoPortada = actualizado.fotoPortada,
-                updatedAt = actualizado.updatedAt
+                IdProducto = actualizado.idproducto,
+                Nombre = actualizado.nombre,
+                Descripcion = actualizado.descripcion,
+                PrecioUnitario = actualizado.precioUnitario,
+                UnidadMedida = actualizado.unidadMedida,
+                Oferta = actualizado.oferta,
+                Stock = actualizado.stock,
+                FotoPortada = actualizado.fotoPortada,
+                UpdatedAt = actualizado.updatedAt
             };
         }
 

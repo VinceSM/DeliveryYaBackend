@@ -2,13 +2,13 @@
 {
     public class CreateProductoRequest
     {
-        public string? nombre { get; set; }
-        public string? descripcion { get; set; }
-        public string? unidadMedida { get; set; }
-        public decimal precioUnitario { get; set; }
-        public bool? oferta { get; set; }
-        public string? fotoPortada { get; set; }
-        public bool? stock { get; set; }
+        public string? Nombre { get; set; }
+        public string? Descripcion { get; set; }
+        public string? UnidadMedida { get; set; }
+        public decimal PrecioUnitario { get; set; }
+        public bool? Oferta { get; set; }
+        public string? FotoPortada { get; set; }
+        public bool? Stock { get; set; }
 
         // Relación con categoría
         public int CategoriaId { get; set; }

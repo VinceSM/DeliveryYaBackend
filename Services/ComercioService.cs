@@ -1,9 +1,14 @@
 ﻿using DeliveryYaBackend.DTOs.Requests.Comercios;
+using DeliveryYaBackend.DTOs.Responses.Categorias;
 using DeliveryYaBackend.DTOs.Responses.Comercios;
+using DeliveryYaBackend.DTOs.Responses.Horarios;
+using DeliveryYaBackend.DTOs.Responses.Productos;
 using DeliveryYaBackend.Models;
+using DeliveryYaBackend.Repositories;
 using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Ocsp;
 using Org.BouncyCastle.Crypto.Generators;
 
@@ -16,6 +21,7 @@ namespace DeliveryYaBackend.Services
         private readonly IRepository<Categoria> _categoriaRepository;
         private readonly IRepository<Horarios> _horariosRepository;
         private readonly IRepository<Producto> _productoRepository;
+        private readonly IRepository<CategoriaProducto> _categoriaProductoRepository;
         private readonly IRepository<ComercioCategoria> _comercioCategoriaRepository;
         private readonly IRepository<ComercioHorario> _comercioHorarioRepository;
         private readonly IRepository<ItemPedido> _itemPedidoRepository;
@@ -26,15 +32,18 @@ namespace DeliveryYaBackend.Services
             IRepository<Categoria> categoriaRepository,
             IRepository<Horarios> horariosRepository,
             IRepository<Producto> productoRepository,
+            IRepository<CategoriaProducto> categoriaProductoRepository,
             IRepository<ComercioCategoria> comercioCategoriaRepository,
             IRepository<ComercioHorario> comercioHorarioRepository,
             IRepository<ItemPedido> itemPedidoRepository,
-            IRepository<Pedido> pedidoRepository)
+            IRepository<Pedido> pedidoRepository
+            )
         {
             _comercioRepository = comercioRepository;
             _categoriaRepository = categoriaRepository;
             _horariosRepository = horariosRepository;
             _productoRepository = productoRepository;
+            _categoriaProductoRepository = categoriaProductoRepository;
             _comercioCategoriaRepository = comercioCategoriaRepository;
             _comercioHorarioRepository = comercioHorarioRepository;
             _itemPedidoRepository = itemPedidoRepository;
@@ -65,6 +74,7 @@ namespace DeliveryYaBackend.Services
                 cvu = request.Cvu,
                 alias = request.Alias,
                 destacado = false,
+                comision = 0,
             };
 
             // 🔒 Hashear la contraseña antes de guardar
@@ -98,7 +108,8 @@ namespace DeliveryYaBackend.Services
                 Encargado = comercio.encargado,
                 Cvu = comercio.cvu,
                 Alias = comercio.alias,
-                Destacado = comercio.destacado
+                Destacado = comercio.destacado,
+                Comision = comercio.comision,
             };
         }
 
@@ -117,21 +128,6 @@ namespace DeliveryYaBackend.Services
         public async Task<Comercio> GetComercioByIdAsync(int id)
         {
             return await _comercioRepository.GetByIdAsync(id);
-        }
-
-        public async Task<Comercio> GetComercioWithDetailsAsync(int id)
-        {
-            throw new NotImplementedException();
-            //var comercio = await _comercioRepository.GetByIdAsync(id);
-            //if (comercio == null) return null;
-
-            //// Cargar categorías
-            //comercio.ComercioCategorias = (await _comercioCategoriaRepository.FindAsync(cc => cc.ComercioIdComercio == id)).ToList();
-
-            //// Cargar horarios
-            //comercio.ComercioHorarios = (await _comercioHorarioRepository.FindAsync(ch => ch.ComercioIdComercio == id)).ToList();
-
-            //return comercio;
         }
 
         public async Task<IEnumerable<Comercio>> GetAllComerciosAsync()
@@ -172,6 +168,7 @@ namespace DeliveryYaBackend.Services
             comercio.latitud = request.Latitud;
             comercio.longitud = request.Longitud;
             comercio.destacado = request.Destacado;
+            comercio.comision = request.Comision;
 
             // Solo hashear si la contraseña viene en el request
             if (!string.IsNullOrEmpty(request.Password))
@@ -399,6 +396,85 @@ namespace DeliveryYaBackend.Services
             }
 
             return items.Select(ip => ip.PedidoIdPedido).Distinct().Count();
+        }
+
+        public async Task<ComercioPanelResponse?> GetComercioPanelDetalleAsync(int comercioId)
+        {
+            var comercio = await _comercioRepository.GetByIdAsync(comercioId);
+            if (comercio == null) return null;
+
+            var panelResponse = new ComercioPanelResponse
+            {
+                Id = comercio.idcomercio,
+                NombreComercio = comercio.nombreComercio,
+                Email = comercio.email,
+                FotoPortada = comercio.fotoPortada,
+                Envio = comercio.envio,
+                DeliveryPropio = comercio.deliveryPropio,
+                Celular = comercio.celular,
+                Ciudad = comercio.ciudad,
+                Calle = comercio.calle,
+                Numero = comercio.numero,
+                Sucursales = comercio.sucursales,
+                Latitud = comercio.latitud,
+                Longitud = comercio.longitud,
+                Encargado = comercio.encargado,
+                Cvu = comercio.cvu,
+                Alias = comercio.alias,
+                Comision = comercio.comision
+            };
+
+            // Horarios
+            var relacionesHorarios = await _comercioHorarioRepository.FindAsync(ch => ch.ComercioIdComercio == comercioId);
+            foreach (var rh in relacionesHorarios)
+            {
+                var horario = await _horariosRepository.GetByIdAsync(rh.HorariosIdHorarios);
+                if (horario != null)
+                {
+                    panelResponse.Horarios.Add(new HorarioResponse
+                    {
+                        Apertura = horario.apertura,
+                        Cierre = horario.cierre,
+                        Dias = horario.dias,
+                        Abierto = horario.abierto
+                    });
+                }
+            }
+
+            // Categorías con productos
+            var relacionesCategorias = await _comercioCategoriaRepository.FindAsync(cc => cc.ComercioIdComercio == comercioId);
+            foreach (var rc in relacionesCategorias)
+            {
+                var categoria = await _categoriaRepository.GetByIdAsync(rc.CategoriaIdCategoria);
+                if (categoria != null)
+                {
+                    var categoriaResponse = new CategoriaProductoResponse
+                    {
+                        Id = categoria.idcategoria,
+                        Nombre = categoria.nombre
+                    };
+
+                    // Productos de la categoría
+                    var productosRelacionados = await _productoRepository.FindAsync(p =>
+                        _categoriaProductoRepository.FindAsync(cp => cp.CategoriaIdCategoria == categoria.idcategoria && cp.ProductoIdProducto == p.idproducto).Result.Any()
+                    );
+
+                    foreach (var producto in productosRelacionados)
+                    {
+                        categoriaResponse.Productos.Add(new ProductoResponse
+                        {
+                            IdProducto = producto.idproducto,
+                            Nombre = producto.nombre,
+                            PrecioUnitario = producto.precioUnitario,
+                            FotoPortada = producto.fotoPortada
+                        });
+                    }
+
+                    panelResponse.Categorias.Add(categoriaResponse);
+                }
+            }
+
+            return panelResponse;
         }
     }
 }

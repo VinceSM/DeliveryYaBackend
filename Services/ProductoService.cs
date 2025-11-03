@@ -54,7 +54,7 @@ namespace DeliveryYaBackend.Services
         // ✅ Actualizar producto
         public async Task<ProductoResponse?> UpdateAsync(UpdateProductoRequest request)
         {
-            var producto = await _productoRepository.GetByIdAsync(request.idproducto);
+            var producto = await _productoRepository.GetByIdAsync(request.IdProducto);
             if (producto == null)
                 return null;
 

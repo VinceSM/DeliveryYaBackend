@@ -108,6 +108,7 @@ namespace DeliveryYaBackend.Controllers
                     cvu = requestC.Cvu,
                     alias = requestC.Alias,
                     destacado = false,
+                    comision = 0,
                 };
 
                 var resultado = await _comercioService.CreateComercioAsync(requestC);
@@ -148,7 +149,8 @@ namespace DeliveryYaBackend.Controllers
                     encargado = request.Encargado,
                     cvu = request.Cvu,
                     alias = request.Alias,
-                    destacado = request.Destacado
+                    destacado = request.Destacado,
+                    comision = request.Comision,
                 };
 
                 var resultado = await _comercioService.UpdateComercioAsync(id, request);
@@ -228,6 +230,14 @@ namespace DeliveryYaBackend.Controllers
                 _logger.LogError(ex, "Error al agregar categoría al comercio");
                 return StatusCode(500, "Error interno del servidor");
             }
+        }
+
+        [HttpGet("panel/{id}")]
+        public async Task<ActionResult<ComercioPanelResponse>> GetComercioPanelDetalle(int id)
+        {
+            var detalle = await _comercioService.GetComercioPanelDetalleAsync(id);
+            if (detalle == null) return NotFound();
+            return Ok(detalle);
         }
     }
 }

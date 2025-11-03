@@ -22,6 +22,7 @@ namespace DeliveryYaBackend.DTOs.Responses.Comercios
         public string? CVU { get; set; }
         public string? Alias { get; set; }
         public bool Destacado { get; set; }
+        public decimal Comision { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }

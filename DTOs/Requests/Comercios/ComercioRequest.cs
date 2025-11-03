@@ -18,5 +18,6 @@
         public string? Encargado { get; set; }
         public string? Cvu { get; set; }
         public string? Alias { get; set; }
+        public decimal Comision { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace DeliveryYaBackend.Models
         public string? cvu { get; set; }
         public string? alias { get; set; }
         public bool destacado { get; set; }
+        public decimal comision { get; set; }
         public DateTime? createdAt { get; set; }
         public DateTime? deletedAt { get; set; }
         public DateTime? updatedAt { get; set; }
