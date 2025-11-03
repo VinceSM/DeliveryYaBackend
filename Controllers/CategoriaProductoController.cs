@@ -15,22 +15,18 @@ namespace DeliveryYaBackend.Controllers
             _categoriaProductoService = categoriaProductoService;
         }
 
-        // ✅ Crear producto dentro de una categoría
+        // 🔹 Crear producto dentro de una categoría
         [HttpPost("{idCategoria}/crear")]
         public async Task<IActionResult> CrearProducto([FromRoute] int idCategoria, [FromBody] CreateProductoRequest request)
         {
-            try
-            {
-                var producto = await _categoriaProductoService.CrearProductoAsync(request, idCategoria);
-                return Ok(new { mensaje = "Producto creado correctamente", data = producto });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = $"Error al crear producto: {ex.Message}" });
-            }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var producto = await _categoriaProductoService.CrearProductoAsync(request, idCategoria);
+            return Ok(new { mensaje = "Producto creado correctamente", data = producto });
         }
 
-        // ✅ Listar productos por categoría
+        // 🔹 Listar productos por categoría
         [HttpGet("{idCategoria}/productos")]
         public async Task<IActionResult> GetProductosPorCategoria([FromRoute] int idCategoria)
         {
@@ -41,7 +37,7 @@ namespace DeliveryYaBackend.Controllers
             return Ok(productos);
         }
 
-        // ✅ Buscar productos por nombre
+        // 🔹 Buscar productos por nombre
         [HttpGet("buscar")]
         public async Task<IActionResult> GetProductosPorNombre([FromQuery] string nombre)
         {
@@ -52,7 +48,7 @@ namespace DeliveryYaBackend.Controllers
             return Ok(productos);
         }
 
-        // ✅ Obtener un producto por su ID
+        // 🔹 Obtener producto por ID
         [HttpGet("producto/{idProducto}")]
         public async Task<IActionResult> GetProductoPorId([FromRoute] int idProducto)
         {
@@ -63,25 +59,21 @@ namespace DeliveryYaBackend.Controllers
             return Ok(producto);
         }
 
-        // ✅ Actualizar producto
+        // 🔹 Actualizar producto
         [HttpPut("producto/{idProducto}/editar")]
         public async Task<IActionResult> ActualizarProducto([FromRoute] int idProducto, [FromBody] UpdateProductoRequest request)
         {
-            try
-            {
-                var actualizado = await _categoriaProductoService.ActualizarProductoAsync(idProducto, request);
-                if (actualizado == null)
-                    return NotFound(new { mensaje = "Producto no encontrado para actualizar." });
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-                return Ok(new { mensaje = "Producto actualizado correctamente.", data = actualizado });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = $"Error al actualizar producto: {ex.Message}" });
-            }
+            var actualizado = await _categoriaProductoService.ActualizarProductoAsync(idProducto, request);
+            if (actualizado == null)
+                return NotFound(new { mensaje = "Producto no encontrado para actualizar." });
+
+            return Ok(new { mensaje = "Producto actualizado correctamente.", data = actualizado });
         }
 
-        // ✅ Eliminar producto
+        // 🔹 Eliminar producto
         [HttpDelete("producto/{idProducto}/eliminar")]
         public async Task<IActionResult> EliminarProducto([FromRoute] int idProducto)
         {
