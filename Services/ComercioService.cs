@@ -51,8 +51,8 @@ namespace DeliveryYaBackend.Services
                 nombreComercio = request.NombreComercio,
                 tipoComercio = request.TipoComercio,
                 eslogan = request.Eslogan,
-                fotoPortada = request.FotoPortada, // opcional, se carga después
-                envio = request.Envio,             // opcional, se puede setear luego
+                fotoPortada = null, // opcional, se carga después
+                envio = 0,             // opcional, se puede setear luego
                 deliveryPropio = request.DeliveryPropio,
                 celular = request.Celular,
                 ciudad = request.Ciudad,
@@ -64,7 +64,7 @@ namespace DeliveryYaBackend.Services
                 encargado = request.Encargado,
                 cvu = request.Cvu,
                 alias = request.Alias,
-                destacado = request.Destacado
+                destacado = false,
             };
 
             // 🔒 Hashear la contraseña antes de guardar
