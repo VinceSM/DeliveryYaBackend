@@ -199,39 +199,6 @@ namespace DeliveryYaBackend.Controllers
             }
         }
 
-        [HttpGet("{id}/categorias")]
-        public async Task<IActionResult> GetCategoriasByComercio(int id)
-        {
-            try
-            {
-                var categorias = await _comercioService.GetCategoriasByComercioAsync(id);
-                return Ok(categorias);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al obtener categorías del comercio");
-                return StatusCode(500, "Error interno del servidor");
-            }
-        }
-
-        [HttpPost("{id}/categorias/{categoriaId}")]
-        public async Task<IActionResult> AddCategoriaToComercio(int id, int categoriaId)
-        {
-            try
-            {
-                var resultado = await _comercioService.AddCategoriaToComercioAsync(id, categoriaId);
-                if (!resultado)
-                    return NotFound("Comercio o categoría no encontrados");
-
-                return Ok("Categoría agregada al comercio exitosamente");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al agregar categoría al comercio");
-                return StatusCode(500, "Error interno del servidor");
-            }
-        }
-
         [HttpGet("panel/{id}")]
         public async Task<ActionResult<ComercioPanelResponse>> GetComercioPanelDetalle(int id)
         {

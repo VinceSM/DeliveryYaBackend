@@ -21,39 +21,6 @@ namespace DeliveryYaBackend.Services
             _categoriaRepository = categoriaRepository;
         }
 
-        public async Task<CategoriaProductoResponse?> GetCategoriaConProductosAsync(int categoriaId)
-        {
-            throw new NotImplementedException();
-            //var categoria = await _context.Categorias
-            //    .Where(c => c.idcategoria == categoriaId && c.deletedAt == null)
-            //    .Include(c => c.CategoriaProductos!)
-            //        .ThenInclude(cp => cp.Producto)
-            //    .FirstOrDefaultAsync();
-
-            //if (categoria == null)
-            //    return null;
-
-            //return new CategoriaProductoResponse
-            //{
-            //    Id = categoria.idcategoria,
-            //    Nombre = categoria.nombre!,
-            //    Productos = categoria.CategoriaProductos!
-            //        .Where(cp => cp.Producto!.deletedAt == null)
-            //        .Select(cp => new ProductoResponse
-            //        {
-            //            idproducto = cp.Producto!.idproducto,
-            //            nombre = cp.Producto.nombre!,
-            //            precioUnitario = cp.Producto.precioUnitario,
-            //            fotoPortada = cp.Producto.fotoPortada,
-            //            descripcion = cp.Producto.descripcion,
-            //            unidadMedida = cp.Producto.unidadMedida,
-            //            oferta = cp.Producto.oferta ?? false
-            //        })
-            //        .ToList()
-            //};
-        }
-
-
         // ✅ Crear categoría
         public async Task<CategoriaResponse> CreateAsync(CreateCategoriaRequest request)
         {

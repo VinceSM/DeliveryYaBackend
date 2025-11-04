@@ -22,29 +22,27 @@ namespace DeliveryYaBackend.Services
         private readonly IRepository<Horarios> _horariosRepository;
         private readonly IRepository<Producto> _productoRepository;
         private readonly IRepository<CategoriaProducto> _categoriaProductoRepository;
-        private readonly IRepository<ComercioCategoria> _comercioCategoriaRepository;
         private readonly IRepository<ComercioHorario> _comercioHorarioRepository;
         private readonly IRepository<ItemPedido> _itemPedidoRepository;
         private readonly IRepository<Pedido> _pedidoRepository;
+        private readonly IRepository<ComercioCategoria> _comercioCategoriaRepository;
 
         public ComercioService(
             IRepository<Comercio> comercioRepository,
-            IRepository<Categoria> categoriaRepository,
             IRepository<Horarios> horariosRepository,
             IRepository<Producto> productoRepository,
-            IRepository<CategoriaProducto> categoriaProductoRepository,
             IRepository<ComercioCategoria> comercioCategoriaRepository,
+            IRepository<CategoriaProducto> categoriaProductoRepository,
             IRepository<ComercioHorario> comercioHorarioRepository,
             IRepository<ItemPedido> itemPedidoRepository,
             IRepository<Pedido> pedidoRepository
             )
         {
-            _comercioRepository = comercioRepository;
-            _categoriaRepository = categoriaRepository;
+
             _horariosRepository = horariosRepository;
             _productoRepository = productoRepository;
-            _categoriaProductoRepository = categoriaProductoRepository;
             _comercioCategoriaRepository = comercioCategoriaRepository;
+            _categoriaProductoRepository = categoriaProductoRepository;
             _comercioHorarioRepository = comercioHorarioRepository;
             _itemPedidoRepository = itemPedidoRepository;
             _pedidoRepository = pedidoRepository;
@@ -200,71 +198,6 @@ namespace DeliveryYaBackend.Services
         public async Task<IEnumerable<Comercio>> GetComerciosDestacadosAsync()
         {
             return await _comercioRepository.FindAsync(c => c.destacado == true);
-        }
-
-        // CATEGORÍAS DE COMERCIOS
-        public async Task<bool> AddCategoriaToComercioAsync(int comercioId, int categoriaId)
-        {
-            // Verificar si ya existe la relación
-            var existingRelation = await _comercioCategoriaRepository.FindAsync(cc =>
-                cc.ComercioIdComercio == comercioId && cc.CategoriaIdCategoria == categoriaId);
-
-            if (existingRelation.Any()) return true;
-
-            var comercioCategoria = new ComercioCategoria
-            {
-                ComercioIdComercio = comercioId,
-                CategoriaIdCategoria = categoriaId
-            };
-
-            await _comercioCategoriaRepository.AddAsync(comercioCategoria);
-            return await _comercioCategoriaRepository.SaveChangesAsync();
-        }
-
-        public async Task<bool> RemoveCategoriaFromComercioAsync(int comercioId, int categoriaId)
-        {
-            var relaciones = await _comercioCategoriaRepository.FindAsync(cc =>
-                cc.ComercioIdComercio == comercioId && cc.CategoriaIdCategoria == categoriaId);
-
-            var relacion = relaciones.FirstOrDefault();
-            if (relacion == null) return false;
-
-            _comercioCategoriaRepository.Remove(relacion);
-            return await _comercioCategoriaRepository.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Categoria>> GetCategoriasByComercioAsync(int comercioId)
-        {
-            var relaciones = await _comercioCategoriaRepository.FindAsync(cc => cc.ComercioIdComercio == comercioId);
-            var categorias = new List<Categoria>();
-
-            foreach (var relacion in relaciones)
-            {
-                var categoria = await _categoriaRepository.GetByIdAsync(relacion.CategoriaIdCategoria);
-                if (categoria != null)
-                {
-                    categorias.Add(categoria);
-                }
-            }
-
-            return categorias;
-        }
-
-        public async Task<IEnumerable<Comercio>> GetComerciosByCategoriaAsync(int categoriaId)
-        {
-            var relaciones = await _comercioCategoriaRepository.FindAsync(cc => cc.CategoriaIdCategoria == categoriaId);
-            var comercios = new List<Comercio>();
-
-            foreach (var relacion in relaciones)
-            {
-                var comercio = await _comercioRepository.GetByIdAsync(relacion.ComercioIdComercio);
-                if (comercio != null)
-                {
-                    comercios.Add(comercio);
-                }
-            }
-
-            return comercios;
         }
 
         // HORARIOS DE COMERCIOS

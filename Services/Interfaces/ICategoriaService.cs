@@ -10,7 +10,5 @@ namespace DeliveryYaBackend.Services.Interfaces
         Task<CategoriaResponse> CreateAsync(CreateCategoriaRequest request);
         Task<CategoriaResponse?> UpdateAsync(int id, UpdateCategoriaRequest request);
         Task<bool> DeleteAsync(int id);
-        Task<CategoriaProductoResponse?> GetCategoriaConProductosAsync(int categoriaId);
-
     }
 }
