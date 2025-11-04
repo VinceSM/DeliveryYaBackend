@@ -12,9 +12,5 @@ namespace DeliveryYaBackend.Repositories
         public ComercioRepository(AppDbContext context) : base(context)
         {
         }
-
-        
-
-
     }
 }

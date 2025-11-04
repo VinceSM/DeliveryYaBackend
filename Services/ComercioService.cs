@@ -19,8 +19,8 @@ namespace DeliveryYaBackend.Services
     {
         private readonly IRepository<Comercio> _comercioRepository;
         private readonly IRepository<Categoria> _categoriaRepository;
-        private readonly IRepository<Horarios> _horariosRepository;
         private readonly IRepository<Producto> _productoRepository;
+        private readonly IRepository<Horarios> _horariosRepository;
         private readonly IRepository<CategoriaProducto> _categoriaProductoRepository;
         private readonly IRepository<ComercioHorario> _comercioHorarioRepository;
         private readonly IRepository<ItemPedido> _itemPedidoRepository;
@@ -38,9 +38,8 @@ namespace DeliveryYaBackend.Services
             IRepository<Pedido> pedidoRepository
             )
         {
-
-            _horariosRepository = horariosRepository;
             _productoRepository = productoRepository;
+            _horariosRepository = horariosRepository;
             _comercioCategoriaRepository = comercioCategoriaRepository;
             _categoriaProductoRepository = categoriaProductoRepository;
             _comercioHorarioRepository = comercioHorarioRepository;
@@ -198,73 +197,6 @@ namespace DeliveryYaBackend.Services
         public async Task<IEnumerable<Comercio>> GetComerciosDestacadosAsync()
         {
             return await _comercioRepository.FindAsync(c => c.destacado == true);
-        }
-
-        // HORARIOS DE COMERCIOS
-        public async Task<bool> AddHorarioToComercioAsync(int comercioId, int horarioId)
-        {
-            var existingRelation = await _comercioHorarioRepository.FindAsync(ch =>
-                ch.ComercioIdComercio == comercioId && ch.HorariosIdHorarios == horarioId);
-
-            if (existingRelation.Any()) return true;
-
-            var comercioHorario = new ComercioHorario
-            {
-                ComercioIdComercio = comercioId,
-                HorariosIdHorarios = horarioId
-            };
-
-            await _comercioHorarioRepository.AddAsync(comercioHorario);
-            return await _comercioHorarioRepository.SaveChangesAsync();
-        }
-
-        public async Task<bool> RemoveHorarioFromComercioAsync(int comercioId, int horarioId)
-        {
-            var relaciones = await _comercioHorarioRepository.FindAsync(ch =>
-                ch.ComercioIdComercio == comercioId && ch.HorariosIdHorarios == horarioId);
-
-            var relacion = relaciones.FirstOrDefault();
-            if (relacion == null) return false;
-
-            _comercioHorarioRepository.Remove(relacion);
-            return await _comercioHorarioRepository.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Horarios>> GetHorariosByComercioAsync(int comercioId)
-        {
-            var relaciones = await _comercioHorarioRepository.FindAsync(ch => ch.ComercioIdComercio == comercioId);
-            var horarios = new List<Horarios>();
-
-            foreach (var relacion in relaciones)
-            {
-                var horario = await _horariosRepository.GetByIdAsync(relacion.HorariosIdHorarios);
-                if (horario != null)
-                {
-                    horarios.Add(horario);
-                }
-            }
-
-            return horarios;
-        }
-
-        public async Task<bool> CheckComercioAbiertoAsync(int comercioId)
-        {
-            var horarios = await GetHorariosByComercioAsync(comercioId);
-            var ahora = DateTime.Now.TimeOfDay;
-            var diaActual = DateTime.Now.DayOfWeek.ToString();
-
-            foreach (var horario in horarios)
-            {
-                if (horario.dias != null && horario.dias.Contains(diaActual) &&
-                    horario.apertura.HasValue && horario.cierre.HasValue &&
-                    ahora >= horario.apertura.Value && ahora <= horario.cierre.Value &&
-                    horario.abierto)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         // PRODUCTOS DE COMERCIOS

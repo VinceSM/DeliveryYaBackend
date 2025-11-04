@@ -20,12 +20,6 @@ namespace DeliveryYaBackend.Services.Interfaces
         // Gestión de estado y destacados
         Task<IEnumerable<Comercio>> GetComerciosDestacadosAsync();
 
-        // Horarios de comercios
-        Task<bool> AddHorarioToComercioAsync(int comercioId, int horarioId);
-        Task<bool> RemoveHorarioFromComercioAsync(int comercioId, int horarioId);
-        Task<IEnumerable<Horarios>> GetHorariosByComercioAsync(int comercioId);
-        Task<bool> CheckComercioAbiertoAsync(int comercioId);
-
         // Productos de comercios
         Task<IEnumerable<Producto>> GetProductosByComercioAsync(int comercioId);
         Task<int> GetCantidadProductosByComercioAsync(int comercioId);
