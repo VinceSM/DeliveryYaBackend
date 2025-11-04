@@ -23,15 +23,16 @@ namespace DeliveryYaBackend.Controllers.Admin
         }
 
         // ✅ Crear una nueva categoría
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<CategoriaResponse>> CreateAsync([FromBody] CreateCategoriaRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var nuevaCategoria = await _categoriaService.CreateAsync(request);
-            // Devuelve 201 Created con header Location correcto
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = nuevaCategoria.Id }, nuevaCategoria);
+
+            // ✅ Retorna Created con la ubicación del nuevo recurso
+            return CreatedAtRoute("AdminGetCategoriaById", new { id = nuevaCategoria.Id }, nuevaCategoria);
         }
 
         // ✏️ Actualizar una categoría existente
@@ -68,7 +69,7 @@ namespace DeliveryYaBackend.Controllers.Admin
         }
 
         // 📄 Obtener una categoría por ID
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "AdminGetCategoriaById")]
         public async Task<ActionResult<CategoriaResponse>> GetByIdAsync(int id)
         {
             var categoria = await _categoriaService.GetByIdAsync(id);
@@ -78,16 +79,5 @@ namespace DeliveryYaBackend.Controllers.Admin
             return Ok(categoria);
         }
 
-        // 🛍️ Obtener todos los productos de una categoría
-        [HttpGet("{id}/productos")]
-        public async Task<ActionResult<IEnumerable<ProductoResponse>>> GetProductosPorCategoriaAsync(int id)
-        {
-            var categoria = await _categoriaService.GetByIdAsync(id);
-            if (categoria == null)
-                return NotFound(new { message = "Categoría no encontrada." });
-
-            var productos = await _productoService.GetByCategoriaAsync(id);
-            return Ok(productos);
-        }
     }
 }
