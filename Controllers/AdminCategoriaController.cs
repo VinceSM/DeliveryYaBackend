@@ -11,11 +11,11 @@ namespace DeliveryYaBackend.Controllers.Admin
     public class AdminCategoriaController : ControllerBase
     {
         private readonly ICategoriaService _categoriaService;
-        private readonly IProductoService _productoService; // 👈 Agregamos esto
+        private readonly IProductoService _productoService;
 
         public AdminCategoriaController(
             ICategoriaService categoriaService,
-            IProductoService productoService // 👈 Inyectamos productoService
+            IProductoService productoService
         )
         {
             _categoriaService = categoriaService;
@@ -23,18 +23,19 @@ namespace DeliveryYaBackend.Controllers.Admin
         }
 
         // ✅ Crear una nueva categoría
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<ActionResult<CategoriaResponse>> CreateAsync([FromBody] CreateCategoriaRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var nuevaCategoria = await _categoriaService.CreateAsync(request);
+            // Devuelve 201 Created con header Location correcto
             return CreatedAtAction(nameof(GetByIdAsync), new { id = nuevaCategoria.Id }, nuevaCategoria);
         }
 
         // ✏️ Actualizar una categoría existente
-        [HttpPut("update/{id}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<CategoriaResponse>> UpdateAsync(int id, [FromBody] UpdateCategoriaRequest request)
         {
             if (!ModelState.IsValid)
@@ -48,7 +49,7 @@ namespace DeliveryYaBackend.Controllers.Admin
         }
 
         // 🗑️ Eliminar (borrado lógico)
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var eliminado = await _categoriaService.DeleteAsync(id);
@@ -59,7 +60,7 @@ namespace DeliveryYaBackend.Controllers.Admin
         }
 
         // 📜 Listar todas las categorías activas
-        [HttpGet("list")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoriaResponse>>> GetAllAsync()
         {
             var categorias = await _categoriaService.GetAllAsync();
