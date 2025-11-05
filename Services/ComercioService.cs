@@ -38,6 +38,7 @@ namespace DeliveryYaBackend.Services
             IRepository<Pedido> pedidoRepository
             )
         {
+            _comercioRepository = comercioRepository;
             _productoRepository = productoRepository;
             _horariosRepository = horariosRepository;
             _comercioCategoriaRepository = comercioCategoriaRepository;
