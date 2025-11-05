@@ -38,7 +38,11 @@ namespace DeliveryYaBackend.Services
             if (comercio == null || comercio.deletedAt != null)
                 return null;
 
-            comercio.createdAt = DateTime.UtcNow;
+            if (comercio.createdAt == null)
+                comercio.createdAt = DateTime.UtcNow;
+
+            comercio.updatedAt = DateTime.UtcNow;
+
             _comercioRepository.Update(comercio);
             await _comercioRepository.SaveChangesAsync();
 
@@ -48,7 +52,8 @@ namespace DeliveryYaBackend.Services
         public async Task<ComercioResponse?> DestacarComercioAsync(int id, bool destacado)
         {
             var comercio = await _comercioRepository.GetByIdAsync(id);
-            if (comercio == null) return null;
+            if (comercio == null || comercio.deletedAt != null)
+                return null;
 
             comercio.destacado = destacado;
             comercio.updatedAt = DateTime.UtcNow;
@@ -57,19 +62,6 @@ namespace DeliveryYaBackend.Services
             await _comercioRepository.SaveChangesAsync();
 
             return ToResponse(comercio);
-        }
-
-        private ComercioResponse ToResponse(Comercio comercio)
-        {
-            return new ComercioResponse
-            {
-                Id = comercio.idcomercio,
-                NombreComercio = comercio.nombreComercio,
-                TipoComercio = comercio.tipoComercio,
-                Ciudad = comercio.ciudad,
-                Destacado = comercio.destacado,
-                CreatedAt = comercio.createdAt
-            };
         }
 
         public async Task<ComercioDetalleResponse?> GetDetalleAsync(int id)
@@ -100,6 +92,19 @@ namespace DeliveryYaBackend.Services
                 Destacado = comercio.destacado,
                 CreatedAt = comercio.createdAt,
                 UpdatedAt = comercio.updatedAt
+            };
+        }
+
+        private static ComercioResponse ToResponse(Comercio comercio)
+        {
+            return new ComercioResponse
+            {
+                Id = comercio.idcomercio,
+                NombreComercio = comercio.nombreComercio,
+                TipoComercio = comercio.tipoComercio,
+                Ciudad = comercio.ciudad,
+                Destacado = comercio.destacado,
+                CreatedAt = comercio.createdAt
             };
         }
     }

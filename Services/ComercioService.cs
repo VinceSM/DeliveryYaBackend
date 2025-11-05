@@ -4,20 +4,15 @@ using DeliveryYaBackend.DTOs.Responses.Comercios;
 using DeliveryYaBackend.DTOs.Responses.Horarios;
 using DeliveryYaBackend.DTOs.Responses.Productos;
 using DeliveryYaBackend.Models;
-using DeliveryYaBackend.Repositories;
 using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Asn1.Ocsp;
-using Org.BouncyCastle.Crypto.Generators;
-
 
 namespace DeliveryYaBackend.Services
 {
     public class ComercioService : IComercioService
     {
-        private readonly IRepository<Comercio> _comercioRepository;
+        private readonly IComercioRepository _comercioRepository;
         private readonly IRepository<Categoria> _categoriaRepository;
         private readonly IRepository<Producto> _productoRepository;
         private readonly IRepository<Horarios> _horariosRepository;
@@ -28,21 +23,21 @@ namespace DeliveryYaBackend.Services
         private readonly IRepository<ComercioCategoria> _comercioCategoriaRepository;
 
         public ComercioService(
-            IRepository<Comercio> comercioRepository,
-            IRepository<Horarios> horariosRepository,
-            IRepository<Producto> productoRepository,
+            IComercioRepository comercioRepository,
             IRepository<Categoria> categoriaRepository,
+            IRepository<Producto> productoRepository,
+            IRepository<Horarios> horariosRepository,
             IRepository<ComercioCategoria> comercioCategoriaRepository,
             IRepository<CategoriaProducto> categoriaProductoRepository,
             IRepository<ComercioHorario> comercioHorarioRepository,
             IRepository<ItemPedido> itemPedidoRepository,
             IRepository<Pedido> pedidoRepository
-            )
+        )
         {
             _comercioRepository = comercioRepository;
+            _categoriaRepository = categoriaRepository;
             _productoRepository = productoRepository;
             _horariosRepository = horariosRepository;
-            _categoriaRepository = categoriaRepository;
             _comercioCategoriaRepository = comercioCategoriaRepository;
             _categoriaProductoRepository = categoriaProductoRepository;
             _comercioHorarioRepository = comercioHorarioRepository;
@@ -50,35 +45,35 @@ namespace DeliveryYaBackend.Services
             _pedidoRepository = pedidoRepository;
         }
 
-        // OPERACIONES BÁSICAS
+        // ===========================
+        // 🔹 OPERACIONES BÁSICAS
+        // ===========================
         public async Task<ComercioResponse> CreateComercioAsync(ComercioRequest request)
         {
             var comercio = new Comercio
             {
                 email = request.Email,
-                password = request.Password,
+                password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 nombreComercio = request.NombreComercio,
                 tipoComercio = request.TipoComercio,
                 eslogan = request.Eslogan,
-                fotoPortada = null, // opcional, se carga después
-                envio = 0,             // opcional, se puede setear luego
+                fotoPortada = null,
+                envio = 0,
                 deliveryPropio = request.DeliveryPropio,
                 celular = request.Celular,
                 ciudad = request.Ciudad,
                 calle = request.Calle,
                 numero = request.Numero,
                 sucursales = request.Sucursales,
-                latitud = request.Latitud,         // ahora puede ser null
-                longitud = request.Longitud,       // ahora puede ser null
+                latitud = request.Latitud,
+                longitud = request.Longitud,
                 encargado = request.Encargado,
                 cvu = request.Cvu,
                 alias = request.Alias,
                 destacado = false,
                 comision = 0,
+                createdAt = DateTime.UtcNow
             };
-
-            // 🔒 Hashear la contraseña antes de guardar
-            comercio.password = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
             await _comercioRepository.AddAsync(comercio);
             await _comercioRepository.SaveChangesAsync();
@@ -86,69 +81,29 @@ namespace DeliveryYaBackend.Services
             return ToResponse(comercio);
         }
 
-        private ComercioResponse ToResponse(Comercio comercio)
-        {
-            return new ComercioResponse
-            {
-                Id = comercio.idcomercio,
-                Email = comercio.email,
-                NombreComercio = comercio.nombreComercio,
-                TipoComercio = comercio.tipoComercio,
-                Eslogan = comercio.eslogan,
-                FotoPortada = comercio.fotoPortada,
-                Envio = comercio.envio,
-                DeliveryPropio = comercio.deliveryPropio,
-                Celular = comercio.celular,
-                Ciudad = comercio.ciudad,
-                Calle = comercio.calle,
-                Numero = comercio.numero,
-                Sucursales = comercio.sucursales,
-                Latitud = comercio.latitud,
-                Longitud = comercio.longitud,
-                Encargado = comercio.encargado,
-                Cvu = comercio.cvu,
-                Alias = comercio.alias,
-                Destacado = comercio.destacado,
-                Comision = comercio.comision,
-            };
-        }
-
-        public async Task<Comercio> GetComercioByEmailAsync(string email)
-        {
-            var comercios = await _comercioRepository.FindAsync(c => c.email == email);
-            return comercios.FirstOrDefault();
-        }
-
-        public async Task<bool> ComercioExistsAsync(string email)
-        {
-            var comercios = await _comercioRepository.FindAsync(c => c.email == email);
-            return comercios.Any();
-        }
+        public async Task<IEnumerable<Comercio>> GetAllComerciosAsync()
+            => await _comercioRepository.GetAllActivosAsync();
 
         public async Task<Comercio> GetComercioByIdAsync(int id)
-        {
-            return await _comercioRepository.GetByIdAsync(id);
-        }
+            => await _comercioRepository.GetByIdAsync(id);
 
-        public async Task<IEnumerable<Comercio>> GetAllComerciosAsync()
-        {
-            return await _comercioRepository.GetAllAsync();
-        }
+        public async Task<Comercio> GetComercioByEmailAsync(string email)
+            => await _comercioRepository.GetByEmailAsync(email);
+
+        public async Task<bool> ComercioExistsAsync(string email)
+            => await _comercioRepository.ExistsAsync(c => c.email == email);
 
         public async Task<IEnumerable<Comercio>> GetComerciosByNombreAsync(string nombre)
-        {
-            return await _comercioRepository.FindAsync(c => c.nombreComercio.Contains(nombre));
-        }
+            => await _comercioRepository.GetByNombreAsync(nombre);
 
         public async Task<IEnumerable<Comercio>> GetComerciosByCiudadAsync(string ciudad)
-        {
-            return await _comercioRepository.FindAsync(c => c.ciudad.Equals(ciudad, StringComparison.OrdinalIgnoreCase));
-        }
+            => await _comercioRepository.GetByCiudadAsync(ciudad);
 
         public async Task<ComercioResponse?> UpdateComercioAsync(int id, UpdateComercioRequest request)
         {
             var comercio = await _comercioRepository.GetByIdAsync(id);
-            if (comercio == null) return null;
+            if (comercio == null || comercio.deletedAt != null)
+                return null;
 
             comercio.nombreComercio = request.NombreComercio;
             comercio.tipoComercio = request.TipoComercio;
@@ -156,7 +111,6 @@ namespace DeliveryYaBackend.Services
             comercio.email = request.Email;
             comercio.calle = request.Calle;
             comercio.numero = request.Numero;
-            comercio.sucursales = request.Sucursales;
             comercio.ciudad = request.Ciudad;
             comercio.fotoPortada = request.FotoPortada;
             comercio.envio = request.Envio;
@@ -169,14 +123,10 @@ namespace DeliveryYaBackend.Services
             comercio.longitud = request.Longitud;
             comercio.destacado = request.Destacado;
             comercio.comision = request.Comision;
-
-            // Solo hashear si la contraseña viene en el request
-            if (!string.IsNullOrEmpty(request.Password))
-            {
-                comercio.password = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            }
-
             comercio.updatedAt = DateTime.UtcNow;
+
+            if (!string.IsNullOrEmpty(request.Password))
+                comercio.password = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
             _comercioRepository.Update(comercio);
             await _comercioRepository.SaveChangesAsync();
@@ -189,35 +139,38 @@ namespace DeliveryYaBackend.Services
             var comercio = await _comercioRepository.GetByIdAsync(id);
             if (comercio == null) return false;
 
-            _comercioRepository.Remove(comercio);
-            await _comercioRepository.SaveChangesAsync();
+            comercio.deletedAt = DateTime.UtcNow;
 
-            return true;
+            _comercioRepository.Update(comercio);
+            return await _comercioRepository.SaveChangesAsync();
         }
 
-        // GESTIÓN DE DESTACADOS Y ESTADO
-
+        // ===========================
+        // 🔹 DESTACADOS Y ESTADO
+        // ===========================
         public async Task<IEnumerable<Comercio>> GetComerciosDestacadosAsync()
-        {
-            return await _comercioRepository.FindAsync(c => c.destacado == true);
-        }
+            => await _comercioRepository.GetDestacadosAsync();
 
-        // PRODUCTOS DE COMERCIOS
+        // ===========================
+        // 🔹 PRODUCTOS DEL COMERCIO
+        // ===========================
         public async Task<IEnumerable<Producto>> GetProductosByComercioAsync(int comercioId)
         {
-            // Esta implementación depende de cómo relates productos con comercios
-            // Puede ser through categorías compartidas o through items de pedido
-            var itemsPedido = await _itemPedidoRepository.FindAsync(ip => ip.ComercioIdComercio == comercioId);
-            var productoIds = itemsPedido.Select(ip => ip.ProductoIdProducto).Distinct();
+            // 1️⃣ Busco las categorías del comercio
+            var relacionesCategorias = await _comercioCategoriaRepository.FindAsync(cc => cc.ComercioIdComercio == comercioId);
+            var categoriaIds = relacionesCategorias.Select(c => c.CategoriaIdCategoria).Distinct();
 
+            // 2️⃣ Busco los productos de esas categorías
+            var relacionesCatProd = await _categoriaProductoRepository.FindAsync(cp => categoriaIds.Contains(cp.CategoriaIdCategoria));
+            var productoIds = relacionesCatProd.Select(cp => cp.ProductoIdProducto).Distinct();
+
+            // 3️⃣ Devuelvo los productos activos
             var productos = new List<Producto>();
-            foreach (var productoId in productoIds)
+            foreach (var id in productoIds)
             {
-                var producto = await _productoRepository.GetByIdAsync(productoId);
-                if (producto != null)
-                {
+                var producto = await _productoRepository.GetByIdAsync(id);
+                if (producto != null && producto.deletedAt == null)
                     productos.Add(producto);
-                }
             }
 
             return productos;
@@ -229,49 +182,45 @@ namespace DeliveryYaBackend.Services
             return productos.Count();
         }
 
-        // ESTADÍSTICAS Y REPORTES
+        // ===========================
+        // 🔹 ESTADÍSTICAS Y REPORTES
+        // ===========================
         public async Task<decimal> GetVentasTotalesByComercioAsync(int comercioId, DateTime? startDate, DateTime? endDate)
         {
-            var itemsQuery = _itemPedidoRepository.FindAsync(ip => ip.ComercioIdComercio == comercioId);
-            var items = await itemsQuery;
+            var items = await _itemPedidoRepository.FindAsync(ip => ip.ComercioIdComercio == comercioId);
 
             if (startDate.HasValue)
-            {
                 items = items.Where(ip => ip.Pedido.fecha >= startDate.Value).ToList();
-            }
 
             if (endDate.HasValue)
-            {
                 items = items.Where(ip => ip.Pedido.fecha <= endDate.Value).ToList();
-            }
 
             return items.Sum(ip => ip.precioFinal * ip.cantProducto);
         }
 
         public async Task<int> GetPedidosComercioAsync(int comercioId, DateTime? startDate, DateTime? endDate)
         {
-            var itemsQuery = _itemPedidoRepository.FindAsync(ip => ip.ComercioIdComercio == comercioId);
-            var items = await itemsQuery;
+            var items = await _itemPedidoRepository.FindAsync(ip => ip.ComercioIdComercio == comercioId);
 
             if (startDate.HasValue)
-            {
                 items = items.Where(ip => ip.Pedido.fecha >= startDate.Value).ToList();
-            }
 
             if (endDate.HasValue)
-            {
                 items = items.Where(ip => ip.Pedido.fecha <= endDate.Value).ToList();
-            }
 
             return items.Select(ip => ip.PedidoIdPedido).Distinct().Count();
         }
 
+        // ===========================
+        // 🔹 PANEL DETALLE
+        // ===========================
         public async Task<ComercioPanelResponse?> GetComercioPanelDetalleAsync(int comercioId)
         {
             var comercio = await _comercioRepository.GetByIdAsync(comercioId);
-            if (comercio == null) return null;
+            if (comercio == null || comercio.deletedAt != null)
+                return null;
 
-            var panelResponse = new ComercioPanelResponse
+            var panel = new ComercioPanelResponse
             {
                 Id = comercio.idcomercio,
                 NombreComercio = comercio.nombreComercio,
@@ -279,27 +228,25 @@ namespace DeliveryYaBackend.Services
                 FotoPortada = comercio.fotoPortada,
                 Envio = comercio.envio,
                 DeliveryPropio = comercio.deliveryPropio,
-                Celular = comercio.celular,
                 Ciudad = comercio.ciudad,
                 Calle = comercio.calle,
                 Numero = comercio.numero,
                 Sucursales = comercio.sucursales,
-                Latitud = comercio.latitud,
-                Longitud = comercio.longitud,
+                Celular = comercio.celular,
                 Encargado = comercio.encargado,
                 Cvu = comercio.cvu,
                 Alias = comercio.alias,
                 Comision = comercio.comision
             };
 
-            // Horarios
+            // 🕓 Horarios
             var relacionesHorarios = await _comercioHorarioRepository.FindAsync(ch => ch.ComercioIdComercio == comercioId);
             foreach (var rh in relacionesHorarios)
             {
                 var horario = await _horariosRepository.GetByIdAsync(rh.HorariosIdHorarios);
                 if (horario != null)
                 {
-                    panelResponse.Horarios.Add(new HorarioResponse
+                    panel.Horarios.Add(new HorarioResponse
                     {
                         Apertura = horario.apertura,
                         Cierre = horario.cierre,
@@ -309,25 +256,24 @@ namespace DeliveryYaBackend.Services
                 }
             }
 
-            // Categorías con productos
+            // 📦 Categorías con productos
             var relacionesCategorias = await _comercioCategoriaRepository.FindAsync(cc => cc.ComercioIdComercio == comercioId);
             foreach (var rc in relacionesCategorias)
             {
                 var categoria = await _categoriaRepository.GetByIdAsync(rc.CategoriaIdCategoria);
-                if (categoria != null)
+                if (categoria == null || categoria.deletedAt != null) continue;
+
+                var categoriaResponse = new CategoriaProductoResponse
                 {
-                    var categoriaResponse = new CategoriaProductoResponse
-                    {
-                        Id = categoria.idcategoria,
-                        Nombre = categoria.nombre
-                    };
+                    Id = categoria.idcategoria,
+                    Nombre = categoria.nombre
+                };
 
-                    // Productos de la categoría
-                    var productosRelacionados = await _productoRepository.FindAsync(p =>
-                        _categoriaProductoRepository.FindAsync(cp => cp.CategoriaIdCategoria == categoria.idcategoria && cp.ProductoIdProducto == p.idproducto).Result.Any()
-                    );
-
-                    foreach (var producto in productosRelacionados)
+                var relacionesCatProd = await _categoriaProductoRepository.FindAsync(cp => cp.CategoriaIdCategoria == categoria.idcategoria);
+                foreach (var rel in relacionesCatProd)
+                {
+                    var producto = await _productoRepository.GetByIdAsync(rel.ProductoIdProducto);
+                    if (producto != null && producto.deletedAt == null)
                     {
                         categoriaResponse.Productos.Add(new ProductoResponse
                         {
@@ -337,12 +283,39 @@ namespace DeliveryYaBackend.Services
                             FotoPortada = producto.fotoPortada
                         });
                     }
-
-                    panelResponse.Categorias.Add(categoriaResponse);
                 }
+
+                panel.Categorias.Add(categoriaResponse);
             }
 
-            return panelResponse;
+            return panel;
         }
+
+        // ===========================
+        // 🔹 Helper
+        // ===========================
+        private ComercioResponse ToResponse(Comercio comercio) => new ComercioResponse
+        {
+            Id = comercio.idcomercio,
+            Email = comercio.email,
+            NombreComercio = comercio.nombreComercio,
+            TipoComercio = comercio.tipoComercio,
+            Eslogan = comercio.eslogan,
+            FotoPortada = comercio.fotoPortada,
+            Envio = comercio.envio,
+            DeliveryPropio = comercio.deliveryPropio,
+            Celular = comercio.celular,
+            Ciudad = comercio.ciudad,
+            Calle = comercio.calle,
+            Numero = comercio.numero,
+            Sucursales = comercio.sucursales,
+            Latitud = comercio.latitud,
+            Longitud = comercio.longitud,
+            Encargado = comercio.encargado,
+            Cvu = comercio.cvu,
+            Alias = comercio.alias,
+            Destacado = comercio.destacado,
+            Comision = comercio.comision
+        };
     }
 }
