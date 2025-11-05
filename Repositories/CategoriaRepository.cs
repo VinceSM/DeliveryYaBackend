@@ -22,5 +22,12 @@ namespace DeliveryYaBackend.Repositories
                 .OrderBy(c => c.nombre)
                 .ToListAsync();
         }
+
+        public async Task<Categoria?> GetByNameAsync(string nombre)
+        {
+            return await _context.Categorias
+                .FirstOrDefaultAsync(c => c.nombre.ToLower() == nombre.ToLower() && c.deletedAt == null);
+        }
+
     }
 }

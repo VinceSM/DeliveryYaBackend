@@ -6,5 +6,7 @@ namespace DeliveryYaBackend.Repositories.Interfaces
     {
         // Métodos específicos de Categoría si los necesitás más adelante
         Task<IEnumerable<Categoria>> GetAllActiveAsync();
+        Task<Categoria?> GetByNameAsync(string nombre);
+
     }
 }

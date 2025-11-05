@@ -13,40 +13,40 @@ namespace DeliveryYaBackend.Services
     public class ProductoService : IProductoService
     {
         private readonly IProductoRepository _productoRepository;
-        private readonly IRepository<CategoriaProducto> _categoriaProductoRepository;
+        private readonly ICategoriaProductoRepository _categoriaProductoRepository;
+        private readonly IComercioCategoriaRepository _comercioCategoriaRepository;
         private readonly IMapper _mapper;
 
         public ProductoService(
             IProductoRepository productoRepository,
-            IRepository<CategoriaProducto> categoriaProductoRepository,
+            ICategoriaProductoRepository categoriaProductoRepository,
+            IComercioCategoriaRepository comercioCategoriaRepository,
             IMapper mapper)
         {
             _productoRepository = productoRepository;
             _categoriaProductoRepository = categoriaProductoRepository;
+            _comercioCategoriaRepository = comercioCategoriaRepository;
             _mapper = mapper;
         }
 
         // Crear producto y asignar categoría
         public async Task<ProductoResponse> CreateAsync(CreateProductoRequest request)
         {
+            // 🟩 1. Mapear request a entidad
             var producto = _mapper.Map<Producto>(request);
             producto.createdAt = DateTime.UtcNow;
 
-            await _productoRepository.AddAsync(producto);
-            await _productoRepository.SaveChangesAsync();
+            // 🟩 2. Crear producto y asociar a categoría
+            var productoCreado = await _categoriaProductoRepository.CreateProductoAsync(producto, request.CategoriaId);
 
-            if (request.CategoriaId != 0)
+            // 🟩 3. Asociar comercio con categoría (si no está ya asociada)
+            if (request.ComercioId != 0 && request.CategoriaId != 0)
             {
-                var categoriaProducto = new CategoriaProducto
-                {
-                    CategoriaIdCategoria = request.CategoriaId,
-                    ProductoIdProducto = producto.idproducto
-                };
-                await _categoriaProductoRepository.AddAsync(categoriaProducto);
-                await _categoriaProductoRepository.SaveChangesAsync();
+                await _comercioCategoriaRepository.AddCategoriaToComercioAsync(request.ComercioId, request.CategoriaId);
             }
 
-            return _mapper.Map<ProductoResponse>(producto);
+            // 🟩 4. Devolver DTO
+            return _mapper.Map<ProductoResponse>(productoCreado);
         }
 
         // Actualizar producto

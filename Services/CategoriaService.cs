@@ -1,20 +1,14 @@
-﻿using DeliveryYaBackend.Data;
-using DeliveryYaBackend.DTOs.Requests;
-using DeliveryYaBackend.DTOs.Requests.Categorias;
-using DeliveryYaBackend.DTOs.Responses;
+﻿using DeliveryYaBackend.DTOs.Requests.Categorias;
 using DeliveryYaBackend.DTOs.Responses.Categorias;
-using DeliveryYaBackend.DTOs.Responses.Productos;
 using DeliveryYaBackend.Models;
 using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace DeliveryYaBackend.Services
 {
     public class CategoriaService : ICategoriaService
     {
         private readonly ICategoriaRepository _categoriaRepository;
-        private readonly AppDbContext _context;
 
         public CategoriaService(ICategoriaRepository categoriaRepository)
         {
@@ -24,6 +18,11 @@ namespace DeliveryYaBackend.Services
         // ✅ Crear categoría
         public async Task<CategoriaResponse> CreateAsync(CreateCategoriaRequest request)
         {
+            // Evitar duplicados
+            var existentes = await _categoriaRepository.GetAllActiveAsync();
+            if (existentes.Any(c => c.nombre.ToLower() == request.Nombre.ToLower()))
+                throw new InvalidOperationException("Ya existe una categoría con ese nombre.");
+
             var categoria = new Categoria
             {
                 nombre = request.Nombre,
@@ -36,7 +35,7 @@ namespace DeliveryYaBackend.Services
             return ToResponse(categoria);
         }
 
-        // ✏️ Actualizar nombre
+        // ✏️ Actualizar
         public async Task<CategoriaResponse?> UpdateAsync(int id, UpdateCategoriaRequest request)
         {
             var categoria = await _categoriaRepository.GetByIdAsync(id);
@@ -52,7 +51,7 @@ namespace DeliveryYaBackend.Services
             return ToResponse(categoria);
         }
 
-        // 🗑️ Eliminar categoría (borrado lógico)
+        // 🗑️ Borrado lógico
         public async Task<bool> DeleteAsync(int id)
         {
             var categoria = await _categoriaRepository.GetByIdAsync(id);
@@ -63,20 +62,24 @@ namespace DeliveryYaBackend.Services
 
             _categoriaRepository.Update(categoria);
             await _categoriaRepository.SaveChangesAsync();
-
             return true;
         }
 
-        // 📜 Listar todas las categorías activas
+        // 📜 Todas
         public async Task<IEnumerable<CategoriaResponse>> GetAllAsync()
         {
             var categorias = await _categoriaRepository.GetAllAsync();
-            return categorias
-                .Where(c => c.deletedAt == null)
-                .Select(ToResponse);
+            return categorias.Select(ToResponse);
         }
 
-        // 📄 Obtener una categoría por ID
+        // 📜 Solo activas
+        public async Task<IEnumerable<CategoriaResponse>> GetAllActiveAsync()
+        {
+            var categorias = await _categoriaRepository.GetAllActiveAsync();
+            return categorias.Select(ToResponse);
+        }
+
+        // 📄 Por ID
         public async Task<CategoriaResponse?> GetByIdAsync(int id)
         {
             var categoria = await _categoriaRepository.GetByIdAsync(id);
@@ -86,13 +89,10 @@ namespace DeliveryYaBackend.Services
             return ToResponse(categoria);
         }
 
-        private CategoriaResponse ToResponse(Categoria categoria)
+        private static CategoriaResponse ToResponse(Categoria categoria) => new CategoriaResponse
         {
-            return new CategoriaResponse
-            {
-                Id = categoria.idcategoria,
-                Nombre = categoria.nombre
-            };
-        }
+            Id = categoria.idcategoria,
+            Nombre = categoria.nombre
+        };
     }
 }

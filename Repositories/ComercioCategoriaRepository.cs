@@ -20,19 +20,20 @@ namespace DeliveryYaBackend.Repositories
             var existe = await _context.ComercioCategorias
                 .AnyAsync(cc => cc.ComercioIdComercio == comercioId && cc.CategoriaIdCategoria == categoriaId);
 
-            if (existe) return false;
+            if (existe)
+                return false;
 
-            var relacion = new ComercioCategoria
+            var nueva = new ComercioCategoria
             {
                 ComercioIdComercio = comercioId,
                 CategoriaIdCategoria = categoriaId
             };
 
-            await _context.ComercioCategorias.AddAsync(relacion);
+            _context.ComercioCategorias.Add(nueva);
             await _context.SaveChangesAsync();
-
             return true;
         }
+
 
         // ✅ Quitar categoría de comercio
         public async Task<bool> RemoveCategoriaFromComercioAsync(int comercioId, int categoriaId)

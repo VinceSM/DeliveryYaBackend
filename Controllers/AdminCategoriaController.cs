@@ -23,7 +23,7 @@ namespace DeliveryYaBackend.Controllers.Admin
         }
 
         // ✅ Crear una nueva categoría
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<ActionResult<CategoriaResponse>> CreateAsync([FromBody] CreateCategoriaRequest request)
         {
             if (!ModelState.IsValid)
@@ -31,12 +31,16 @@ namespace DeliveryYaBackend.Controllers.Admin
 
             var nuevaCategoria = await _categoriaService.CreateAsync(request);
 
-            // ✅ Retorna Created con la ubicación del nuevo recurso
-            return CreatedAtRoute("AdminGetCategoriaById", new { id = nuevaCategoria.Id }, nuevaCategoria);
+            // ✅ Devuelve 201 con la ruta de la categoría creada
+            return CreatedAtAction(
+                nameof(GetByIdAsync),
+                new { id = nuevaCategoria.Id },
+                nuevaCategoria
+            );
         }
 
         // ✏️ Actualizar una categoría existente
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult<CategoriaResponse>> UpdateAsync(int id, [FromBody] UpdateCategoriaRequest request)
         {
             if (!ModelState.IsValid)
@@ -50,7 +54,7 @@ namespace DeliveryYaBackend.Controllers.Admin
         }
 
         // 🗑️ Eliminar (borrado lógico)
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var eliminado = await _categoriaService.DeleteAsync(id);
@@ -60,16 +64,16 @@ namespace DeliveryYaBackend.Controllers.Admin
             return Ok(new { message = "Categoría eliminada correctamente." });
         }
 
-        // 📜 Listar todas las categorías activas
+        // 📜 Listar todas las categorías (visibles o activas)
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoriaResponse>>> GetAllAsync()
         {
-            var categorias = await _categoriaService.GetAllAsync();
+            var categorias = await _categoriaService.GetAllActiveAsync();
             return Ok(categorias);
         }
 
         // 📄 Obtener una categoría por ID
-        [HttpGet("{id}", Name = "AdminGetCategoriaById")]
+        [HttpGet("{id:int}", Name = nameof(GetByIdAsync))]
         public async Task<ActionResult<CategoriaResponse>> GetByIdAsync(int id)
         {
             var categoria = await _categoriaService.GetByIdAsync(id);
@@ -79,5 +83,16 @@ namespace DeliveryYaBackend.Controllers.Admin
             return Ok(categoria);
         }
 
+        // 🧩 Obtener todos los productos de una categoría
+        [HttpGet("{id:int}/productos")]
+        public async Task<ActionResult<IEnumerable<ProductoResponse>>> GetProductosByCategoriaAsync(int id)
+        {
+            var categoria = await _categoriaService.GetByIdAsync(id);
+            if (categoria == null)
+                return NotFound(new { message = "Categoría no encontrada." });
+
+            var productos = await _productoService.GetByCategoriaAsync(id);
+            return Ok(productos);
+        }
     }
 }

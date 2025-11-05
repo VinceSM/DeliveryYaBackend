@@ -12,5 +12,6 @@
 
         // Relación con categoría
         public int CategoriaId { get; set; }
+        public int ComercioId { get; set; }
     }
 }

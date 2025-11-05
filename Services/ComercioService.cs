@@ -31,6 +31,7 @@ namespace DeliveryYaBackend.Services
             IRepository<Comercio> comercioRepository,
             IRepository<Horarios> horariosRepository,
             IRepository<Producto> productoRepository,
+            IRepository<Categoria> categoriaRepository,
             IRepository<ComercioCategoria> comercioCategoriaRepository,
             IRepository<CategoriaProducto> categoriaProductoRepository,
             IRepository<ComercioHorario> comercioHorarioRepository,
@@ -41,6 +42,7 @@ namespace DeliveryYaBackend.Services
             _comercioRepository = comercioRepository;
             _productoRepository = productoRepository;
             _horariosRepository = horariosRepository;
+            _categoriaRepository = categoriaRepository;
             _comercioCategoriaRepository = comercioCategoriaRepository;
             _categoriaProductoRepository = categoriaProductoRepository;
             _comercioHorarioRepository = comercioHorarioRepository;
