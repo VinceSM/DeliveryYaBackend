@@ -51,6 +51,8 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IAdminComercioService, AdminComercioService>();
+//builder.Services.AddScoped<IAdminCategoriaService, AdminCategoriaService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 //builder.Services.AddScoped<IRepartidorService, RepartidorService>();
