@@ -15,6 +15,12 @@ namespace DeliveryYaBackend.Services
             _categoriaRepository = categoriaRepository;
         }
 
+        public async Task<bool> ExistsAsync(int idCategoria)
+        {
+            var categoria = await _categoriaRepository.GetByIdAsync(idCategoria);
+            return categoria != null && categoria.deletedAt == null;
+        }
+
         // ✅ Crear categoría
         public async Task<CategoriaResponse> CreateAsync(CreateCategoriaRequest request)
         {

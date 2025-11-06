@@ -1,8 +1,5 @@
 ﻿using DeliveryYaBackend.Data;
-using DeliveryYaBackend.DTOs.Responses.Categorias;
-using DeliveryYaBackend.DTOs.Responses.Comercios;
 using DeliveryYaBackend.Models;
-using DeliveryYaBackend.Repositories;
 using DeliveryYaBackend.Repositories.Interfaces;
 using DeliveryYaBackend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -16,13 +13,11 @@ namespace DeliveryYaBackend.Services
         private readonly IRepository<Categoria> _categoriaRepository;
         private readonly IRepository<ComercioCategoria> _comercioCategoriaRepository;
 
-        public ComercioCategoriaService
-        (
+        public ComercioCategoriaService(
             AppDbContext context,
             IRepository<Categoria> categoriaRepository,
             IRepository<Comercio> comercioRepository,
-            IRepository<ComercioCategoria> comercioCategoriaRepository
-        )
+            IRepository<ComercioCategoria> comercioCategoriaRepository)
         {
             _context = context;
             _comercioRepository = comercioRepository;
@@ -30,32 +25,41 @@ namespace DeliveryYaBackend.Services
             _comercioCategoriaRepository = comercioCategoriaRepository;
         }
 
-        // CATEGORÍAS DE COMERCIOS
         public async Task<bool> AddCategoriaToComercioAsync(int comercioId, int categoriaId)
         {
-            // Verificar si ya existe la relación
-            var existingRelation = await _comercioCategoriaRepository.FindAsync(cc =>
+            // 1️⃣ Validar existencia y estado
+            var comercio = await _comercioRepository.GetByIdAsync(comercioId);
+            var categoria = await _categoriaRepository.GetByIdAsync(categoriaId);
+
+            if (comercio == null || comercio.deletedAt != null ||
+                categoria == null || categoria.deletedAt != null)
+                return false;
+
+            // 2️⃣ Verificar si ya existe la relación
+            var existe = await _comercioCategoriaRepository.FindAsync(cc =>
                 cc.ComercioIdComercio == comercioId && cc.CategoriaIdCategoria == categoriaId);
 
-            if (existingRelation.Any()) return true;
+            if (existe.Any())
+                return false;
 
-            var comercioCategoria = new ComercioCategoria
+            // 3️⃣ Crear relación
+            var nuevaRelacion = new ComercioCategoria
             {
                 ComercioIdComercio = comercioId,
                 CategoriaIdCategoria = categoriaId
             };
 
-            await _comercioCategoriaRepository.AddAsync(comercioCategoria);
+            await _comercioCategoriaRepository.AddAsync(nuevaRelacion);
             return await _comercioCategoriaRepository.SaveChangesAsync();
         }
 
         public async Task<bool> RemoveCategoriaFromComercioAsync(int comercioId, int categoriaId)
         {
-            var relaciones = await _comercioCategoriaRepository.FindAsync(cc =>
-                cc.ComercioIdComercio == comercioId && cc.CategoriaIdCategoria == categoriaId);
+            var relacion = (await _comercioCategoriaRepository.FindAsync(cc =>
+                cc.ComercioIdComercio == comercioId && cc.CategoriaIdCategoria == categoriaId)).FirstOrDefault();
 
-            var relacion = relaciones.FirstOrDefault();
-            if (relacion == null) return false;
+            if (relacion == null)
+                return false;
 
             _comercioCategoriaRepository.Remove(relacion);
             return await _comercioCategoriaRepository.SaveChangesAsync();
@@ -63,36 +67,23 @@ namespace DeliveryYaBackend.Services
 
         public async Task<IEnumerable<Categoria>> GetCategoriasByComercioAsync(int comercioId)
         {
-            var relaciones = await _comercioCategoriaRepository.FindAsync(cc => cc.ComercioIdComercio == comercioId);
-            var categorias = new List<Categoria>();
-
-            foreach (var relacion in relaciones)
-            {
-                var categoria = await _categoriaRepository.GetByIdAsync(relacion.CategoriaIdCategoria);
-                if (categoria != null)
-                {
-                    categorias.Add(categoria);
-                }
-            }
-
-            return categorias;
+            // 🔹 Más eficiente que varios awaits
+            return await _context.ComercioCategorias
+                .Where(cc => cc.ComercioIdComercio == comercioId)
+                .Include(cc => cc.Categoria)
+                .Select(cc => cc.Categoria!)
+                .Where(c => c.deletedAt == null)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Comercio>> GetComerciosByCategoriaAsync(int categoriaId)
         {
-            var relaciones = await _comercioCategoriaRepository.FindAsync(cc => cc.CategoriaIdCategoria == categoriaId);
-            var comercios = new List<Comercio>();
-
-            foreach (var relacion in relaciones)
-            {
-                var comercio = await _comercioRepository.GetByIdAsync(relacion.ComercioIdComercio);
-                if (comercio != null)
-                {
-                    comercios.Add(comercio);
-                }
-            }
-
-            return comercios;
+            return await _context.ComercioCategorias
+                .Where(cc => cc.CategoriaIdCategoria == categoriaId)
+                .Include(cc => cc.Comercio)
+                .Select(cc => cc.Comercio!)
+                .Where(c => c.deletedAt == null)
+                .ToListAsync();
         }
     }
 }

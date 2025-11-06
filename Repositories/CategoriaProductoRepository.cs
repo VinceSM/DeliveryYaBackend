@@ -27,7 +27,8 @@ namespace DeliveryYaBackend.Repositories
         public async Task<IEnumerable<Producto>> GetProductosByNombreAsync(string nombre)
         {
             return await _context.Productos
-                .Where(p => p.nombre!.ToLower().Contains(nombre.ToLower()) && p.deletedAt == null)
+                .Where(p => p.deletedAt == null &&
+                            EF.Functions.Like(p.nombre!.ToLower(), $"%{nombre.ToLower()}%"))
                 .ToListAsync();
         }
 
@@ -39,6 +40,10 @@ namespace DeliveryYaBackend.Repositories
 
         public async Task<Producto> CreateProductoAsync(Producto producto, int idCategoria)
         {
+            var categoriaExiste = await _context.Categorias.AnyAsync(c => c.idcategoria == idCategoria && c.deletedAt == null);
+            if (!categoriaExiste)
+                throw new InvalidOperationException("La categoría no existe o fue eliminada.");
+
             producto.createdAt = DateTime.UtcNow;
 
             await _context.Productos.AddAsync(producto);
@@ -67,7 +72,8 @@ namespace DeliveryYaBackend.Repositories
         public async Task<bool> DeleteProductoAsync(int idProducto)
         {
             var producto = await _context.Productos.FindAsync(idProducto);
-            if (producto == null) return false;
+            if (producto == null)
+                return false;
 
             producto.deletedAt = DateTime.UtcNow;
             _context.Productos.Update(producto);
@@ -75,4 +81,5 @@ namespace DeliveryYaBackend.Repositories
             return true;
         }
     }
+
 }

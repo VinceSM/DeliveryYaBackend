@@ -14,7 +14,6 @@ namespace DeliveryYaBackend.Repositories
             _context = context;
         }
 
-        // ✅ Asignar categoría a comercio
         public async Task<bool> AddCategoriaToComercioAsync(int comercioId, int categoriaId)
         {
             var existe = await _context.ComercioCategorias
@@ -23,50 +22,55 @@ namespace DeliveryYaBackend.Repositories
             if (existe)
                 return false;
 
+            var comercioExiste = await _context.Comercios.AnyAsync(c => c.idcomercio == comercioId && c.deletedAt == null);
+            var categoriaExiste = await _context.Categorias.AnyAsync(c => c.idcategoria == categoriaId && c.deletedAt == null);
+
+            if (!comercioExiste || !categoriaExiste)
+                return false;
+
             var nueva = new ComercioCategoria
             {
                 ComercioIdComercio = comercioId,
                 CategoriaIdCategoria = categoriaId
             };
 
-            _context.ComercioCategorias.Add(nueva);
+            await _context.ComercioCategorias.AddAsync(nueva);
             await _context.SaveChangesAsync();
             return true;
         }
 
-
-        // ✅ Quitar categoría de comercio
         public async Task<bool> RemoveCategoriaFromComercioAsync(int comercioId, int categoriaId)
         {
             var relacion = await _context.ComercioCategorias
                 .FirstOrDefaultAsync(cc => cc.ComercioIdComercio == comercioId && cc.CategoriaIdCategoria == categoriaId);
 
-            if (relacion == null) return false;
+            if (relacion == null)
+                return false;
 
             _context.ComercioCategorias.Remove(relacion);
             await _context.SaveChangesAsync();
-
             return true;
         }
 
-        // ✅ Categorías por comercio
         public async Task<IEnumerable<Categoria>> GetCategoriasByComercioAsync(int comercioId)
         {
             return await _context.ComercioCategorias
                 .Where(cc => cc.ComercioIdComercio == comercioId)
                 .Include(cc => cc.Categoria)
-                .Select(cc => cc.Categoria)
+                .Select(cc => cc.Categoria!)
+                .Where(c => c.deletedAt == null)
                 .ToListAsync();
         }
 
-        // ✅ Comercios por categoría
         public async Task<IEnumerable<Comercio>> GetComerciosByCategoriaAsync(int categoriaId)
         {
             return await _context.ComercioCategorias
                 .Where(cc => cc.CategoriaIdCategoria == categoriaId)
                 .Include(cc => cc.Comercio)
-                .Select(cc => cc.Comercio)
+                .Select(cc => cc.Comercio!)
+                .Where(c => c.deletedAt == null)
                 .ToListAsync();
         }
     }
+
 }

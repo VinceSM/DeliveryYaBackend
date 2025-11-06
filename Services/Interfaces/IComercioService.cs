@@ -10,6 +10,7 @@ namespace DeliveryYaBackend.Services.Interfaces
         Task<ComercioResponse> CreateComercioAsync(ComercioRequest comercio);
         Task<Comercio> GetComercioByIdAsync(int id);
         Task<IEnumerable<Comercio>> GetAllComerciosAsync();
+        Task<bool> ExistsAsync(int idComercio);
         Task<IEnumerable<Comercio>> GetComerciosByNombreAsync(string nombre);
         Task<IEnumerable<Comercio>> GetComerciosByCiudadAsync(string ciudad);
         Task<Comercio> GetComercioByEmailAsync(string email);

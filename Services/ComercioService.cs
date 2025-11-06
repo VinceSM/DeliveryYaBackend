@@ -45,6 +45,12 @@ namespace DeliveryYaBackend.Services
             _pedidoRepository = pedidoRepository;
         }
 
+        public async Task<bool> ExistsAsync(int idComercio)
+        {
+            var comercio = await _comercioRepository.GetByIdAsync(idComercio);
+            return comercio != null && comercio.deletedAt == null;
+        }
+
         // ===========================
         // 🔹 OPERACIONES BÁSICAS
         // ===========================
