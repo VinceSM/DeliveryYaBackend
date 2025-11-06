@@ -6,97 +6,114 @@ namespace DeliveryYaBackend.Services
 {
     public class ComercioHorariosService : IComercioHorariosService
     {
-        private readonly IRepository<ComercioHorario> _comercioHorarioRepository;
-        private readonly IRepository<Horarios> _horariosRepository;
+        private readonly IRepository<ComercioHorario> _comercioHorarioRepo;
+        private readonly IRepository<Horarios> _horariosRepo;
+        private readonly IRepository<Comercio> _comercioRepo;
 
         public ComercioHorariosService(
-            IRepository<ComercioHorario> comercioHorarioRepository,
-            IRepository<Horarios> horariosRepository)
+            IRepository<ComercioHorario> comercioHorarioRepo,
+            IRepository<Horarios> horariosRepo,
+            IRepository<Comercio> comercioRepo)
         {
-            _horariosRepository = horariosRepository;
-            _comercioHorarioRepository = comercioHorarioRepository;
+            _comercioHorarioRepo = comercioHorarioRepo;
+            _horariosRepo = horariosRepo;
+            _comercioRepo = comercioRepo;
         }
 
-        // ✅ Asigna un horario a un comercio (evita duplicados)
-        public async Task<bool> AddHorarioToComercioAsync(int comercioId, int horarioId)
+        // ✅ Obtener todos los horarios de un comercio
+        public async Task<IEnumerable<Horarios>> GetHorariosPorComercioAsync(int comercioId)
         {
-            var existe = await _comercioHorarioRepository.FindAsync(ch =>
-                ch.ComercioIdComercio == comercioId && ch.HorariosIdHorarios == horarioId);
-
-            if (existe.Any()) return true;
-
-            var nuevaRelacion = new ComercioHorario
-            {
-                ComercioIdComercio = comercioId,
-                HorariosIdHorarios = horarioId
-            };
-
-            await _comercioHorarioRepository.AddAsync(nuevaRelacion);
-            return await _comercioHorarioRepository.SaveChangesAsync();
-        }
-
-        // ✅ Elimina un horario asignado a un comercio
-        public async Task<bool> RemoveHorarioFromComercioAsync(int comercioId, int horarioId)
-        {
-            var relaciones = await _comercioHorarioRepository.FindAsync(ch =>
-                ch.ComercioIdComercio == comercioId && ch.HorariosIdHorarios == horarioId);
-
-            var relacion = relaciones.FirstOrDefault();
-            if (relacion == null) return false;
-
-            _comercioHorarioRepository.Remove(relacion);
-            return await _comercioHorarioRepository.SaveChangesAsync();
-        }
-
-        // ✅ Obtiene todos los horarios asignados a un comercio
-        public async Task<IEnumerable<Horarios>> GetHorariosByComercioAsync(int comercioId)
-        {
-            var relaciones = await _comercioHorarioRepository.FindAsync(ch => ch.ComercioIdComercio == comercioId);
-
+            var relaciones = await _comercioHorarioRepo.FindAsync(ch => ch.ComercioIdComercio == comercioId);
             var horarios = new List<Horarios>();
-            foreach (var relacion in relaciones)
+
+            foreach (var rel in relaciones)
             {
-                var horario = await _horariosRepository.GetByIdAsync(relacion.HorariosIdHorarios);
-                if (horario != null)
+                var horario = await _horariosRepo.GetByIdAsync(rel.HorariosIdHorarios);
+                if (horario != null && horario.deletedAt == null)
                     horarios.Add(horario);
             }
 
             return horarios;
         }
 
-        // ✅ Verifica si el comercio está abierto en este momento
-        public async Task<bool> CheckComercioAbiertoAsync(int comercioId)
+        // ✅ Obtener un horario específico del comercio
+        public async Task<Horarios?> GetHorarioPorIdAsync(int comercioId, int horarioId)
         {
-            var horarios = await GetHorariosByComercioAsync(comercioId);
-            var ahora = DateTime.Now.TimeOfDay;
-            var diaActual = DateTime.Now.DayOfWeek.ToString();
-
-            return horarios.Any(h =>
-                h.dias != null &&
-                h.dias.Contains(diaActual, StringComparison.OrdinalIgnoreCase) && // mejora: case-insensitive
-                h.apertura.HasValue && h.cierre.HasValue &&
-                ahora >= h.apertura.Value &&
-                ahora <= h.cierre.Value &&
-                h.abierto);
-        }
-
-        // ✅ Actualiza el horario de un comercio (sin recrear la relación)
-        public async Task<bool> UpdateHorarioComercioAsync(int comercioId, int horarioId, TimeSpan apertura, TimeSpan cierre)
-        {
-            var relacion = (await _comercioHorarioRepository.FindAsync(ch =>
+            var relacion = (await _comercioHorarioRepo.FindAsync(ch =>
                 ch.ComercioIdComercio == comercioId && ch.HorariosIdHorarios == horarioId)).FirstOrDefault();
 
-            if (relacion == null) return false;
+            if (relacion == null) return null;
 
-            var horario = await _horariosRepository.GetByIdAsync(horarioId);
+            return await _horariosRepo.GetByIdAsync(horarioId);
+        }
+
+        // ✅ Crear un horario nuevo para un comercio
+        public async Task<Horarios> CrearHorarioParaComercioAsync(int comercioId, Horarios nuevoHorario)
+        {
+            // Validar que el comercio exista
+            var comercio = await _comercioRepo.GetByIdAsync(comercioId);
+            if (comercio == null)
+                throw new ArgumentException("El comercio especificado no existe.");
+
+            // Asignar datos
+            nuevoHorario.createdAt = DateTime.UtcNow;
+            nuevoHorario.abierto = true;
+
+            await _horariosRepo.AddAsync(nuevoHorario);
+            await _horariosRepo.SaveChangesAsync();
+
+            // Crear relación
+            var relacion = new ComercioHorario
+            {
+                ComercioIdComercio = comercioId,
+                HorariosIdHorarios = nuevoHorario.idhorarios
+            };
+
+            await _comercioHorarioRepo.AddAsync(relacion);
+            await _comercioHorarioRepo.SaveChangesAsync();
+
+            return nuevoHorario;
+        }
+
+        // ✅ Actualizar horario (solo si pertenece al comercio)
+        public async Task<bool> ActualizarHorarioAsync(int comercioId, int horarioId, TimeSpan apertura, TimeSpan cierre, bool abierto)
+        {
+            var horario = await GetHorarioPorIdAsync(comercioId, horarioId);
             if (horario == null) return false;
 
             horario.apertura = apertura;
             horario.cierre = cierre;
+            horario.abierto = abierto;
             horario.updatedAt = DateTime.UtcNow;
 
-            _horariosRepository.Update(horario);
-            return await _horariosRepository.SaveChangesAsync();
+            _horariosRepo.Update(horario);
+            return await _horariosRepo.SaveChangesAsync();
+        }
+
+        // ✅ Eliminar horario (lógico)
+        public async Task<bool> EliminarHorarioAsync(int comercioId, int horarioId)
+        {
+            var horario = await GetHorarioPorIdAsync(comercioId, horarioId);
+            if (horario == null) return false;
+
+            horario.deletedAt = DateTime.UtcNow;
+            _horariosRepo.Update(horario);
+            return await _horariosRepo.SaveChangesAsync();
+        }
+
+        // ✅ Verificar si el comercio está abierto actualmente
+        public async Task<bool> CheckComercioAbiertoAsync(int comercioId)
+        {
+            var horarios = await GetHorariosPorComercioAsync(comercioId);
+            var ahora = DateTime.Now.TimeOfDay;
+            var diaActual = DateTime.Now.DayOfWeek.ToString();
+
+            return horarios.Any(h =>
+                h.abierto &&
+                h.dias != null &&
+                h.dias.Contains(diaActual, StringComparison.OrdinalIgnoreCase) &&
+                h.apertura <= ahora &&
+                h.cierre >= ahora);
         }
     }
 }

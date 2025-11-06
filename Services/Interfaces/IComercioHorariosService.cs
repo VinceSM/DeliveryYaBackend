@@ -4,11 +4,12 @@ namespace DeliveryYaBackend.Services.Interfaces
 {
     public interface IComercioHorariosService
     {
-        // Horarios de comercios
-        Task<bool> AddHorarioToComercioAsync(int comercioId, int horarioId);
-        Task<bool> RemoveHorarioFromComercioAsync(int comercioId, int horarioId);
-        Task<IEnumerable<Horarios>> GetHorariosByComercioAsync(int comercioId);
+        Task<IEnumerable<Horarios>> GetHorariosPorComercioAsync(int comercioId);
+        Task<Horarios?> GetHorarioPorIdAsync(int comercioId, int horarioId);
+        Task<Horarios> CrearHorarioParaComercioAsync(int comercioId, Horarios nuevoHorario);
+        Task<bool> ActualizarHorarioAsync(int comercioId, int horarioId, TimeSpan apertura, TimeSpan cierre, bool abierto);
+        Task<bool> EliminarHorarioAsync(int comercioId, int horarioId);
         Task<bool> CheckComercioAbiertoAsync(int comercioId);
-        Task<bool> UpdateHorarioComercioAsync(int comercioId, int horarioId, TimeSpan apertura, TimeSpan cierre);
     }
+
 }
