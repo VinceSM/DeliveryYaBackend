@@ -13,6 +13,5 @@ namespace DeliveryYaBackend.DTOs.Requests.Productos
         public bool? Oferta { get; set; }
         public bool? Stock { get; set; }
         public string? FotoPortada { get; set; }
-        public int StockIdStock { get; set; }
     }
 }

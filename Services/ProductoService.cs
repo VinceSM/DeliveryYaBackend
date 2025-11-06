@@ -29,31 +29,35 @@ namespace DeliveryYaBackend.Services
             _mapper = mapper;
         }
 
-        // Crear producto y asignar categoría
+        // ✅ Crear producto y asociar con categoría y comercio
         public async Task<ProductoResponse> CreateAsync(CreateProductoRequest request)
         {
-            // 🟩 1. Mapear request a entidad
+            if (request.CategoriaId == 0)
+                throw new ArgumentException("Debe especificarse una categoría para el producto.");
+
+            // 1️⃣ Mapear y crear el producto
             var producto = _mapper.Map<Producto>(request);
             producto.createdAt = DateTime.UtcNow;
 
-            // 🟩 2. Crear producto y asociar a categoría
             var productoCreado = await _categoriaProductoRepository.CreateProductoAsync(producto, request.CategoriaId);
 
-            // 🟩 3. Asociar comercio con categoría (si no está ya asociada)
-            if (request.ComercioId != 0 && request.CategoriaId != 0)
+            // 2️⃣ Asociar la categoría al comercio (si aplica)
+            if (request.ComercioId > 0)
             {
+                // Previene duplicados, el repo ya puede chequear internamente si existe
                 await _comercioCategoriaRepository.AddCategoriaToComercioAsync(request.ComercioId, request.CategoriaId);
             }
 
-            // 🟩 4. Devolver DTO
+            // 3️⃣ Devolver DTO
             return _mapper.Map<ProductoResponse>(productoCreado);
         }
 
-        // Actualizar producto
+        // ✏️ Actualizar producto
         public async Task<ProductoResponse?> UpdateAsync(UpdateProductoRequest request)
         {
             var producto = await _productoRepository.GetByIdAsync(request.IdProducto);
-            if (producto == null) return null;
+            if (producto == null || producto.deletedAt != null)
+                return null;
 
             _mapper.Map(request, producto);
             producto.updatedAt = DateTime.UtcNow;
@@ -64,11 +68,12 @@ namespace DeliveryYaBackend.Services
             return _mapper.Map<ProductoResponse>(producto);
         }
 
-        // Eliminar producto (soft delete)
+        // 🗑️ Borrado lógico
         public async Task<bool> DeleteAsync(int id)
         {
             var producto = await _productoRepository.GetByIdAsync(id);
-            if (producto == null) return false;
+            if (producto == null || producto.deletedAt != null)
+                return false;
 
             producto.deletedAt = DateTime.UtcNow;
             _productoRepository.Update(producto);
@@ -77,45 +82,37 @@ namespace DeliveryYaBackend.Services
             return true;
         }
 
-        // Obtener producto por ID
+        // 📄 Obtener producto por ID
         public async Task<ProductoResponse?> GetByIdAsync(int id)
         {
             var producto = await _productoRepository.GetByIdAsync(id);
-            if (producto == null || producto.deletedAt != null) return null;
+            if (producto == null || producto.deletedAt != null)
+                return null;
 
             return _mapper.Map<ProductoResponse>(producto);
         }
 
-        // Obtener todos los productos activos
+        // 📜 Listar productos activos
         public async Task<IEnumerable<ProductoResponse>> GetAllAsync()
         {
-            var productos = (await _productoRepository.GetAllAsync())
-                             .Where(p => p.deletedAt == null);
-            return _mapper.Map<IEnumerable<ProductoResponse>>(productos);
+            var productos = await _productoRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ProductoResponse>>(productos.Where(p => p.deletedAt == null));
         }
 
-        // Obtener productos por categoría
+        // 🔎 Obtener productos por categoría
         public async Task<IEnumerable<ProductoResponse>> GetByCategoriaAsync(int categoriaId)
         {
-            var relaciones = await _categoriaProductoRepository.FindAsync(cp => cp.CategoriaIdCategoria == categoriaId);
-            var productos = new List<Producto>();
-
-            foreach (var rel in relaciones)
-            {
-                var producto = await _productoRepository.GetByIdAsync(rel.ProductoIdProducto);
-                if (producto != null && producto.deletedAt == null)
-                    productos.Add(producto);
-            }
-
+            var productos = await _productoRepository.GetProductosPorCategoriaAsync(categoriaId);
             return _mapper.Map<IEnumerable<ProductoResponse>>(productos);
         }
 
-        // Buscar productos por nombre
+        // 🔍 Buscar por nombre
         public async Task<IEnumerable<ProductoResponse>> SearchByNameAsync(string nombre)
         {
             var productos = await _productoRepository.SearchByNameAsync(nombre);
             return _mapper.Map<IEnumerable<ProductoResponse>>(productos);
         }
     }
+
 
 }
