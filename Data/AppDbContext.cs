@@ -19,7 +19,6 @@ namespace DeliveryYaBackend.Data
         public DbSet<EstadoPedido> EstadoPedidos { get; set; }
         public DbSet<MetodoPagoPedido> MetodoPagoPedidos { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
-        public DbSet<Stock> Stocks { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Horarios> Horarios { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
@@ -260,15 +259,6 @@ namespace DeliveryYaBackend.Data
                       .WithOne(i => i.Pedido)
                       .HasForeignKey(i => i.PedidoIdPedido)
                       .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            // --- Stock ---
-            modelBuilder.Entity<Stock>(entity =>
-            {
-                entity.HasKey(e => e.idstock);
-                entity.HasIndex(e => e.stockIlimitado).IsUnique(false);
-                entity.Property(e => e.stock).IsRequired();
-                entity.Property(e => e.medida).HasMaxLength(45);
             });
 
             // --- Producto ---
