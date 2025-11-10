@@ -14,6 +14,7 @@ namespace DeliveryYaBackend.Models
         public bool pagado { get; set; }
         public bool comercioRepartidor { get; set; }
         public decimal subtotalPedido { get; set; }
+        public string? direccionEnvio { get; set; }
 
         [Required]
         [Column("cliente_idcliente")]

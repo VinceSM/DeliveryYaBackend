@@ -232,6 +232,9 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.subtotalPedido)
                       .HasColumnType("decimal(10,2)");
 
+                entity.Property(e => e.direccionEnvio)
+                      .HasMaxLength(255);
+
                 entity.Property(e => e.createdAt)
                       .HasColumnType("datetime");
 
