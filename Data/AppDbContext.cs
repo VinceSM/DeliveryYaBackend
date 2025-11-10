@@ -25,6 +25,8 @@ namespace DeliveryYaBackend.Data
         public DbSet<Comercio> Comercios { get; set; }
         public DbSet<ItemPedido> ItemPedidos { get; set; }
 
+        // La tabla Stock no sera mas parte del modelo de datos, no se manejara stock en este sistema.
+
         // Tablas intermedias (muchos a muchos)
         public DbSet<CategoriaProducto> CategoriaProductos { get; set; }
         public DbSet<ComercioCategoria> ComercioCategorias { get; set; }
