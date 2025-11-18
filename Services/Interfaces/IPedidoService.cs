@@ -1,18 +1,28 @@
-﻿using DeliveryYaBackend.Models;
+﻿using DeliveryYaBackend.DTOs.Requests.Pedidos;
+using DeliveryYaBackend.DTOs.Responses.Pedidos;
+using DeliveryYaBackend.Models;
 
 namespace DeliveryYaBackend.Services.Interfaces
 {
     public interface IPedidoService
     {
-        Task<Pedido> CreatePedidoAsync(Pedido pedido, List<ItemPedido> items);
-        Task<Pedido> GetPedidoByIdAsync(int id);
-        Task<IEnumerable<Pedido>> GetPedidosByClienteAsync(int clienteId);
-        Task<IEnumerable<Pedido>> GetPedidosByRepartidorAsync(int repartidorId);
+        // Consultas
         Task<IEnumerable<Pedido>> GetAllPedidosAsync();
-        Task<IEnumerable<Pedido>> GetPedidosByEstadoAsync(string estado);
-        Task<bool> UpdatePedidoAsync(Pedido pedido);
-        Task<bool> UpdateEstadoPedidoAsync(int pedidoId, string nuevoEstado);
+        Task<Pedido?> GetPedidoByIdAsync(int id);
+        Task<Pedido?> GetPedidoByCodigoAsync(string codigo);
+        Task<IEnumerable<Pedido>> GetPedidosByClienteAsync(int clienteId);
+        Task<IEnumerable<Pedido>> GetPedidosByComercioAsync(int comercioId);
+        Task<IEnumerable<Pedido>> GetPedidosByEstadoAsync(int estadoId);
+
+        // CRUD
+        Task<PedidoResponse> CreatePedidoAsync(CrearPedidoRequest request);
+        Task<PedidoResponse?> UpdateEstadoPedidoAsync(int pedidoId, int estadoId);
+        Task<PedidoResponse?> UpdatePagoPedidoAsync(int pedidoId, bool pagado);
+        Task<bool> DeletePedidoAsync(int id);
+
+        // Métodos auxiliares
+        Task<bool> ExistsAsync(int id);
         Task<decimal> CalcularTotalPedidoAsync(int pedidoId);
-        Task<bool> DeletePedidoAsync(int pedidoId);
+        Task<PedidoResponse> ToResponseAsync(Pedido pedido);
     }
 }

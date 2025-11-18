@@ -6,14 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DeliveryYaBackend.Controllers
 {
+    // Controllers/PedidosController.cs
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/pedidos")]
     public class PedidosController : ControllerBase
     {
         private readonly IPedidoService _pedidoService;
         private readonly ILogger<PedidosController> _logger;
 
-        public PedidosController(IPedidoService pedidoService, ILogger<PedidosController> logger)
+        public PedidosController(
+            IPedidoService pedidoService,
+            ILogger<PedidosController> logger)
         {
             _pedidoService = pedidoService;
             _logger = logger;
@@ -29,32 +32,61 @@ namespace DeliveryYaBackend.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener pedidos");
-                return StatusCode(500, "Error interno del servidor");
+                _logger.LogError(ex, "Error al obtener todos los pedidos");
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPedidoById(int id)
+        public async Task<ActionResult<PedidoResponse>> GetPedidoById(int id)
         {
+            if (id <= 0)
+                return BadRequest(new { message = "ID inválido" });
+
             try
             {
                 var pedido = await _pedidoService.GetPedidoByIdAsync(id);
                 if (pedido == null)
-                    return NotFound("Pedido no encontrado");
+                    return NotFound(new { message = "Pedido no encontrado" });
 
-                return Ok(pedido);
+                var response = await _pedidoService.ToResponseAsync(pedido);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener pedido por ID");
-                return StatusCode(500, "Error interno del servidor");
+                _logger.LogError(ex, "Error al obtener pedido por ID {PedidoId}", id);
+                return StatusCode(500, new { message = "Error interno del servidor" });
+            }
+        }
+
+        [HttpGet("codigo/{codigo}")]
+        public async Task<ActionResult<PedidoResponse>> GetPedidoByCodigo(string codigo)
+        {
+            if (string.IsNullOrEmpty(codigo))
+                return BadRequest(new { message = "Código inválido" });
+
+            try
+            {
+                var pedido = await _pedidoService.GetPedidoByCodigoAsync(codigo);
+                if (pedido == null)
+                    return NotFound(new { message = "Pedido no encontrado" });
+
+                var response = await _pedidoService.ToResponseAsync(pedido);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener pedido por código {Codigo}", codigo);
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
         }
 
         [HttpGet("cliente/{clienteId}")]
         public async Task<IActionResult> GetPedidosByCliente(int clienteId)
         {
+            if (clienteId <= 0)
+                return BadRequest(new { message = "ID de cliente inválido" });
+
             try
             {
                 var pedidos = await _pedidoService.GetPedidosByClienteAsync(clienteId);
@@ -62,159 +94,137 @@ namespace DeliveryYaBackend.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener pedidos por cliente");
-                return StatusCode(500, "Error interno del servidor");
+                _logger.LogError(ex, "Error al obtener pedidos del cliente {ClienteId}", clienteId);
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
         }
 
-        [HttpGet("repartidor/{repartidorId}")]
-        public async Task<IActionResult> GetPedidosByRepartidor(int repartidorId)
+        [HttpGet("comercio/{comercioId}")]
+        public async Task<IActionResult> GetPedidosByComercio(int comercioId)
         {
+            if (comercioId <= 0)
+                return BadRequest(new { message = "ID de comercio inválido" });
+
             try
             {
-                var pedidos = await _pedidoService.GetPedidosByRepartidorAsync(repartidorId);
+                var pedidos = await _pedidoService.GetPedidosByComercioAsync(comercioId);
                 return Ok(pedidos);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener pedidos por repartidor");
-                return StatusCode(500, "Error interno del servidor");
+                _logger.LogError(ex, "Error al obtener pedidos del comercio {ComercioId}", comercioId);
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
         }
 
-        [HttpGet("estado/{estado}")]
-        public async Task<IActionResult> GetPedidosByEstado(string estado)
+        [HttpGet("estado/{estadoId}")]
+        public async Task<IActionResult> GetPedidosByEstado(int estadoId)
         {
+            if (estadoId <= 0)
+                return BadRequest(new { message = "ID de estado inválido" });
+
             try
             {
-                var pedidos = await _pedidoService.GetPedidosByEstadoAsync(estado);
+                var pedidos = await _pedidoService.GetPedidosByEstadoAsync(estadoId);
                 return Ok(pedidos);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener pedidos por estado");
-                return StatusCode(500, "Error interno del servidor");
+                _logger.LogError(ex, "Error al obtener pedidos por estado {EstadoId}", estadoId);
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
         }
 
         [HttpPost]
-        [HttpPost]
-        public async Task<IActionResult> CreatePedido([FromBody] CrearPedidoRequest request)
+        public async Task<ActionResult<PedidoResponse>> CreatePedido([FromBody] CrearPedidoRequest request)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
-                var pedido = new Pedido
-                {
-                    fecha = DateTime.Now,
-                    hora = TimeOnly.FromDateTime(DateTime.Now).ToTimeSpan(), // Convertir a TimeSpan
-                    codigo = GenerateCodigoPedido(),
-                    pagado = false,
-                    comercioRepartidor = request.ComercioRepartidor,
-                    subtotalPedido = 0,
-                    direccionEnvio = null,
-                    ClienteIdCliente = request.ClienteId, // ← Usar el nombre exacto de la propiedad
-                    EstadoPedidoIdEstado = 1,
-                    MetodoPagoPedidoIdMetodo = request.MetodoPagoId // ← Usar el nombre exacto
-                };
-
-                // Convertir items del request a modelos
-                var items = request.Items.Select(item => new ItemPedido
-                {
-                    ProductoIdProducto = item.ProductoId, // ← Usar el nombre exacto
-                    ComercioIdComercio = item.ComercioId, // ← Usar el nombre exacto
-                    cantProducto = item.Cantidad,
-                    precioFinal = item.PrecioUnitario,
-                    total = item.Cantidad * item.PrecioUnitario
-                }).ToList();
-
-                var resultado = await _pedidoService.CreatePedidoAsync(pedido, items);
-                return CreatedAtAction(nameof(GetPedidoById), new { id = resultado.idpedido }, resultado);
+                var resultado = await _pedidoService.CreatePedidoAsync(request);
+                return CreatedAtAction(nameof(GetPedidoById), new { id = resultado.Id }, resultado);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al crear pedido");
-                return StatusCode(500, "Error interno del servidor");
+                _logger.LogError(ex, "Error al crear pedido para el cliente {ClienteId}", request.ClienteId);
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
         }
 
-        [HttpPut("{id}/estado")]
-        public async Task<IActionResult> UpdateEstadoPedido(int id, [FromBody] string nuevoEstado)
+        [HttpPatch("{id}/estado")]
+        public async Task<ActionResult<PedidoResponse>> UpdateEstadoPedido(int id, [FromBody] ActualizarEstadoPedidoRequest request)
         {
+            if (id <= 0)
+                return BadRequest(new { message = "ID inválido" });
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
-                var resultado = await _pedidoService.UpdateEstadoPedidoAsync(id, nuevoEstado);
-                if (!resultado)
-                    return NotFound("Pedido no encontrado");
+                var resultado = await _pedidoService.UpdateEstadoPedidoAsync(id, request.EstadoPedidoId);
+                if (resultado == null)
+                    return NotFound(new { message = "Pedido no encontrado" });
 
-                return Ok("Estado del pedido actualizado exitosamente");
+                return Ok(resultado);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al actualizar estado del pedido");
-                return StatusCode(500, "Error interno del servidor");
+                _logger.LogError(ex, "Error al actualizar estado del pedido {PedidoId}", id);
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
         }
 
-        [HttpPut("{id}/pago")]
-        public async Task<IActionResult> UpdatePagoPedido(int id, [FromBody] bool pagado)
+        [HttpPatch("{id}/pago")]
+        public async Task<ActionResult<PedidoResponse>> UpdatePagoPedido(int id, [FromBody] bool pagado)
         {
+            if (id <= 0)
+                return BadRequest(new { message = "ID inválido" });
+
             try
             {
-                var pedido = await _pedidoService.GetPedidoByIdAsync(id);
-                if (pedido == null)
-                    return NotFound("Pedido no encontrado");
+                var resultado = await _pedidoService.UpdatePagoPedidoAsync(id, pagado);
+                if (resultado == null)
+                    return NotFound(new { message = "Pedido no encontrado" });
 
-                pedido.pagado = pagado;
-                var resultado = await _pedidoService.UpdatePedidoAsync(pedido);
-
-                if (!resultado)
-                    return StatusCode(500, "Error al actualizar pago del pedido");
-
-                return Ok("Estado de pago actualizado exitosamente");
+                return Ok(resultado);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al actualizar pago del pedido");
-                return StatusCode(500, "Error interno del servidor");
+                _logger.LogError(ex, "Error al actualizar estado de pago del pedido {PedidoId}", id);
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePedido(int id)
         {
+            if (id <= 0)
+                return BadRequest(new { message = "ID inválido" });
+
             try
             {
                 var resultado = await _pedidoService.DeletePedidoAsync(id);
                 if (!resultado)
-                    return NotFound("Pedido no encontrado");
+                    return NotFound(new { message = "Pedido no encontrado" });
 
-                return Ok("Pedido eliminado exitosamente");
+                return Ok(new { message = "Pedido eliminado correctamente" });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al eliminar pedido");
-                return StatusCode(500, ex.Message);
+                _logger.LogError(ex, "Error al eliminar pedido {PedidoId}", id);
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
-        }
-
-        [HttpGet("{id}/total")]
-        public async Task<IActionResult> GetTotalPedido(int id)
-        {
-            try
-            {
-                var total = await _pedidoService.CalcularTotalPedidoAsync(id);
-                return Ok(new { Total = total });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al calcular total del pedido");
-                return StatusCode(500, "Error interno del servidor");
-            }
-        }
-
-        private string GenerateCodigoPedido()
-        {
-            return $"PED-{DateTime.Now:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
         }
     }
 }
