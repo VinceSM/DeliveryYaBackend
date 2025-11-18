@@ -91,6 +91,4 @@ namespace DeliveryYaBackend.Services
             return await _estadoPedidoRepository.SaveChangesAsync();
         }
     }
-    }
-
 }

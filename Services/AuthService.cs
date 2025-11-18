@@ -33,16 +33,16 @@ namespace DeliveryYaBackend.Services
         }
 
         // LOGIN REPARTIDOR
-        public async Task<string?> LoginRepartidorAsync(LoginRepartidorRequest request)
-        {
-            var repartidor = await _context.Repartidores
-                .FirstOrDefaultAsync(r => r.email == request.Email);
+        //public async Task<string?> LoginRepartidorAsync(LoginRepartidorRequest request)
+        //{
+        //    var repartidor = await _context.Repartidores
+        //        .FirstOrDefaultAsync(r => r.email == request.Email);
 
-            if (repartidor == null || !BCrypt.Net.BCrypt.Verify(request.Password, repartidor.password))
-                return null;
+        //    if (repartidor == null || !BCrypt.Net.BCrypt.Verify(request.Password, repartidor.password))
+        //        return null;
 
-            return GenerateJwtToken(repartidor.email!, "Repartidor");
-        }
+        //    return GenerateJwtToken(repartidor.email!, "Repartidor");
+        //}
 
         // LOGIN COMERCIO
         public async Task<string?> LoginComercioAsync(LoginComercioRequest request)

@@ -24,14 +24,14 @@ namespace DeliveryYaBackend.Controllers
             return Ok(new { token });
         }
 
-        [HttpPost("login-repartidor")]
-        public async Task<IActionResult> LoginRepartidor([FromBody] LoginRepartidorRequest request)
-        {
-            var token = await _authService.LoginRepartidorAsync(request);
-            if (token == null)
-                return Unauthorized("Email o contraseña incorrectos.");
-            return Ok(new { token });
-        }
+        //[HttpPost("login-repartidor")]
+        //public async Task<IActionResult> LoginRepartidor([FromBody] LoginRepartidorRequest request)
+        //{
+        //    var token = await _authService.LoginRepartidorAsync(request);
+        //    if (token == null)
+        //        return Unauthorized("Email o contraseña incorrectos.");
+        //    return Ok(new { token });
+        //}
 
         [HttpPost("login-comercio")]
         public async Task<IActionResult> LoginComercio([FromBody] LoginComercioRequest request)
