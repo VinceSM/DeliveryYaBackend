@@ -141,5 +141,33 @@ namespace DeliveryYaBackend.Controllers
 
             return Ok(detalle);
         }
+
+        // En ComerciosController.cs, agrega este método:
+        [HttpPatch("{id}/metodos-pago")]
+        public async Task<IActionResult> ActualizarMetodosPago(int id, [FromBody] ActualizarMetodosPagoRequest request)
+        {
+            if (id <= 0)
+                return BadRequest(new { message = "ID inválido" });
+
+            try
+            {
+                var resultado = await _comercioService.ActualizarMetodosPagoAsync(
+                    id,
+                    request.PagoEfectivo,
+                    request.PagoTarjeta,
+                    request.PagoTransferencia
+                );
+
+                if (!resultado)
+                    return NotFound(new { message = "Comercio no encontrado" });
+
+                return Ok(new { message = "Métodos de pago actualizados correctamente" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al actualizar métodos de pago para el comercio {ComercioId}", id);
+                return StatusCode(500, new { message = "Error interno del servidor" });
+            }
+        }
     }
 }

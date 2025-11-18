@@ -12,9 +12,6 @@ namespace DeliveryYaBackend.DTOs.Requests.Comercios
         public string? Eslogan { get; set; }
         public decimal? Envio { get; set; }
         public bool? DeliveryPropio { get; set; }
-        public bool? PagoEfectivo { get; set; }
-        public bool? PagoTarjeta { get; set; }
-        public bool? PagoTransferencia { get; set; }
         public string? FotoPortada { get; set; }
         public string? Celular { get; set; }
         public string? Ciudad { get; set; }
@@ -28,6 +25,5 @@ namespace DeliveryYaBackend.DTOs.Requests.Comercios
         public string? Alias { get; set; }
         public bool Destacado { get; set; }
         public string? Password { get; set; }
-        public decimal Comision { get; set; }
     }
 }

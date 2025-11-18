@@ -16,6 +16,7 @@ namespace DeliveryYaBackend.Services.Interfaces
         Task<Comercio> GetComercioByEmailAsync(string email);
         Task<bool> ComercioExistsAsync(string email);
         Task<ComercioResponse> UpdateComercioAsync(int id, UpdateComercioRequest comercio);
+        Task<bool> ActualizarMetodosPagoAsync(int comercioId, bool pagoEfectivo, bool pagoTarjeta, bool pagoTransferencia);
         Task<bool> DeleteComercioAsync(int id);
 
         // Gestión de estado y destacados

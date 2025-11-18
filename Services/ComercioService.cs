@@ -21,6 +21,7 @@ namespace DeliveryYaBackend.Services
         private readonly IRepository<ItemPedido> _itemPedidoRepository;
         private readonly IRepository<Pedido> _pedidoRepository;
         private readonly IRepository<ComercioCategoria> _comercioCategoriaRepository;
+        private readonly ILogger<ComercioService> _logger;
 
         public ComercioService(
             IComercioRepository comercioRepository,
@@ -31,7 +32,8 @@ namespace DeliveryYaBackend.Services
             IRepository<CategoriaProducto> categoriaProductoRepository,
             IRepository<ComercioHorario> comercioHorarioRepository,
             IRepository<ItemPedido> itemPedidoRepository,
-            IRepository<Pedido> pedidoRepository
+            IRepository<Pedido> pedidoRepository,
+            ILogger<ComercioService> logger
         )
         {
             _comercioRepository = comercioRepository;
@@ -43,6 +45,7 @@ namespace DeliveryYaBackend.Services
             _comercioHorarioRepository = comercioHorarioRepository;
             _itemPedidoRepository = itemPedidoRepository;
             _pedidoRepository = pedidoRepository;
+            _logger = logger;
         }
 
         public async Task<bool> ExistsAsync(int idComercio)
@@ -79,9 +82,6 @@ namespace DeliveryYaBackend.Services
                 destacado = false,
                 comision = 0,
                 createdAt = DateTime.UtcNow,
-                pagoEfectivo = true,
-                pagoTarjeta = true,
-                pagoTransferencia = true
             };
 
             await _comercioRepository.AddAsync(comercio);
@@ -132,11 +132,7 @@ namespace DeliveryYaBackend.Services
             comercio.latitud = request.Latitud;
             comercio.longitud = request.Longitud;
             comercio.destacado = request.Destacado;
-            comercio.comision = request.Comision;
             comercio.updatedAt = DateTime.UtcNow;
-            comercio.pagoEfectivo = request.PagoEfectivo;
-            comercio.pagoTarjeta = request.PagoTarjeta;
-            comercio.pagoTransferencia = request.PagoTransferencia;
 
             if (!string.IsNullOrEmpty(request.Password))
                 comercio.password = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -156,6 +152,34 @@ namespace DeliveryYaBackend.Services
 
             _comercioRepository.Update(comercio);
             return await _comercioRepository.SaveChangesAsync();
+        }
+
+        // ===========================
+        // 🔹 MÉTODOS DE PAGO (ÚNICO LUGAR PARA ACTUALIZAR)
+        // ===========================
+        public async Task<bool> ActualizarMetodosPagoAsync(int comercioId, bool pagoEfectivo, bool pagoTarjeta, bool pagoTransferencia)
+        {
+            try
+            {
+                var comercio = await _comercioRepository.GetByIdAsync(comercioId);
+
+                if (comercio == null || comercio.deletedAt != null)
+                    return false;
+
+                // ✅ ÚNICO LUGAR donde se actualizan los métodos de pago
+                comercio.pagoEfectivo = pagoEfectivo;
+                comercio.pagoTarjeta = pagoTarjeta;
+                comercio.pagoTransferencia = pagoTransferencia;
+                comercio.updatedAt = DateTime.UtcNow;
+
+                _comercioRepository.Update(comercio);
+                return await _comercioRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al actualizar métodos de pago para el comercio {ComercioId}", comercioId);
+                return false;
+            }
         }
 
         // ===========================
