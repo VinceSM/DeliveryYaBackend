@@ -16,6 +16,9 @@ namespace DeliveryYaBackend.Models
         public string? fotoPortada { get; set; }
         public decimal? envio { get; set; }
         public bool? deliveryPropio { get; set; }
+        public bool? pagoEfectivo { get; set; }
+        public bool? pagoTarjeta { get; set; }
+        public bool? pagoTransferencia { get; set; }
         public string? celular { get; set; }
         public string? ciudad { get; set; }
         public string? calle { get; set; }

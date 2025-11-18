@@ -416,6 +416,15 @@ namespace DeliveryYaBackend.Data
                 entity.Property(e => e.deliveryPropio)
                     .HasColumnName("deliveryPropio");
 
+                entity.Property(e => e.pagoEfectivo)
+                    .HasColumnName("pagoEfectivo");
+
+                entity.Property(e => e.pagoTarjeta)
+                    .HasColumnName("pagoTarjeta");
+
+                entity.Property(e => e.pagoTransferencia)
+                    .HasColumnName("pagoTransferencia");
+
                 entity.Property(e => e.celular)
                     .HasColumnName("celular")
                     .HasMaxLength(50)

@@ -78,7 +78,10 @@ namespace DeliveryYaBackend.Services
                 alias = request.Alias,
                 destacado = false,
                 comision = 0,
-                createdAt = DateTime.UtcNow
+                createdAt = DateTime.UtcNow,
+                pagoEfectivo = true,
+                pagoTarjeta = true,
+                pagoTransferencia = true
             };
 
             await _comercioRepository.AddAsync(comercio);
@@ -123,6 +126,7 @@ namespace DeliveryYaBackend.Services
             comercio.deliveryPropio = request.DeliveryPropio;
             comercio.celular = request.Celular;
             comercio.encargado = request.Encargado;
+            comercio.sucursales = request.Sucursales;
             comercio.cvu = request.Cvu;
             comercio.alias = request.Alias;
             comercio.latitud = request.Latitud;
@@ -130,6 +134,9 @@ namespace DeliveryYaBackend.Services
             comercio.destacado = request.Destacado;
             comercio.comision = request.Comision;
             comercio.updatedAt = DateTime.UtcNow;
+            comercio.pagoEfectivo = request.PagoEfectivo;
+            comercio.pagoTarjeta = request.PagoTarjeta;
+            comercio.pagoTransferencia = request.PagoTransferencia;
 
             if (!string.IsNullOrEmpty(request.Password))
                 comercio.password = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -234,6 +241,9 @@ namespace DeliveryYaBackend.Services
                 FotoPortada = comercio.fotoPortada,
                 Envio = comercio.envio,
                 DeliveryPropio = comercio.deliveryPropio,
+                PagoEfectivo = comercio.pagoEfectivo,
+                PagoTarjeta = comercio.pagoTarjeta,
+                PagoTransferencia = comercio.pagoTransferencia,
                 Ciudad = comercio.ciudad,
                 Calle = comercio.calle,
                 Numero = comercio.numero,
@@ -321,7 +331,7 @@ namespace DeliveryYaBackend.Services
             Cvu = comercio.cvu,
             Alias = comercio.alias,
             Destacado = comercio.destacado,
-            Comision = comercio.comision
+            Comision = comercio.comision,
         };
     }
 }

@@ -9,6 +9,9 @@ public class ComercioPanelResponse
     public string? FotoPortada { get; set; }
     public decimal? Envio { get; set; }
     public bool? DeliveryPropio { get; set; }
+    public bool? PagoEfectivo { get; set; }
+    public bool? PagoTarjeta { get; set; }
+    public bool? PagoTransferencia { get; set; }
     public string? Celular { get; set; }
     public string? Ciudad { get; set; }
     public string? Calle { get; set; }
