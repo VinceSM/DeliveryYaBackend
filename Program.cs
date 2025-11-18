@@ -129,9 +129,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//app.Urls.Add("http://localhost:5189");
-//app.Urls.Add("http://192.168.1.40:5189"); // Muise IP
+app.Urls.Add("http://localhost:5189");
+app.Urls.Add("http://192.168.1.40:5189"); // Muise IP
 //app.Urls.Add("http://192.168.1.43:5189"); // Viya IP
-//app.Urls.Add("http://0.0.0.0:5189");
+app.Urls.Add("http://0.0.0.0:5189");
 
 app.Run();
