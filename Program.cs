@@ -52,37 +52,47 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAdminComercioService, AdminComercioService>();
-//builder.Services.AddScoped<IAdminCategoriaService, AdminCategoriaService>();
+
 builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<IItemPedidoService, ItemPedidoService>();
+builder.Services.AddScoped<IEstadoPedidoService, EstadoPedidoService>();
+builder.Services.AddScoped<IMetodoPagoPedidoService, MetodoPagoPedidoService>();
+
 builder.Services.AddScoped<IClienteService, ClienteService>();
-//builder.Services.AddScoped<IRepartidorService, RepartidorService>();
+
 builder.Services.AddScoped<IProductoService, ProductoService>();
+
 builder.Services.AddScoped<IComercioService, ComercioService>();
 builder.Services.AddScoped<IComercioCategoriaService, ComercioCategoriaService>();
+builder.Services.AddScoped<IComercioHorariosService, ComercioHorariosService>();
+
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<ICategoriaProductoService, CategoriaProductoService>();
-builder.Services.AddScoped<IComercioHorariosService, ComercioHorariosService>();
-//builder.Services.AddScoped<IStockService, StockService>();
-//builder.Services.AddScoped<ITarifaRepartidorService, TarifaRepartidorService>();
 
-builder.Services.AddScoped<IItemPedidoService, ItemPedidoService>();
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<JwtService>();
 
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-//builder.Services.AddScoped<IRepartidorRepository, RepartidorRepository>();
+
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddScoped<IEstadoPedidoRepository, EstadoPedidoRepository>();
+builder.Services.AddScoped<IMetodoPagoPedidoRepository, MetodoPagoPedidoRepository>();
+builder.Services.AddScoped<IItemPedidoRepository, ItemPedidoRepository>();
+
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+
 builder.Services.AddScoped<IComercioRepository, ComercioRepository>();
 builder.Services.AddScoped<IComercioCategoriaRepository, ComercioCategoriaRepository>();
 builder.Services.AddScoped<IComercioHorariosRepository, ComercioHorariosRepository>();
+
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<ICategoriaProductoRepository, CategoriaProductoRepository>();
-//builder.Services.AddScoped<IStockRepository, StockRepository>();
-//builder.Services.AddScoped<ITarifaRepartidorRepository, TarifaRepartidorRepository>();
+
 builder.Services.AddScoped<IHorarioRepository, HorarioRepository>();
-builder.Services.AddScoped<IItemPedidoRepository, ItemPedidoRepository>();
+
 
 // Configuración CORS
 builder.Services.AddCors(options =>

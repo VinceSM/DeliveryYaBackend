@@ -22,17 +22,17 @@ namespace DeliveryYaBackend.Services.Mapping
         {
             // Auth
             CreateMap<Cliente, LoginClienteResponse>();
-            CreateMap<Repartidor, LoginRepartidorResponse>();
             CreateMap<Comercio, LoginComercioResponse>();
             CreateMap<Admin, AdminResponse>();
 
             // Pedidos
             CreateMap<Pedido, PedidoResponse>();
             CreateMap<Pedido, PedidoResumenResponse>();
-            //CreateMap<ItemPedido, ItemPedidoResponse>();
-            //CreateMap<ItemCarritoResponse, Pedido>();
-            //CreateMap<UpdatePedidoRequest, Pedido>();
-            //CreateMap<CrearPedidoRequest, Pedido>();
+            CreateMap<ItemPedido, ItemPedidoResponse>();
+
+            CreateMap<CrearPedidoRequest, Pedido>();
+            CreateMap<UpdatePedidoRequest, Pedido>();
+            CreateMap<ItemPedidoRequest, ItemPedido>();
 
             // Productos
             CreateMap<CreateProductoRequest, Producto>();
