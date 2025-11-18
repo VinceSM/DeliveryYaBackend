@@ -2,6 +2,7 @@
 using DeliveryYaBackend.DTOs.Requests.Categorias;
 using DeliveryYaBackend.DTOs.Requests.Comercios;
 using DeliveryYaBackend.DTOs.Requests.Horarios;
+using DeliveryYaBackend.DTOs.Requests.Pedidos;
 using DeliveryYaBackend.DTOs.Requests.Productos;
 using DeliveryYaBackend.DTOs.Responses.Auth;
 using DeliveryYaBackend.DTOs.Responses.Categorias;
@@ -27,10 +28,11 @@ namespace DeliveryYaBackend.Services.Mapping
 
             // Pedidos
             CreateMap<Pedido, PedidoResponse>();
-            CreateMap<Pedido, PedidoDetailResponse>();
-            CreateMap<ItemPedido, ItemPedidoResponse>();
-            CreateMap<EstadoPedido, EstadoPedidoResponse>();
-            CreateMap<MetodoPagoPedido, MetodoPagoResponse>();
+            CreateMap<Pedido, PedidoResumenResponse>();
+            //CreateMap<ItemPedido, ItemPedidoResponse>();
+            //CreateMap<ItemCarritoResponse, Pedido>();
+            //CreateMap<UpdatePedidoRequest, Pedido>();
+            //CreateMap<CrearPedidoRequest, Pedido>();
 
             // Productos
             CreateMap<CreateProductoRequest, Producto>();
@@ -39,7 +41,6 @@ namespace DeliveryYaBackend.Services.Mapping
 
             // Usuarios
             CreateMap<Cliente, ClienteResponse>();
-            CreateMap<Repartidor, RepartidorResponse>();
 
             // Comercios
             CreateMap<ComercioRequest, Comercio>();

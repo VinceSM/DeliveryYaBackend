@@ -9,7 +9,10 @@ namespace DeliveryYaBackend.DTOs.Responses.Pedidos
         public int Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; }
         public decimal Total { get; set; }
-        public ProductoResponse? Producto { get; set; }
-        public ComercioInfoResponse? Comercio { get; set; }
+        public string? ProductoNombre { get; set; }
+        public string? ProductoDescripcion { get; set; }
+        public string? ComercioNombre { get; set; }
+        public int ProductoId { get; set; }
+        public int ComercioId { get; set; }
     }
 }

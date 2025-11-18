@@ -99,7 +99,7 @@ namespace DeliveryYaBackend.Controllers
 
         [HttpPost]
         [HttpPost]
-        public async Task<IActionResult> CreatePedido([FromBody] CreatePedidoRequest request)
+        public async Task<IActionResult> CreatePedido([FromBody] CrearPedidoRequest request)
         {
             try
             {
